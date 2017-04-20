@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>海风导航</title>
+  <meta name="description" content="海风导航，分享Web开发中的技术文章，分享生活中的灵感与创意，鼓励阅读，不读书则愚。"/>
+  <meta name="keywords" content="导航，海风，海风网，开发者，技术，阅读，创意，博客，前端开发，后端开发，产品设计">
+  <link rel="shortcut icon" type="image/x-ico" href="//static.hinpc.com/images/2016/20160807-hi-logo.png"/>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="header">
+    <h1>海风导航</h1>
+    <span>
+      <a id="time" href="baidu.com">时间</a>
+      <a id="weather">天气</a>
+      <a href="//hinpc.com"><i class="fa fa-home fa-fw"></i> 主页</a> 
+    </span>
+  </div>
+  <div id="quick">
+    <div class="container">
+      <div class="quick-search">
+        <form id="search-form" action="http://www.baidu.com/baidu" target="_blank">
+          <span class="search-box">
+            <input type="text" id="baidu_search">
+          </span>
+          <input type="submit" value="百度一下" class="baidu-button">
+          <input type="button" value="谷歌搜索" class="google-button">
+        </form>
+      </div>
+      <div class="quick-nav">
+        <ul>
+          <li>
+            <a href="http://www.iqiyi.com/"><i class="fa fa-play-circle-o fa-fw"></i>爱奇艺</a>
+          </li>
+          <li>
+            <a href="https://y.qq.com/"><i class="fa fa-music fa-fw"></i>QQ音乐</a>
+          </li>
+          <li class="ajust-pos">
+            <a href="https://www.v2ex.com/"><i class="fa fa-bookmark fa-fw"></i>V2EX</a>
+          </li>
+          <li>
+            <a href="http://news.baidu.com/"><i class="fa fa-paper-plane-o fa-fw"></i>百度新闻</a>
+          </li>
+          <li class="ajust-pos">
+            <a href="https://github.com/trending"><i class="fa fa-github fa-fw"></i>Github</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="content"></div>
+  <div id="footer"></div>
+
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/js-cookie/js-cookie/latest/src/js.cookie.js"></script>
+  <script src="https://unpkg.com/chinese-lunar@0.1.1/lib/chinese-lunar.js"></script>
+  <script charset="gbk" src="https://www.baidu.com/js/opensug.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -6,18 +6,19 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="./main.v1.css">
   <title>海风导航</title>
+  <base target="_blank" />
 </head>
 <body>
   <div class="wrapper">
     <div class="side">
-      <h1><a href="javascript:;" class="j-scroll">海风导航</a></h1>
+      <h1><a href="#" target="_self" class="j-scroll">海风导航</a></h1>
       <ul class="nav">
-        <li><a href="javascript:;" class="j-scroll active">常用</a></li>
-        <li><a href="javascript:;" class="j-scroll">视频</a></li>
-        <li><a href="javascript:;" class="j-scroll">音乐</a></li>
-        <li><a href="javascript:;" class="j-scroll">购物</a></li>
-        <li><a href="javascript:;" class="j-scroll">资讯</a></li>
-        <li><a href="javascript:;" class="j-scroll">科技</a></li>
+        <li><a data-scroll href="#tCommon" target="_self" class="j-scroll active">常用</a></li>
+        <li><a data-scroll href="#tVideo" target="_self" class="j-scroll">视频</a></li>
+        <li><a data-scroll href="#tMusic" target="_self" class="j-scroll">音乐</a></li>
+        <li><a data-scroll href="#tShop" target="_self" class="j-scroll">购物</a></li>
+        <li><a data-scroll href="#tNews" target="_self" class="j-scroll">资讯</a></li>
+        <li><a data-scroll href="#tTech" target="_self" class="j-scroll">科技</a></li>
       </ul>
     </div>
     <div class="content">
@@ -37,11 +38,217 @@
           <input id="word" type="text" placeholder="搜索" autocomplete="off">
         </form>
       </div>
-      <div class="web-list"></div>
+      <div class="web-list">
+        <h2 id="tCommon">常用</h2>
+        <ul>
+          <li>
+            <a href="https://mail.163.com/" class="icon">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/163mail.png">
+              <span>网易邮箱</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.v2ex.com/" class="icon plus">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/v2ex.png">
+              <span>V2EX</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.toutiao.com/" class="icon v2ex">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/toutiao.png">
+              <span>今日头条</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.iqiyi.com/" class="icon qiyi">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/qiyi.jpeg">
+              <span>爱奇艺</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/" class="icon github">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/github.png">
+              <span>Github</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://outlook.live.com/" class="icon qiyi">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/outlook.png">
+              <span>Outlook</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://y.qq.com/" class="icon qiyi">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/QQMusic.png">
+              <span>QQ音乐</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://sspai.com/" class="icon qiyi">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/sspai.png">
+              <span>少数派</span>
+            </a>
+          </li>
+        </ul>
+
+        <h2 id="tVideo">视频</h2>
+        <ul>
+          <li>
+            <a href="http://youku.com/" class="icon">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/youku.png">
+              <span>优酷</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://v.qq.com/" class="icon">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/vqq.jpg">
+              <span>腾讯视频</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.youtube.com/" class="icon qiyi">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/youtube.jpg" style="width:60px">
+              <span>Youtube</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.iqiyi.com/" class="icon qiyi">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/qiyi.jpeg">
+              <span>爱奇艺</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://movie.douban.com/" class="icon qiyi">
+              <img src="https://static.hinpc.com/hinpc/2017/icons/douban.jpeg">
+              <span>豆瓣电影</span>
+            </a>
+          </li>
+        </ul>
+
+        <h2 id="tMusic">音乐</h2>
+        <ul>
+          <li>
+            <a href="https://y.qq.com/" class="text">
+              <span>QQ音乐</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://music.163.com/" class="text">
+              <span>网易云音乐</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://douban.fm/" class="text">
+              <span>豆瓣FM</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.xiami.com/" class="text">
+              <span>虾米音乐</span>
+            </a>
+          </li>
+        </ul>
+
+        <h2 id="tShop">购物</h2>
+        <ul>
+          <li>
+            <a href="https://www.taobao.com/" class="text">
+              <span>淘宝</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.jd.com/" class="text">
+              <span>京东</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.amazon.cn" class="text">
+              <span>亚马逊</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.smzdm.com/" class="text">
+              <span>什么值得买</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.meituan.com/" class="text">
+              <span>美团</span>
+            </a>
+          </li>
+        </ul>
+
+        <h2 id="tNews">资讯</h2>
+        <ul>
+          <li>
+            <a href="http://news.baidu.com/" class="text">
+              <span>百度新闻</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.zhihu.com/" class="text">
+              <span>知乎</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://news.163.com/" class="text">
+              <span>网易新闻</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.ifanr.com/app" class="text">
+              <span>AppSo</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://36kr.com/" class="text">
+              <span>36氪</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.leiphone.com/" class="text">
+              <span>雷锋网</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.tmtpost.com/" class="text">
+              <span>钛媒体</span>
+            </a>
+          </li>
+        </ul>
+
+        <h2 id="tTech">技术</h2>
+        <ul>
+          <li>
+            <a href="https://juejin.im/" class="text">
+              <span>掘金</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/trending" class="text">
+              <span>Trending</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.imooc.com/" class="text">
+              <span>慕课网</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://hinpc.com/" class="text">
+              <span>海风网</span>
+            </a>
+          </li>
+        </ul>
+        
+      </div>
     </div>
   </div>
+
+  <a href="https://github.com/GallenHu/Teemo"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 </body>
 <script charset="gbk" src="http://www.baidu.com/js/opensug.js"></script>
 <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@11.0.2/dist/js/smooth-scroll.min.js"></script>
 <script src="./main.v1.js"></script>
 </html>

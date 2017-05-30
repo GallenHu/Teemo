@@ -108,7 +108,10 @@ a {
 
 /* side */
 .side {
-  float: left;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
   width: 120px;
   height: 100%;
   background: #181818;
@@ -144,7 +147,8 @@ a {
 /* content */
 .content {
   padding-left: 120px;
-  height: 100%;
+  min-height: 100%;
+  padding-bottom: 300px;
 }
 .logo {
   text-align: center;
@@ -241,4 +245,58 @@ a {
   transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+/* web-list */
+.web-list {
+  width: 1000px;
+  min-height: 100px;
+  margin: 20px auto;
+}
+.web-list h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #efefef;
+  padding: 0 0 4px 24px;
+}
+.web-list ul {
+  margin: 20px 0;
+}
+.web-list li {
+  display: inline-block;
+}
+.web-list li:hover {
+  -webkit-transform: translate3d(0, -2px, 0);
+  transform: translate3d(0, -2px, 0);
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .2s ease;
+  -ms-transition: all .2s ease;
+  -o-transition: all .2s ease;
+  transition: all .2s ease;
+}
+.web-list li:hover .icon span {
+  color: #333;
+}
+.web-list .icon {
+  display: inline-block;
+  text-align: center;
+  width: 100px;
+}
+.web-list .icon img {
+  width: 50px;
+  height: 50px;
+}
+.web-list .icon span {
+  display: block;
+  margin-top: 4px;
+  color: #666;
+}
+.web-list .text {
+  display: inline-block;
+  margin-right: 20px;
+  width: 100px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }

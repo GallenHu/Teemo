@@ -233,7 +233,7 @@ $(document).ready(function() {
     window.goSearch = function() {
       var url = '';
       var type = getEngine();
-      var val = engines[type];
+      var val = $('#word').val();
 
       $('#word').val('');
 
@@ -261,7 +261,17 @@ $(document).ready(function() {
     });
   };
 
+	var initSmoothScroll = function() {
+		smoothScroll.init({
+			after: function(anchor, toggle) {
+				$('.j-scroll').removeClass('active');
+				$(toggle).addClass('active');
+			}
+		});
+	};
+
   setInitSearchEngine();
   initBaidu();
   initGoSearch();
+	initSmoothScroll();
 });

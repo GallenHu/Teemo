@@ -217,7 +217,7 @@ $(document).ready(function() {
   var setEngine = function(type) {
     $('#engine').data('type', type);
     $('#engineName').text(engines[type]);
-    Cookies.set('searchEngine', type);
+    Cookies.set('searchEngine', type, { expires: 365 });
   };
 
   var setInitSearchEngine = function() {

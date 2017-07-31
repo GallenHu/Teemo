@@ -270,7 +270,51 @@ $(document).ready(function() {
 		});
 	};
 
-  setInitSearchEngine();
+	var initTodayInfo = function() {
+		var text = '';
+		var date = new Date();
+		var month = date.getMonth() + 1;
+		var dateDay = date.getDate();
+		var day = date.getDay();
+		var weeks = {
+			'1': '一',
+			'2': '二',
+			'3': '三',
+			'4': '四',
+			'5': '五',
+			'6': '六',
+			'7': '天'
+		};
+
+		text += month + '月' + dateDay + '日' + ' 星期' + weeks[day];
+
+		var mapKey = 'LY5BZ-FMILF-5MHJZ-JOKXA-2C3XO-KTB3Y';
+		var caiyunKey = 'Qpqfaya5hBGmIlGb';
+		$.ajax({
+			url: 'http://apis.map.qq.com/ws/location/v1/ip?output=jsonp&key=' + mapKey,
+			dataType: 'jsonp'
+		}).done(function(res) {
+			var status = parseInt(res.status);
+			if (status === 0) {
+				var lnglat = res.result.location.lng + ',' + res.result.location.lat;
+				$.ajax({
+					url: 'https://api.caiyunapp.com/v2/'+ caiyunKey +'/'+ lnglat +'/forecast.jsonp',
+					dataType: 'jsonp'
+				}).done(function(res2) {
+					if (res2.status === 'ok') {
+						console.log(res2);
+						text += ' ' + res2.result.hourly.description;
+						$('.today-info').text(text);
+					}
+				});
+			}
+		});
+
+		$('.today-info').text(text);
+	};
+
+	setInitSearchEngine();
+	initTodayInfo();
   initBaidu();
   initGoSearch();
 	initSmoothScroll();

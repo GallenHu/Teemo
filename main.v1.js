@@ -296,14 +296,19 @@ $(document).ready(function() {
 		}).done(function(res) {
 			var status = parseInt(res.status);
 			if (status === 0) {
+				var city = res.result.ad_info.city ? res.result.ad_info.city : res.result.ad_info.province;
 				var lnglat = res.result.location.lng + ',' + res.result.location.lat;
+				text += ' ' + city;
+
 				$.ajax({
 					url: 'https://api.caiyunapp.com/v2/'+ caiyunKey +'/'+ lnglat +'/forecast.jsonp',
 					dataType: 'jsonp'
 				}).done(function(res2) {
 					if (res2.status === 'ok') {
-						console.log(res2);
+						var temperature = res2.result.hourly.temperature[0].value + '℃';
+						text += ' ' + temperature;
 						text += ' ' + res2.result.hourly.description;
+						text += ' ' + '（天气数据来自: 彩云天气）'
 						$('.today-info').text(text);
 					}
 				});

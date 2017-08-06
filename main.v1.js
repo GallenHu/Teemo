@@ -283,7 +283,7 @@ $(document).ready(function() {
 			'4': '四',
 			'5': '五',
 			'6': '六',
-			'7': '天'
+			'0': '天'
 		};
 
 		text += month + '月' + dateDay + '日' + ' 星期' + weeks[day];

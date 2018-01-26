@@ -167,7 +167,7 @@
 
 /**
  * main function
- * 
+ *
  */
 $(document).ready(function() {
   var engines = {
@@ -192,16 +192,16 @@ $(document).ready(function() {
 
   var initBaidu = function() {
     BaiduSuggestion.bind('word', {
-      "XOffset": 0, //提示框位置横向偏移量,单位px 
-      "YOffset": 0, //提示框位置纵向偏移量,单位px 
-      "width": 350, //提示框宽度，单位px 
-      "fontColor": "#00838f", //提示框文字颜色 
-      "fontColorHI": "#fff",	//提示框高亮选择时文字颜色 
-      "fontSize": "16px",	//文字大小 
-      "fontFamily": "宋体",	//文字字体 
-      "borderColor": "#ccc", //提示框的边框颜色 
-      "bgcolorHI": "#00838f",	//提示框高亮选择的颜色 
-      "sugSubmit": false	//选中提示框中词条时是否提交表单 
+      "XOffset": 0, //提示框位置横向偏移量,单位px
+      "YOffset": 0, //提示框位置纵向偏移量,单位px
+      "width": 350, //提示框宽度，单位px
+      "fontColor": "#00838f", //提示框文字颜色
+      "fontColorHI": "#fff",	//提示框高亮选择时文字颜色
+      "fontSize": "16px",	//文字大小
+      "fontFamily": "宋体",	//文字字体
+      "borderColor": "#ccc", //提示框的边框颜色
+      "bgcolorHI": "#00838f",	//提示框高亮选择的颜色
+      "sugSubmit": false	//选中提示框中词条时是否提交表单
     }, function(txt) {  // 选择后的回调
       $('#searchForm').submit();
     });
@@ -308,6 +308,7 @@ $(document).ready(function() {
 						var temperature = res2.result.hourly.temperature[0].value + '℃';
 						text += ' ' + temperature;
 						text += ' ' + res2.result.hourly.description;
+						text += ' PM2.5:♨' + res2.result.hourly.pm25[0].value;
 						text += ' ' + '（天气数据来自: 彩云天气）'
 						$('.today-info').text(text);
 					}

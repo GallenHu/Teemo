@@ -291,7 +291,7 @@ $(document).ready(function() {
 		var mapKey = 'LY5BZ-FMILF-5MHJZ-JOKXA-2C3XO-KTB3Y';
 		var caiyunKey = 'Qpqfaya5hBGmIlGb';
 		$.ajax({
-			url: 'http://apis.map.qq.com/ws/location/v1/ip?output=jsonp&key=' + mapKey,
+			url: 'https://apis.map.qq.com/ws/location/v1/ip?output=jsonp&key=' + mapKey,
 			dataType: 'jsonp'
 		}).done(function(res) {
 			var status = parseInt(res.status);

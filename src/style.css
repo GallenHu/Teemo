@@ -100,7 +100,9 @@ body {
     height: 36px;
     line-height: 27px;
     cursor: pointer;
+    outline: none;
   }
+
   .search-buttons input.active {
     border: 1px solid #4d90fe;
     outline: none;
@@ -110,18 +112,97 @@ body {
 #nav {
   background-color: #fff;
   position: relative;
-  height: 300px;
+  min-height: 300px;
+  width: 560px;
+  border-top: 1px solid #efefef;
+  padding-top: 20px;
+  padding-bottom: 85px;
+  margin: 100px auto 0;
 
-  .nav-img {
+  .nav-list {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: inline-block;
+      margin-left: -5px;
+    }
+
+    img {
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+      border-radius: 100%;
+      margin-top: 11px;
+    }
+
+    a {
+      display: inline-block;
+      width: 112px;
+      height: 112px;
+      text-decoration: none;
+      box-sizing: border-box;
+      text-align: center;
+
+      span:first-of-type {
+        display: block;
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+        border-radius: 100%;
+        background: #f1f3f4;
+        margin: 18px auto 10px;
+        text-align: center;
+      }
+
+      span:last-of-type {
+        color: #3c3c3c;
+        font-size: 14px;
+        font-weight: bold;
+        vertical-align: middle;
+      }
+    }
+    a:hover {
+      background-color: rgba(33, 32, 36, 0.06);
+      span:first-of-type {
+        background: #e5e7e8;
+      }
+    }
+  }
+}
+
+#footer {
+  position: relative;
+  width: 600px;
+  padding: 20px 0;
+  text-align: center;
+  margin: auto;
+
+  p {
+    margin: 0;
+    font-size: 12px;
+    color: #ccc;
+  }
+
+  .footer-img {
     position: absolute;
-    right: 50px;
+    left: 215px;
+    bottom: 0;
     display: inline-block;
-    width: 200px;
-    height: 200px;
+    width: 60px;
+    height: 60px;
     background-image: url('./img/illustration.jpg');
-    background-position: bottom left;
+    background-position: center;
     background-repeat: no-repeat;
-    background-size: 120px auto;
+    background-size: 60px auto;
     opacity: .5;
   }
+}
+
+/* dialog */
+.customize-input {
+  width: 500px;
+  height:260px;
 }

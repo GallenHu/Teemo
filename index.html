@@ -12,10 +12,13 @@
   <div id="header">
     <ul>
       <li>
-        <a href="" target="_blank">天气</a>
+        <a href="https://www.baidu.com/s?wd=天气" target="_blank">天气</a>
       </li>
       <li>
-        <a href="" target="_blank">地图</a>
+        <a href="https://map.baidu.com/" target="_blank">地图</a>
+      </li>
+      <li>
+        <a href="javascript:;" class="customize" target="_blank">自定义导航</a>
       </li>
       <li class="star">
         <a class="github-button" href="https://github.com/GallenHu/Teemo" data-icon="octicon-star" aria-label="Star GallenHu/Teemo on GitHub">Star</a>
@@ -28,7 +31,7 @@
     <h1 class="logo">海风导航</h1>
     <div class="search">
       <div class="search-wrapper">
-        <input type="text" autocapitalize="off" autocomplete="off" autocorrect="off">
+        <input type="text" autocapitalize="off" autocomplete="off" autocorrect="off" autofocus>
       </div>
       <div class="search-buttons">
         <input value="百度一下" class="active" type="submit">
@@ -39,10 +42,47 @@
   </div>
 
   <div id="nav">
-    <span class="nav-img"></span>
-    hello
+    <ul class="nav-list">
+      <li>
+        <a href="https://www.v2ex.com/" target="_blank">
+          <span><img src="https://ws3.sinaimg.cn/large/005BYqpggy1fxn16s498cj308c08ca9w.jpg" alt="V2EX"></span>
+          <span>V2EX</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.douyu.com/" target="_blank">
+          <span><img src="https://ws3.sinaimg.cn/large/005BYqpggy1fxn19id4kzj308c08c0ud.jpg" alt="斗鱼"></span>
+          <span>斗鱼</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://movie.douban.com/" target="_blank">
+          <span><img src="https://ws3.sinaimg.cn/large/005BYqpggy1fxn1ah8s5tj306u06udfp.jpg" alt="豆瓣电影"></span>
+          <span>豆瓣电影</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/" target="_blank">
+          <span><img src="https://ws3.sinaimg.cn/large/005BYqpggy1fxn1hkesffj301s01sdfl.jpg" alt="GitHub"></span>
+          <span>GitHub</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://hinpc.com/" target="_blank">
+          <span><img src="https://hinpc.com/statics/logo.png" alt="会免游戏"></span>
+          <span>PS4 会免</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div id="footer">
+    <p>&copy; 海风导航</p>
+    <span class="footer-img"></span>
   </div>
 
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script src="https://cdn.staticfile.org/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/artDialog/7.0.0/dialog.js"></script>
 </body>
 </html>

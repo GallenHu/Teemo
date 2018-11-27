@@ -1,3 +1,2 @@
 #!/bin/sh
-cp CNAME dist/
-cp baidu* dist/
+cp webroot/* dist/

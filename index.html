@@ -9,14 +9,40 @@
   <link rel="stylesheet" href="https://cdn.staticfile.org/normalize/8.0.1/normalize.min.css">
 </head>
 <body>
-  <div id="header"></div>
+  <div id="header">
+    <ul>
+      <li>
+        <a href="" target="_blank">天气</a>
+      </li>
+      <li>
+        <a href="" target="_blank">地图</a>
+      </li>
+      <li class="star">
+        <a class="github-button" href="https://github.com/GallenHu/Teemo" data-icon="octicon-star" aria-label="Star GallenHu/Teemo on GitHub">Star</a>
+      </li>
+    </ul>
+  </div>
+
+
   <div id="main">
     <h1 class="logo">海风导航</h1>
     <div class="search">
       <div class="search-wrapper">
         <input type="text" autocapitalize="off" autocomplete="off" autocorrect="off">
       </div>
+      <div class="search-buttons">
+        <input value="百度一下" class="active" type="submit">
+        <input value="Google 搜索" type="submit">
+        <input value="DockDockGo" type="submit">
+      </div>
     </div>
   </div>
+
+  <div id="nav">
+    <span class="nav-img"></span>
+    hello
+  </div>
+
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

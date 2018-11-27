@@ -1,0 +1,46 @@
+body {
+  background: #fff;
+}
+
+#main {
+  text-align: center;
+
+  .logo {
+    padding-top: 150px;
+    height: 48px;
+    width: 127px;
+    background: url('./img/logo.png') center bottom no-repeat;
+    background-size: 127px 48px;
+    font-size: 0;
+    text-indent: -999em;
+    margin: 0 auto 30px;
+  }
+
+  .search {
+    display: inline-block;
+  }
+
+  .search-wrapper {
+    width: 588px;
+    border: none;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    border-radius: 2px;
+    padding: 5px 10px;
+
+    &:hover {
+      box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    input {
+      height: 34px;
+      width: 100%;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+      background-color: transparent;
+      border: none;
+      color: rgba(0,0,0,.87);
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

@@ -112,6 +112,12 @@ $('.customize').on('click', function () {
   d.showModal();
 });
 
+$('#word').on('keyup', function (e) {
+  if (e.keyCode === 13) {
+    $('.search-buttons input.active').trigger('click');
+  }
+});
+
 // 搜索引擎
 function googleSearch(text) {
   window.open(`https://www.google.com/search?q=${text}`);

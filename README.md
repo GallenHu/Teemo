@@ -1,4 +1,6 @@
 # Teemo
+[![Build Status](https://travis-ci.org/GallenHu/Teemo.svg?branch=master)](https://travis-ci.org/GallenHu/Teemo)
+
 A simple navigation site.
 
 ### dev

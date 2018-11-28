@@ -1,0 +1,27 @@
+[
+  {
+    "name": "V2EX",
+    "url": "https://www.v2ex.com/",
+    "icon": "https://ws3.sinaimg.cn/large/005BYqpggy1fxn16s498cj308c08ca9w.jpg"
+  },
+  {
+    "name": "斗鱼",
+    "url": "https://www.douyu.com/",
+    "icon": "https://ws3.sinaimg.cn/large/005BYqpggy1fxn19id4kzj308c08c0ud.jpg"
+  },
+  {
+    "name": "豆瓣电影",
+    "url": "https://movie.douban.com/",
+    "icon": "https://ws3.sinaimg.cn/large/005BYqpggy1fxn1ah8s5tj306u06udfp.jpg"
+  },
+  {
+    "name": "GitHub",
+    "url": "https://github.com/",
+    "icon": "https://ws3.sinaimg.cn/large/005BYqpggy1fxn1hkesffj301s01sdfl.jpg"
+  },
+  {
+    "name": "PS4 会免",
+    "url": "https://hinpc.com/",
+    "icon": "https://hinpc.com/statics/logo.png"
+  }
+]

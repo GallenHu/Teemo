@@ -38,6 +38,7 @@ function navImport() {
   const r = confirm('确定要导入吗(导入后将保存到本地浏览器存储)？');
   if (r) {
     const val = $('.customize-input').val().trim();
+    if (!val) return;
     localStorage.setItem('navjson', val);
     renderNavByJson(val);
   }

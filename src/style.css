@@ -47,6 +47,14 @@ body {
     text-indent: -999em;
     margin: 0 auto 30px;
   }
+  .logo.baidu {
+    background: url('http://img.hinpc.com/images/2019/06/28/baidu.png') center bottom no-repeat;
+    background-size: 127px auto;
+  }
+  .logo.google {
+    background: url('http://img.hinpc.com/images/2019/06/28/google.png') center bottom no-repeat;
+    background-size: 127px auto;
+  }
 
   .search {
     display: inline-block;

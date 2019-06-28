@@ -4,22 +4,22 @@ const DEFAULT_NAV_JSON = [
   {
     "name": "V2EX",
     "url": "https://www.v2ex.com/",
-    "icon": "https://ws3.sinaimg.cn/large/005BYqpggy1fxn16s498cj308c08ca9w.jpg"
+    "icon": "https://img.hinpc.com/images/2019/06/28/v2ex.jpg"
   },
   {
     "name": "斗鱼",
     "url": "https://www.douyu.com/",
-    "icon": "https://ws3.sinaimg.cn/large/005BYqpggy1fxn19id4kzj308c08c0ud.jpg"
+    "icon": "https://img.hinpc.com/images/2019/06/28/douyu.jpg"
   },
   {
     "name": "豆瓣电影",
     "url": "https://movie.douban.com/",
-    "icon": "https://ws3.sinaimg.cn/large/005BYqpggy1fxn1ah8s5tj306u06udfp.jpg"
+    "icon": "https://img.hinpc.com/images/2019/06/28/douban.jpg"
   },
   {
     "name": "GitHub",
     "url": "https://github.com/",
-    "icon": "https://ws3.sinaimg.cn/large/005BYqpggy1fxn1hkesffj301s01sdfl.jpg"
+    "icon": "https://img.hinpc.com/images/2019/06/28/github.jpg"
   },
   {
     "name": "PS4 会免",
@@ -31,7 +31,7 @@ const DEFAULT_NAV_JSON = [
 function navOutput() {
   const stroredNav = localStorage.getItem('navjson') || JSON.stringify(DEFAULT_NAV_JSON);
   $('.customize-input').val(stroredNav);
-  alert('请手动复制内容并保存管理');
+  window.toast('请手动复制内容并保存管理');
   $('.customize-input').select();
 }
 function navImport() {
@@ -57,7 +57,7 @@ function renderNavByJson(jsonStr) {
     json = JSON.parse(jsonStr);
   } catch (e) {
     console.log(jsonStr);
-    alert('JSON 有误!');
+    window.toast('JSON 有误!');
     return false;
   }
 
@@ -130,6 +130,19 @@ function duckSearch(text) {
   window.open(`https://duckduckgo.com/?q=${text}`);
 }
 
+// 根据搜索引擎名字获取对应 class name
+function getSearcherClassName(searchText) {
+  if (searchText.indexOf('百度') > -1) {
+    return 'baidu';
+  }
+  if (searchText.indexOf('Google') > -1) {
+    return 'google';
+  }
+  if (searchText.indexOf('Duck') > -1) {
+    return 'duck';
+  }
+}
+
 // 搜索建议
 BaiduSuggestion.bind('word', {
   "XOffset": 10, //提示框位置横向偏移量,单位px
@@ -152,6 +165,7 @@ $('.search-buttons input').on('click', function () {
   $('.search-buttons input').removeClass('active');
 
   const searcher = $(this).addClass('active').val();
+  $('#main .logo').attr('class', '').addClass('logo ' + getSearcherClassName(searcher));
   const searchText = $('#word').val().trim();
 
   localStorage.setItem('searcher', searcher);
@@ -168,6 +182,7 @@ $('.search-buttons input').on('click', function () {
 
   $('.search-buttons input').removeClass('active');
   $(`.search-buttons input[value="${searcher}"]`).addClass('active');
+  $('#main .logo').addClass(getSearcherClassName(searcher));
   if (navjsonStr) {
     renderNavByJson(navjsonStr);
   }

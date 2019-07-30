@@ -4,22 +4,22 @@ const DEFAULT_NAV_JSON = [
   {
     "name": "V2EX",
     "url": "https://www.v2ex.com/",
-    "icon": "https://img.hinpc.com/images/2019/06/28/v2ex.jpg"
+    "icon": "https://img.hinpc.com/files/834a2fd4-6a5b-4199-94fd-ffa578a1dac0.jpeg"
   },
   {
     "name": "斗鱼",
     "url": "https://www.douyu.com/",
-    "icon": "https://img.hinpc.com/images/2019/06/28/douyu.jpg"
+    "icon": "https://img.hinpc.com/files/c2fbab93-bd42-44c4-9e96-b8fd8ae9bb1e.jpeg"
   },
   {
     "name": "豆瓣电影",
     "url": "https://movie.douban.com/",
-    "icon": "https://img.hinpc.com/images/2019/06/28/douban.jpg"
+    "icon": "https://img.hinpc.com/files/390f6be6-2099-4517-a01d-07363a4d1383.jpeg"
   },
   {
     "name": "GitHub",
     "url": "https://github.com/",
-    "icon": "https://img.hinpc.com/images/2019/06/28/github.jpg"
+    "icon": "https://img.hinpc.com/files/e257871f-ce6c-42e3-896b-63134fad0618.jpeg"
   },
   {
     "name": "PS4 会免",

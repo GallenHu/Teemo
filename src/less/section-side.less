@@ -1,0 +1,108 @@
+@import "./vars.less";
+
+.side {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: @side-width;
+  background: linear-gradient(
+    160deg,
+    rgba(93, 93, 93, 1) 0%,
+    rgba(28, 28, 32, 1) 50%,
+    rgba(28, 28, 32, 1) 100%
+  );
+  box-shadow: 1px 0px 9px 0px rgba(26, 39, 64, 0.55);
+  color: #fff;
+
+  h1.logo {
+    width: 116px;
+    height: 42px;
+    text-indent: -999em;
+    margin: 100px auto 30px;
+    background-image: url("../asserts/logo.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 116px 42px;
+  }
+
+  .top-divider {
+    position: relative;
+  }
+  .top-divider::before {
+    position: absolute;
+    top: 0;
+    display: block;
+    content: " ";
+    width: 100%;
+    border-top: 1px solid rgba(153, 153, 153, 0.2);
+    transform: scaleY(0.5);
+  }
+
+  .category {
+    padding-top: 10px;
+    height: calc(100vh - 259px);
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 0px; /* Remove scrollbar space */
+      background: transparent; /* Optional: just make scrollbar invisible */
+    }
+
+    li a {
+      display: block;
+      height: 42px;
+      line-height: 42px;
+      padding-left: 90px;
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.5;
+
+      &::before {
+        display: inline-block;
+        content: " ";
+        width: 20px;
+        height: 20px;
+        background-image: url("../asserts/category.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 20px;
+        vertical-align: middle;
+        margin: -3px 6px 0 0;
+      }
+      &.custom::before {
+        background-image: url("../asserts/plus.svg");
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    padding: 30px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+
+    .github {
+      display: inline-block;
+      text-indent: -999em;
+      width: 16px;
+      height: 16px;
+      background-image: url("../asserts/github.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 16px;
+      vertical-align: top;
+      margin: -2px 0 0 4px;
+      opacity: 0.5;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

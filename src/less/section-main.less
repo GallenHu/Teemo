@@ -1,0 +1,77 @@
+@import "./vars.less";
+
+.main {
+  margin-left: @side-width;
+  min-height: 100vh;
+
+  .search {
+    position: relative;
+    width: 710px;
+    height: 44px;
+    margin: 100px auto 0;
+    background-color: rgba(216, 216, 216, 0.4);
+    box-shadow:0px -2px 1px 0px rgba(201,201,201,1);
+    border-radius:24px;
+
+    .search-engine {
+      position: absolute;
+      width: @search-engine-size;
+      height: @search-engine-size;
+      top: (44-@search-engine-size)/2;
+      left: 12px;
+
+      .engine-logo {
+        position: absolute;
+        left: 0;
+        display: inline-block;
+        width: @search-engine-size;
+        height: @search-engine-size;
+        border-radius: @search-engine-size/2;
+        overflow: hidden;
+        background-color: #fff;
+        text-indent: -999em;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: @search-engine-size*0.6;
+        box-shadow: 0 2px 1px rgba(117, 117, 117, 0.4);
+
+        &:nth-child(1) { z-index: 9; }
+        &:nth-child(2) { z-index: 8; }
+        &:nth-child(3) { z-index: 7; }
+      }
+
+      &.animate .engine-logo {
+        transition: all 0.2s linear;
+      }
+      &.animate:hover {
+        .engine-logo:nth-child(2) {
+          left: @search-engine-size - 4;
+        }
+        .engine-logo:nth-child(3) {
+          left: @search-engine-size*2 - 8;
+        }
+      }
+
+      .baidu {
+        background-image: url("../asserts/baidu.svg");
+      }
+      .google {
+        background-image: url("../asserts/google.svg");
+      }
+      .bing {
+        background-image: url("../asserts/bing.svg");
+      }
+    }
+
+    input[type="text"] {
+      background: none;
+      // border: 1px solid;
+      border: none;
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 20px 12px 60px;
+      box-sizing: border-box;
+      color: #333;
+    }
+  }
+}

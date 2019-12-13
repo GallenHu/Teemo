@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,25 +8,40 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
   <meta name="description" content="导航哈哈哈">
 </head>
+
 <body>
   <div class="main">
-    <div class="search">
-      <div class="search-engine"></div>
-      <div class="search-input">
-        <input type="text" placeholder="百度搜索">
+    <div class="main-content">
+      <div class="search">
+        <div class="search-engine">
+          <span class="engine-logo baidu">Baidu</span>
+          <span class="engine-logo google">Google</span>
+          <span class="engine-logo bing">Bing</span>
+        </div>
+        <div class="search-input">
+          <input type="text" class="search-input-el" placeholder="百度搜索">
+        </div>
       </div>
+      <div class="nav"></div>
     </div>
   </div>
+
   <div class="side">
-    <div class="logo">
-      <img src="" alt="海风导航">
-    </div>
-    <ul class="category">
+    <h1 class="logo">
+      <%= htmlWebpackPlugin.options.title %>
+    </h1>
+    <ul class="category top-divider">
       <li><a href="#a">常用网址</a></li>
+
+      <li><a href="javascript:;" class="custom">自定义导航</a></li>
     </ul>
-    <div class="footer">
-      海风导航
+    <div class="footer top-divider">
+      &copy; 2019 海风导航
+      <a href="" class="github" target="_blank">Github</a>
     </div>
   </div>
+
+  <script src="https://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
 </body>
+
 </html>

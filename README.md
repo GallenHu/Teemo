@@ -3,6 +3,11 @@ A simple navigation site.
 
 Teemo(提莫): “我去前面探探路!”
 
+## Requirement
+```
+node >= 10.13.0
+```
+
 ## Dev
 ```sh
 yarn # npm install

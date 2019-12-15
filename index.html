@@ -19,7 +19,8 @@
           <span class="engine-logo bing">Bing</span>
         </div>
         <div class="search-input">
-          <input type="text" class="search-input-el" placeholder="百度搜索">
+          <input type="text" class="search-input-el" id="searchInputEl" placeholder="百度搜索" spellcheck="false" autocomplete="off">
+          <button style="display: none;" id="searchSubmitEl">Submit</button>
         </div>
       </div>
       <div class="nav"></div>
@@ -42,6 +43,36 @@
   </div>
 
   <script src="https://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <!-- 搜索建议 start -->
+  <!-- <script charset="gbk" type="text/javascript" src="https://www.opensug.org/js/opensug.js"></script>
+  <script>
+    BaiduSuggestion.bind('searchInputEl', {
+      "XOffset": 0, //提示框位置横向偏移量,单位px
+      "YOffset": 0, //提示框位置纵向偏移量,单位px
+      "width": 711, //提示框宽度，单位px
+      "fontColor": "#222", //提示框文字颜色
+      "fontColorHI": "#222",	//提示框高亮选择时文字颜色
+      "fontSize": "14px",	//文字大小
+      // "fontFamily": "宋体",	//文字字体
+      "borderColor": "#ddd", //提示框的边框颜色
+      "bgcolorHI": "#eee",	//提示框高亮选择的颜色
+      "sugSubmit": false	//选中提示框中词条时是否提交表单
+    }, function (txt) {  // 选择后的回调
+      // console.log(txt);
+      document.getElementById('searchSubmitEl').click();
+    });
+  </script> -->
+  <!-- 搜索建议 end -->
+  <!-- baidu tongji -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9cba20eff7a96ae22881bff7e0039ec1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 </body>
 
 </html>

@@ -1,4 +1,7 @@
 import "../less/style.less";
+import BaiduSug from '../js/baidusug';
+
+window.app = { currentEngine: "baidu" };
 
 const ClassNameOfEngines = "engine-logo";
 const SearchEngineNameMap = {
@@ -6,10 +9,26 @@ const SearchEngineNameMap = {
   google: "Google",
   bing: "必应"
 };
+const SearchEngineUrlMap = {
+  baidu: 'https://www.baidu.com/s?wd=',
+  google: 'https://www.google.com/search?q=',
+  bing: 'https://cn.bing.com/search?qs=n&form=QBRE&q=',
+};
 
 $(document).ready(function() {
+  const lastEngine = getLastEngine();
   startEngineAnimation();
-  onChangeSearchEngine();
+  onChangeSearchEngine(lastEngine || "");
+  onTriggerSearrch();
+
+  new BaiduSug('searchInputEl', {
+    className: 'hinote-search',
+    border: '1px solid #ddd',
+    yOffset: 2,
+    callback: function() {
+      $('#searchSubmitEl').trigger('click');
+    }
+  });
 });
 
 // 通过 dom class 获取搜索引擎名称
@@ -31,6 +50,7 @@ function startEngineAnimation() {
 }
 
 function storeLastEngine(engine) {
+  window.app.currentEngine = engine;
   localStorage.setItem("engine", engine);
 }
 
@@ -42,20 +62,22 @@ function getLastEngine() {
 function onChangeSearchEngine(defaultEngine) {
   const $enginesParent = $(".search-engine");
 
-  $(".engine-logo").on("click", function() {
-    const $engines = $(".engine-logo"); // 重新读取一次
+  $("." + ClassNameOfEngines).on("click", function() {
+    const $engines = $("." + ClassNameOfEngines); // 重新读取一次
     const $input = $(".search-input-el");
     const $this = $(this);
     const current = getEngineNameByDom($engines[0]);
     const target = getEngineNameByDom($this[0]);
-    console.log(current, target);
 
     stopEngineAnimation();
 
-    if (current === target) return;
-    // 把target engine放到第一位
-    $enginesParent.find("." + target).insertBefore($($engines[0]));
-    $input.attr("placeholder", `${SearchEngineNameMap[target]}搜索`);
+    if (current !== target) {
+      // 把target engine放到第一位
+      $enginesParent.find("." + target).insertBefore($($engines[0]));
+      $input.attr("placeholder", `${SearchEngineNameMap[target]}搜索`).focus();
+
+      storeLastEngine(target);
+    }
 
     setTimeout(() => {
       startEngineAnimation();
@@ -65,4 +87,18 @@ function onChangeSearchEngine(defaultEngine) {
   if (defaultEngine) {
     $(`.${defaultEngine}`).trigger("click");
   }
+}
+
+// 打开搜索结果页
+function goSearch(text) {
+  window.open(SearchEngineUrlMap[window.app.currentEngine] + text);
+}
+
+function onTriggerSearrch() {
+  const $input = $(".search-input-el");
+  const $submit = $('#searchSubmitEl');
+  $submit.on('click', () => {
+    const text = $input.val();
+    goSearch(text);
+  });
 }

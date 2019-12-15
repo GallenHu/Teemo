@@ -23,7 +23,19 @@
           <button style="display: none;" id="searchSubmitEl">Submit</button>
         </div>
       </div>
-      <div class="nav"></div>
+      <div class="nav">
+        <div id="navCommon" class="nav-block">
+          <h2>常用网址</h2>
+          <ul>
+            <li>
+              <img src="<%= require('./src/asserts/images/weibo.png').default%>" alt="微博" class="site-icon">
+              <a href="https://weibo.com" class="site-link" target="_blank" rel="nofollow">微博</a>
+            </li>
+          </ul>
+        </div>
+
+
+      </div>
     </div>
   </div>
 
@@ -38,32 +50,11 @@
     </ul>
     <div class="footer top-divider">
       &copy; 2019 海风导航
-      <a href="" class="github" target="_blank">Github</a>
+      <a href="https://github.com/GallenHu/Teemo" class="github" target="_blank">Github</a>
     </div>
   </div>
 
   <script src="https://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
-  <!-- 搜索建议 start -->
-  <!-- <script charset="gbk" type="text/javascript" src="https://www.opensug.org/js/opensug.js"></script>
-  <script>
-    BaiduSuggestion.bind('searchInputEl', {
-      "XOffset": 0, //提示框位置横向偏移量,单位px
-      "YOffset": 0, //提示框位置纵向偏移量,单位px
-      "width": 711, //提示框宽度，单位px
-      "fontColor": "#222", //提示框文字颜色
-      "fontColorHI": "#222",	//提示框高亮选择时文字颜色
-      "fontSize": "14px",	//文字大小
-      // "fontFamily": "宋体",	//文字字体
-      "borderColor": "#ddd", //提示框的边框颜色
-      "bgcolorHI": "#eee",	//提示框高亮选择的颜色
-      "sugSubmit": false	//选中提示框中词条时是否提交表单
-    }, function (txt) {  // 选择后的回调
-      // console.log(txt);
-      document.getElementById('searchSubmitEl').click();
-    });
-  </script> -->
-  <!-- 搜索建议 end -->
-  <!-- baidu tongji -->
   <script>
     var _hmt = _hmt || [];
     (function () {

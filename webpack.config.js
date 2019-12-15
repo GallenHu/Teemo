@@ -1,34 +1,37 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   // Path to your entry point. From this file Webpack will begin his work
-  entry: "./src/js/index.js",
+  entry: './src/js/index.js',
 
   // Path and filename of your result bundle.
   // Webpack will bundle all JavaScript into this file
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].bundle.[hash].js",
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.[hash].js'
     // publicPath: './', // 引用的路径或者 CDN 地址。
     // 加上publicPath会导致dev-server不可用？！
   },
 
-  devtool: "source-map",
+  devtool: 'source-map',
 
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules)/,
+        exclude: [
+          /(node_modules)/,
+          path.resolve(__dirname, 'src/js/template.js')
+        ],
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"]
+            presets: ['@babel/preset-env']
           }
         }
       },
@@ -49,37 +52,40 @@ module.exports = {
           },
           {
             // resolves url() and @imports inside CSS
-            loader: "css-loader"
+            loader: 'css-loader'
           },
           {
-            loader: "postcss-loader"
+            loader: 'postcss-loader'
           },
           {
-            loader: "less-loader"
+            loader: 'less-loader'
           }
         ]
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
-        use: [{ loader: "url-loader", options: { limit: 8192 } }]
+        exclude: /(node_modules)/,
+        use: [{ loader: 'url-loader', options: { limit: 8192 } }]
       }
     ]
   },
 
   plugins: [
-    // new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "海风导航",
-      template: "./index.html"
+      title: '海风导航',
+      template: './index.html'
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
-      chunkFilename: '[id].css',
-    }),
+      chunkFilename: '[id].css'
+    })
+    // new CopyWebpackPlugin([
+    //   // {from:'src/images',to:'images'}
+    // ]),
   ],
 
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 8080
   },
@@ -88,5 +94,5 @@ module.exports = {
   // Depending on mode Webpack will apply different things
   // on final bundle. For now we don't need production's JavaScript
   // minifying and other thing so let's set mode to development
-  mode: "development"
+  mode: 'development'
 };

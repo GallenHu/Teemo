@@ -54,6 +54,16 @@
                 <span class="site-name">网易云音乐</span>
               </a>
             </li>
+            <!--
+            <li>
+              <a href="javascript:;" class="j-add-site site-link" rel="nofollow">
+                <span class="img-container">
+                  <img src="<%= require('./src/asserts/svg/add.svg').default%>" style="width: 90%;" class="site-icon">
+                </span>
+                <span class="site-name">添加</span>
+              </a>
+            </li>
+            -->
           </ul>
         </div>
       </div>
@@ -65,7 +75,7 @@
       <%= htmlWebpackPlugin.options.title %>
     </h1>
     <ul class="category top-divider">
-      <li><a href="#a">常用网址</a></li>
+      <li><a href="#navCommon">常用网址</a></li>
 
       <li><a href="javascript:;" class="custom">自定义导航</a></li>
     </ul>
@@ -76,6 +86,7 @@
   </div>
 
   <script src="https://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/artDialog/7.0.0/dialog.js"></script>
   <script>
     var _hmt = _hmt || [];
     (function () {

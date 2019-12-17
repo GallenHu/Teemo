@@ -1,7 +1,12 @@
 import "../less/style.less";
 import BaiduSug from '../js/baidusug';
 
-window.app = { currentEngine: "baidu" };
+const iconAdd = require('../asserts/svg/add.svg').default;
+
+window.app = {
+  currentEngine: "baidu",
+  isDialogOpen: false,
+ };
 
 const ClassNameOfEngines = "engine-logo";
 const SearchEngineNameMap = {
@@ -20,6 +25,7 @@ $(document).ready(function() {
   startEngineAnimation();
   onChangeSearchEngine(lastEngine || "");
   onTriggerSearrch();
+  initAddSiteFn();
 
   new BaiduSug('searchInputEl', {
     className: 'hinote-search',
@@ -100,5 +106,61 @@ function onTriggerSearrch() {
   $submit.on('click', () => {
     const text = $input.val();
     goSearch(text);
+  });
+}
+
+function initAddSiteFn() {
+  const tpl = `
+    <li>
+      <a href="javascript:;" class="j-add-site site-link" rel="nofollow">
+        <span class="img-container">
+          <img src="${iconAdd}" style="width: 90%;" class="site-icon">
+        </span>
+        <span class="site-name">添加网址</span>
+      </a>
+    </li>
+  `;
+  const addSiteDialogContent = `
+    <div>
+      <label>
+        <span>站点名称：</span>
+        <input type="text">
+      </label>
+    </div>
+    <div>
+      <label>
+        <span>站点网址：</span>
+        <input type="text">
+      </label>
+    </div>
+    <div>
+      <label>
+        <span>站点图标：</span>
+        <input type="text" placeholder="选填">
+      </label>
+    </div>
+  `;
+  $('.nav .nav-block ul').each((i, item) => {
+    $(item).append(tpl);
+  });
+  $('body').on('click', '.j-add-site', function () {
+    if (window.app.isDialogOpen) return;
+
+    var d = dialog({
+      title: '  ',
+      width: 500,
+      skin: 'dialog-add-site',
+      content: addSiteDialogContent,
+      okValue: '确定',
+      onclose: function () {
+        window.app.isDialogOpen = false;
+      },
+      ok: function () {
+        console.log('11');
+        // return false;
+      },
+    });
+    d.show();
+    window.app.isDialogOpen = true;
   });
 }

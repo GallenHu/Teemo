@@ -109,6 +109,10 @@ function onTriggerSearrch() {
   });
 }
 
+function renderNavListByJson(json) {}
+
+function generateNavListJson(newSite) {}
+
 function initAddSiteFn() {
   const tpl = `
     <li>
@@ -121,22 +125,22 @@ function initAddSiteFn() {
     </li>
   `;
   const addSiteDialogContent = `
-    <div>
+    <div class="add-site-dialog-content">
       <label>
         <span>站点名称：</span>
-        <input type="text">
+        <input type="text" class="ipt-site-name" placeholder="淘宝网">
       </label>
     </div>
-    <div>
+    <div class="add-site-dialog-content">
       <label>
         <span>站点网址：</span>
-        <input type="text">
+        <input type="text" class="ipt-site-url" placeholder="https://www.taobao.com">
       </label>
     </div>
-    <div>
+    <div class="add-site-dialog-content">
       <label>
-        <span>站点图标：</span>
-        <input type="text" placeholder="选填">
+        <span>图标链接：</span>
+        <input type="text" class="ipt-site-icon" placeholder="选填: https://img.alicdn.com/xxx.png">
       </label>
     </div>
   `;
@@ -145,21 +149,46 @@ function initAddSiteFn() {
   });
   $('body').on('click', '.j-add-site', function () {
     if (window.app.isDialogOpen) return;
+    const category = $(this).parents('.nav-block').attr('id');
 
-    var d = dialog({
+    const d = dialog({
       title: '  ',
       width: 500,
       skin: 'dialog-add-site',
       content: addSiteDialogContent,
+      statusbar: '<div class="add-site-dialog-error hide">Error</div>',
       okValue: '确定',
       onclose: function () {
+        console.log(11);
         window.app.isDialogOpen = false;
       },
       ok: function () {
-        console.log('11');
-        // return false;
+        const newSite = {
+          category,
+          info: {
+            name: $('.dialog-add-site .ipt-site-name').val().trim(),
+            url: $('.dialog-add-site .ipt-site-url').val().trim(),
+            icon: $('.dialog-add-site .ipt-site-icon').val().trim(),
+          },
+        };
+        const showError = (msg) => {
+          const $error = $('.dialog-add-site .add-site-dialog-error')
+          $error.html(msg).removeClass('hide');
+          setTimeout(() => {
+            $error.html('').addClass('hide');
+          }, 3000);
+        }
+
+        if (!newSite.info.url) {
+          showError('请填写正确的URL');
+          return false;
+        }
+        const json = generateNavListJson();
+
+        console.log(newSite);
       },
     });
+
     d.show();
     window.app.isDialogOpen = true;
   });

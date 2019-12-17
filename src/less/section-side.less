@@ -16,14 +16,15 @@
   color: #fff;
 
   h1.logo {
-    width: 116px;
-    height: 42px;
+    width: @logo-img-width/4;
+    height: @logo-img-height/4;
     text-indent: -999em;
     margin: 100px auto 30px;
-    background-image: url("../asserts/svg/logo.svg");
+    background-image: url("../asserts/images/logo.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 116px 42px;
+    background-size: @logo-img-width/4 @logo-img-height/4;
+    opacity: 0.8;
   }
 
   .top-divider {

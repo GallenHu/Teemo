@@ -166,6 +166,19 @@ function BaiduSug(domId, config) {
     document.head.appendChild(headStyle);
   };
 
+  // 添加全局按键监听
+  this.addKeydownListener = function () {
+    var self = this;
+    document.onkeydown = function (e) {
+      if (e.keyCode === 27) { // esc
+        self.clearResult();
+        if (e.target.id === self.domId) {
+          self.isMovingCursor = true; // esc 也要禁止后续搜索
+        }
+      }
+    }
+  }
+
   this.setCurrentLi = function(index) {
     var resultLiDoms = document.querySelectorAll(
       '.' + this.resultClassName + ' li'
@@ -216,11 +229,6 @@ function BaiduSug(domId, config) {
           self.onSubmit(self.getSearchText());
           self.isMovingCursor = true; // 回车也要禁止后续搜索
         }
-        // esc
-        else if (e.keyCode === 27) {
-          self.clearResult();
-          self.isMovingCursor = true;
-        }
         // up
         else if (e.keyCode === 38) {
           self.setCurrentLi(self.currentLiIndex - 1);
@@ -246,6 +254,7 @@ function BaiduSug(domId, config) {
       });
 
       self.addStyle();
+      self.addKeydownListener();
     }
   };
 

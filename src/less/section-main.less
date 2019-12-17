@@ -1,8 +1,16 @@
-@import "./vars.less";
+@import './vars.less';
 
 .main {
   margin-left: @side-width;
   min-height: 100vh;
+
+  .header {
+    text-align: right;
+    padding: 0 20px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+  }
 
   .search {
     position: relative;
@@ -10,8 +18,8 @@
     height: 44px;
     margin: 100px auto 0;
     background-color: rgba(216, 216, 216, 0.4);
-    box-shadow:0px -2px 1px 0px rgba(201,201,201,1);
-    // border-radius:24px;
+    box-shadow: 0px -2px 1px 0px rgba(201, 201, 201, 1);
+    border-radius: 4px;
 
     .search-engine {
       position: absolute;
@@ -26,7 +34,7 @@
         display: inline-block;
         width: @search-engine-size;
         height: @search-engine-size;
-        border-radius: @search-engine-size/2;
+        border-radius: @search-engine-size / 2;
         overflow: hidden;
         background-color: #fff;
         text-indent: -999em;
@@ -35,9 +43,15 @@
         background-size: @search-engine-size*0.6;
         box-shadow: 0 2px 1px rgba(117, 117, 117, 0.4);
 
-        &:nth-child(1) { z-index: 9; }
-        &:nth-child(2) { z-index: 8; }
-        &:nth-child(3) { z-index: 7; }
+        &:nth-child(1) {
+          z-index: 9;
+        }
+        &:nth-child(2) {
+          z-index: 8;
+        }
+        &:nth-child(3) {
+          z-index: 7;
+        }
       }
 
       &.animate .engine-logo {
@@ -53,17 +67,17 @@
       }
 
       .baidu {
-        background-image: url("../asserts/svg/baidu.svg");
+        background-image: url('../asserts/svg/baidu.svg');
       }
       .google {
-        background-image: url("../asserts/svg/google.svg");
+        background-image: url('../asserts/svg/google.svg');
       }
       .bing {
-        background-image: url("../asserts/svg/bing.svg");
+        background-image: url('../asserts/svg/bing.svg');
       }
     }
 
-    input[type="text"] {
+    input[type='text'] {
       background: none;
       // border: 1px solid;
       border: none;

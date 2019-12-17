@@ -79,23 +79,22 @@ function BaiduSug(domId, config) {
     var self = this;
     var resultLen = result.length;
     var domInput = this.domInput;
-    var domLeft = domInput.getBoundingClientRect().x;
-    var domTop = domInput.getBoundingClientRect().y;
-    var domHeight = domInput.offsetHeight;
     var domWidth = domInput.offsetWidth;
     var defaultClassName = this.resultClassName;
     var resultDom = document.querySelector('.' + this.resultClassName);
 
-    function createLayer(x, y, config) {
+    function createLayer(config) {
       var div = document.createElement('div');
       div.className = config.className
         ? config.className + ' ' + defaultClassName
         : defaultClassName;
       div.style = [
-        'width: ' + (config.width ? config.width : domWidth - 2) + 'px',
+        'width: ' + (config.width ? config.width : domWidth) + 'px',
         'position: absolute',
-        'left: ' + (config.xOffset ? config.xOffset + x : x) + 'px',
-        'top: ' + (config.yOffset ? config.yOffset + y : y) + 'px',
+        'left: 0',
+        'top: 100%',
+        'transform:' + 'translateX('+ (config.xOffset || 0) +'px)'
+          + ' translateY('+ (config.yOffset || 0) +'px)',
         'background: ' + (config.background ? config.background : '#fff'),
         'z-index: ' + (config.zIndex ? config.zIndex : '999'),
         'box-shadow: ' +
@@ -103,12 +102,12 @@ function BaiduSug(domId, config) {
         'border: ' + (config.border ? config.border : '1px solid #ddd')
       ].join(';');
 
-      document.body.appendChild(div);
+      domInput.parentNode.appendChild(div);
       return div;
     }
 
     function getResultContent(result) {
-      var ul = ['<ul style="list-style:none;">'];
+      var ul = ['<ul style="list-style:none;cursor:default;">'];
       for (var i = 0; i < resultLen; i++) {
         ul.push('<li data-i="' + i + '">' + result[i] + '</li>');
       }
@@ -120,8 +119,6 @@ function BaiduSug(domId, config) {
       resultDom.innerHTML = getResultContent(result);
     } else {
       createLayer(
-        domLeft,
-        domTop + domHeight,
         config
       ).innerHTML = getResultContent(result);
     }
@@ -129,7 +126,7 @@ function BaiduSug(domId, config) {
     var lis = document.querySelectorAll('.' + this.resultClassName + ' li');
     var onMouseEnter = function(e) {
       var i = e.target.getAttribute('data-i');
-      self.setCurrentLi(i);
+      self.setCurrentLi(i, true);
     };
     var onClick = function(e) {
       self.onSubmit(e.target.innerText);
@@ -179,7 +176,7 @@ function BaiduSug(domId, config) {
     }
   }
 
-  this.setCurrentLi = function(index) {
+  this.setCurrentLi = function(index, disableInputChange) {
     var resultLiDoms = document.querySelectorAll(
       '.' + this.resultClassName + ' li'
     );
@@ -194,8 +191,12 @@ function BaiduSug(domId, config) {
 
       if (currentLi) currentLi.classList.remove('current');
       resultLiDoms[index].classList.add('current');
-      this.domInput.value = resultLiDoms[index].innerText;
-      this.currentLiIndex = index;
+
+      // 是否只改变高亮状态，不改变输入内容
+      if (!disableInputChange) {
+        this.domInput.value = resultLiDoms[index].innerText;
+        this.currentLiIndex = index;
+      }
     }
   };
 

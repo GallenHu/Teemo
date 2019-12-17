@@ -24,7 +24,7 @@ $(document).ready(function() {
   new BaiduSug('searchInputEl', {
     className: 'hinote-search',
     border: '1px solid #ddd',
-    yOffset: 2,
+    xOffset: -1,
     callback: function() {
       $('#searchSubmitEl').trigger('click');
     }

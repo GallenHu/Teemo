@@ -1,5 +1,7 @@
 import "../less/style.less";
-import BaiduSug from '../js/baidusug';
+import BaiduSug from './baidusug';
+import Consts from './consts';
+import renderNavListByJson from './render_nav_list_by_json';
 
 const iconAdd = require('../asserts/svg/add.svg').default;
 
@@ -8,7 +10,6 @@ window.app = {
   isDialogOpen: false,
  };
 
-const ClassNameOfEngines = "engine-logo";
 const SearchEngineNameMap = {
   baidu: "百度",
   google: "Google",
@@ -25,6 +26,7 @@ $(document).ready(function() {
   startEngineAnimation();
   onChangeSearchEngine(lastEngine || "");
   onTriggerSearrch();
+  appendAddSiteIcon();
   initAddSiteFn();
 
   new BaiduSug('searchInputEl', {
@@ -68,8 +70,8 @@ function getLastEngine() {
 function onChangeSearchEngine(defaultEngine) {
   const $enginesParent = $(".search-engine");
 
-  $("." + ClassNameOfEngines).on("click", function() {
-    const $engines = $("." + ClassNameOfEngines); // 重新读取一次
+  $("." + Consts.CLASS_NAME_OF_ENGINES).on("click", function() {
+    const $engines = $("." + Consts.CLASS_NAME_OF_ENGINES); // 重新读取一次
     const $input = $(".search-input-el");
     const $this = $(this);
     const current = getEngineNameByDom($engines[0]);
@@ -109,21 +111,49 @@ function onTriggerSearrch() {
   });
 }
 
-function renderNavListByJson(json) {}
+// 把已有的导航网站组装成JSON
+function generateNavListJson(newSite) {
+  const $blocks = $('.nav-block');
+  const json = [];
 
-function generateNavListJson(newSite) {}
+  $blocks.each(function (i, block) {
+    const title = $(block).find('h2').text();
+    const category = $(block).attr('id');
+    const sites = $(block).find('ul li').map(function (j, site) {
+      const $site = $(site);
+      const siteName = $site.text().trim();
+      return siteName === Consts.ADD_SITE_TEXT ? null : {
+        name: siteName,
+        url: $site.find('a').attr('href'),
+        icon: $site.find('img').attr('src'),
+      };
+    });
+    if (category === newSite.category) sites.push(newSite.info);
+    json.push({ title, category, sites });
+  });
 
-function initAddSiteFn() {
+  return json;
+}
+
+// 添加一个“添加网址”的icon
+function appendAddSiteIcon() {
   const tpl = `
     <li>
       <a href="javascript:;" class="j-add-site site-link" rel="nofollow">
         <span class="img-container">
           <img src="${iconAdd}" style="width: 90%;" class="site-icon">
         </span>
-        <span class="site-name">添加网址</span>
+        <span class="site-name">${Consts.ADD_SITE_TEXT}</span>
       </a>
     </li>
   `;
+  $('.nav .nav-block ul').each((i, item) => {
+    $(item).append(tpl);
+  });
+}
+
+// 点击“添加网址”的功能
+function initAddSiteFn() {
   const addSiteDialogContent = `
     <div class="add-site-dialog-content">
       <label>
@@ -144,9 +174,7 @@ function initAddSiteFn() {
       </label>
     </div>
   `;
-  $('.nav .nav-block ul').each((i, item) => {
-    $(item).append(tpl);
-  });
+
   $('body').on('click', '.j-add-site', function () {
     if (window.app.isDialogOpen) return;
     const category = $(this).parents('.nav-block').attr('id');
@@ -159,7 +187,6 @@ function initAddSiteFn() {
       statusbar: '<div class="add-site-dialog-error hide">Error</div>',
       okValue: '确定',
       onclose: function () {
-        console.log(11);
         window.app.isDialogOpen = false;
       },
       ok: function () {
@@ -168,7 +195,7 @@ function initAddSiteFn() {
           info: {
             name: $('.dialog-add-site .ipt-site-name').val().trim(),
             url: $('.dialog-add-site .ipt-site-url').val().trim(),
-            icon: $('.dialog-add-site .ipt-site-icon').val().trim(),
+            icon: $('.dialog-add-site .ipt-site-icon').val().trim() || Consts.DEFAULT_ICON,
           },
         };
         const showError = (msg) => {
@@ -179,17 +206,28 @@ function initAddSiteFn() {
           }, 3000);
         }
 
-        if (!newSite.info.url) {
-          showError('请填写正确的URL');
+        if (!newSite.info.name) {
+          showError('请填写站点名称');
           return false;
         }
-        const json = generateNavListJson();
-
-        console.log(newSite);
+        if (!newSite.info.url) {
+          showError('请填写站点网址');
+          return false;
+        }
+        const json = generateNavListJson(newSite);
+        renderNavListByJson(json, document.querySelector('.nav'));
+        handleIconLoadError();
+        appendAddSiteIcon();
       },
     });
 
     d.show();
     window.app.isDialogOpen = true;
   });
+}
+
+function handleIconLoadError() {
+  $('img.site-icon').on('error', function () {
+    $(this).attr('src', Consts.DEFAULT_ICON);
+  })
 }

@@ -2,6 +2,7 @@ import "../less/style.less";
 import BaiduSug from './baidusug';
 import Consts from './consts';
 import renderNavListByJson from './render_nav_list_by_json';
+import onClickAdvanceConfig from './advance-config';
 
 const iconAdd = require('../asserts/svg/add.svg').default;
 
@@ -33,7 +34,11 @@ $(document).ready(function() {
   appendAddSiteIcon();
   initAddSiteFn();
   initDeleteable();
+  initAdvanceConfig();
+  initBaiduSug();
+});
 
+function initBaiduSug() {
   new BaiduSug('searchInputEl', {
     className: 'hinote-search',
     border: '1px solid #ddd',
@@ -42,7 +47,13 @@ $(document).ready(function() {
       $('#searchSubmitEl').trigger('click');
     }
   });
-});
+}
+
+function initAdvanceConfig() {
+  $('body').on('click', '.j-advance-config', function () {
+    onClickAdvanceConfig();
+  });
+}
 
 // 判断是否有本地存储的数据，读取出来展示
 function initStoredData() {
@@ -223,9 +234,9 @@ function initAddSiteFn() {
     const d = dialog({
       title: '  ',
       width: 500,
-      skin: 'dialog-add-site',
+      skin: 'dialog-add-site dialog-common',
       content: addSiteDialogContent,
-      statusbar: '<div class="add-site-dialog-error hide">Error</div>',
+      statusbar: '<div class="dialog-error hide">Error</div>',
       okValue: '确定',
       onclose: function () {
         window.APP.isDialogOpen = false;

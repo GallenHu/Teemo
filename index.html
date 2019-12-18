@@ -22,7 +22,8 @@
           <span class="engine-logo bing">Bing</span>
         </div>
         <div class="search-input">
-          <input type="text" class="search-input-el" id="searchInputEl" placeholder="百度搜索" spellcheck="false" autocomplete="off">
+          <input type="text" class="search-input-el" id="searchInputEl" placeholder="百度搜索" spellcheck="false"
+            autocomplete="off">
           <button style="display: none;" id="searchSubmitEl">Submit</button>
         </div>
       </div>
@@ -30,6 +31,15 @@
         <div id="navCommon" class="nav-block">
           <h2>常用网址</h2>
           <ul class="fn-clear">
+            <li>
+              <a href="https://www.ifeng.com/" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="<%= require('./src/asserts/svg/fenghuang.svg').default%>" alt="凤凰网" class="site-icon">
+                </span>
+                <span class="site-name">凤凰网</span>
+                <i class="del"></i>
+              </a>
+            </li>
             <li>
               <a href="https://weibo.com" class="site-link" target="_blank" rel="nofollow">
                 <span class="img-container">
@@ -49,14 +59,43 @@
               </a>
             </li>
             <li>
-              <a href="https://music.163.com/" class="site-link" target="_blank" rel="nofollow">
+              <a href="https://music.163.com" class="site-link" target="_blank" rel="nofollow">
                 <span class="img-container">
-                  <img src="<%= require('./src/asserts/svg/netease_music_logo.svg').default%>" style="width: 90%;" alt="网易云音乐" class="site-icon">
+                  <img src="<%= require('./src/asserts/svg/netease_music_logo.svg').default%>" style="width: 90%;"
+                    alt="网易云音乐" class="site-icon">
                 </span>
                 <span class="site-name">网易云音乐</span>
                 <i class="del"></i>
               </a>
             </li>
+            <li>
+              <a href="https://www.douban.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="<%= require('./src/asserts/svg/douban.svg').default%>" alt="豆瓣网" class="site-icon">
+                </span>
+                <span class="site-name">豆瓣网</span>
+                <i class="del"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://outlook.live.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="<%= require('./src/asserts/svg/outlook.svg').default%>" alt="outlook" class="site-icon">
+                </span>
+                <span class="site-name">Outlook</span>
+                <i class="del"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://pan.baidu.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="<%= require('./src/asserts/svg/wangpan.svg').default%>" alt="百度网盘" class="site-icon">
+                </span>
+                <span class="site-name">百度网盘</span>
+                <i class="del"></i>
+              </a>
+            </li>
+
             <!--
             <li>
               <a href="javascript:;" class="j-add-site site-link" rel="nofollow">

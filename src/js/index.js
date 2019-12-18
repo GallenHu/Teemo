@@ -5,9 +5,10 @@ import renderNavListByJson from './render_nav_list_by_json';
 
 const iconAdd = require('../asserts/svg/add.svg').default;
 
-window.app = {
+window.APP = {
   currentEngine: "baidu",
   isDialogOpen: false,
+  navContainer: null,
  };
 
 const SearchEngineNameMap = {
@@ -23,6 +24,9 @@ const SearchEngineUrlMap = {
 
 $(document).ready(function() {
   const lastEngine = getLastEngine();
+  window.APP.navContainer = document.querySelector('.nav');
+
+  initStoredData();
   startEngineAnimation();
   onChangeSearchEngine(lastEngine || "");
   onTriggerSearrch();
@@ -39,6 +43,15 @@ $(document).ready(function() {
     }
   });
 });
+
+// 判断是否有本地存储的数据，读取出来展示
+function initStoredData() {
+  const json = getStoredData();
+  if (json) {
+    renderNavListByJson(json, APP.navContainer);
+    handlerAfterRender();
+  }
+}
 
 // 通过 dom class 获取搜索引擎名称
 function getEngineNameByDom(dom) {
@@ -59,7 +72,7 @@ function startEngineAnimation() {
 }
 
 function storeLastEngine(engine) {
-  window.app.currentEngine = engine;
+  window.APP.currentEngine = engine;
   localStorage.setItem("engine", engine);
 }
 
@@ -100,7 +113,7 @@ function onChangeSearchEngine(defaultEngine) {
 
 // 打开搜索结果页
 function goSearch(text) {
-  window.open(SearchEngineUrlMap[window.app.currentEngine] + text);
+  window.open(SearchEngineUrlMap[window.APP.currentEngine] + text);
 }
 
 function onTriggerSearrch() {
@@ -129,7 +142,7 @@ function generateNavListJson(newSite) {
         icon: $site.find('img').attr('src'),
       };
     });
-    if (category === newSite.category) sites.push(newSite.info);
+    if (newSite && category === newSite.category) sites.push(newSite.info);
     json.push({ title, category, sites });
   });
 
@@ -149,8 +162,35 @@ function appendAddSiteIcon() {
     </li>
   `;
   $('.nav .nav-block ul').each((i, item) => {
-    $(item).append(tpl);
+    const $lastLi = $(item).find('li:last-child');
+    if ($lastLi.text().trim() !== Consts.ADD_SITE_TEXT) {
+      $(item).append(tpl);
+    }
   });
+}
+
+function handlerAfterRender(json) {
+  handleIconLoadError();
+  appendAddSiteIcon();
+  if (json) storeData(json);
+}
+
+function storeData(renderJson) {
+  window.localStorage.setItem(Consts.STORAGE_NAME, JSON.stringify(renderJson));
+}
+
+function getStoredData() {
+  const data = localStorage.getItem(Consts.STORAGE_NAME);
+  let dataJson;
+  if (data) {
+    try {
+      dataJson = JSON.parse(data)
+    } catch (err) {
+      console.error('error on parse STORAGE');
+    }
+  }
+
+  return dataJson;
 }
 
 // 点击“添加网址”的功能
@@ -177,7 +217,7 @@ function initAddSiteFn() {
   `;
 
   $('body').on('click', '.j-add-site', function () {
-    if (window.app.isDialogOpen) return;
+    if (window.APP.isDialogOpen) return;
     const category = $(this).parents('.nav-block').attr('id');
 
     const d = dialog({
@@ -188,7 +228,7 @@ function initAddSiteFn() {
       statusbar: '<div class="add-site-dialog-error hide">Error</div>',
       okValue: '确定',
       onclose: function () {
-        window.app.isDialogOpen = false;
+        window.APP.isDialogOpen = false;
       },
       ok: function () {
         const newSite = {
@@ -216,14 +256,13 @@ function initAddSiteFn() {
           return false;
         }
         const json = generateNavListJson(newSite);
-        renderNavListByJson(json, document.querySelector('.nav'));
-        handleIconLoadError();
-        appendAddSiteIcon();
+        renderNavListByJson(json, APP.navContainer);
+        handlerAfterRender(json);
       },
     });
 
     d.show();
-    window.app.isDialogOpen = true;
+    window.APP.isDialogOpen = true;
   });
 }
 
@@ -231,6 +270,14 @@ function handleIconLoadError() {
   $('img.site-icon').on('error', function () {
     $(this).attr('src', Consts.DEFAULT_ICON);
   })
+}
+
+function deleteSiteByCategoryIndex(json, category, index) {
+  const categoryIndex = json.findIndex(obj => obj.category === category);
+  if (index > -1) {
+    json[categoryIndex].sites.splice(index, 1);
+  }
+  return json;
 }
 
 function initDeleteable() {
@@ -244,6 +291,14 @@ function initDeleteable() {
   }).on('click', 'i.del', function (e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log($(this));
+
+    const $li = $(this).parents('li');
+    const index = $li.index();
+    const category = $(this).parents('.nav-block').attr('id');
+
+    const json = generateNavListJson();
+    const newJson = deleteSiteByCategoryIndex(json, category, index);
+    renderNavListByJson(newJson, APP.navContainer);
+    handlerAfterRender(newJson);
   });
 }

@@ -51,7 +51,9 @@ function initBaiduSug() {
 
 function initAdvanceConfig() {
   $('body').on('click', '.j-advance-config', function () {
-    onClickAdvanceConfig();
+    let configJson = getStoredData();
+    if (!configJson) configJson = generateNavListJson();
+    onClickAdvanceConfig(configJson);
   });
 }
 

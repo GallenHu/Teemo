@@ -28,6 +28,7 @@ $(document).ready(function() {
   onTriggerSearrch();
   appendAddSiteIcon();
   initAddSiteFn();
+  initDeleteable();
 
   new BaiduSug('searchInputEl', {
     className: 'hinote-search',
@@ -230,4 +231,19 @@ function handleIconLoadError() {
   $('img.site-icon').on('error', function () {
     $(this).attr('src', Consts.DEFAULT_ICON);
   })
+}
+
+function initDeleteable() {
+  var timer;
+  $('.nav').on('mouseenter', 'a.site-link', function () {
+    const $this = $(this)
+    timer = setTimeout(() => { $this.addClass('deleteable'); }, 500);
+  }).on('mouseleave', 'a.site-link', function () {
+    clearTimeout(timer);
+    $(this).removeClass('deleteable');
+  }).on('click', 'i.del', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log($(this));
+  });
 }

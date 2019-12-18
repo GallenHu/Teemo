@@ -125,6 +125,7 @@
           margin: 10px 10px 0 0;
 
           a {
+            position: relative;
             display: block;
             width: @max-img-height+14px+10px;
             padding: 10px 0;
@@ -132,6 +133,22 @@
             text-decoration: none;
             text-align: center;
             border-radius: 4px;
+
+            i.del {
+              display: none;
+              position: absolute;
+              right: 0;
+              top: 0;
+              content: " ";
+              width: 24px;
+              height: 24px;
+              background: url('../asserts/svg/delete.svg') center no-repeat;
+              background-size: 24px;
+              z-index: 1;
+            }
+            &.deleteable i.del {
+              display: block !important;
+            }
 
             &:hover {
               background-color: #eee;

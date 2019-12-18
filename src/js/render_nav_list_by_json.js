@@ -9,6 +9,7 @@ export default function (json, container) {
   //           <img src="<%= require('./src/asserts/images/weibo.png').default%>" alt="微博" class="site-icon">
   //         </span>
   //         <span class="site-name">微博</span>
+  //         <i class="del"></i>
   //       </a>
   //     </li>
   //   </ul>
@@ -27,6 +28,7 @@ export default function (json, container) {
       tpl += `<img src="${site.icon}" alt="${site.name}" class="site-icon">`
       tpl += `</span>`
       tpl += `<span class="site-name">${site.name}</span>`
+      tpl += `<i class="del"></i>`
       tpl += `</a>`
       tpl += `</li>`
     })

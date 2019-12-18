@@ -78,10 +78,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
       chunkFilename: '[id].css'
-    })
-    // new CopyWebpackPlugin([
-    //   // {from:'src/images',to:'images'}
-    // ]),
+    }),
+    new CopyWebpackPlugin([
+      {from:path.resolve(__dirname, './static'),to:path.resolve(__dirname, './dist/static')}
+    ]),
   ],
 
   devServer: {

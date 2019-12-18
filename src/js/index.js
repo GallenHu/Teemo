@@ -2,6 +2,7 @@ import "../less/style.less";
 import BaiduSug from './baidusug';
 import Consts from './consts';
 import renderNavListByJson from './render_nav_list_by_json';
+import renderSideCategory from './render_side_category';
 import onClickAdvanceConfig from './advance-config';
 
 const iconAdd = require('../asserts/svg/add.svg').default;
@@ -43,7 +44,8 @@ function initBaiduSug() {
     className: 'hinote-search',
     border: '1px solid #ddd',
     xOffset: -1,
-    callback: function() {
+    callback: function(text) {
+      $('#searchInputEl').val(text);
       $('#searchSubmitEl').trigger('click');
     }
   });
@@ -53,16 +55,22 @@ function initAdvanceConfig() {
   $('body').on('click', '.j-advance-config', function () {
     let configJson = getStoredData();
     if (!configJson) configJson = generateNavListJson();
-    onClickAdvanceConfig(configJson);
+    onClickAdvanceConfig(configJson, function(newJson) {
+      renderNavListByJson(newJson, APP.navContainer);
+      handlerAfterRender(newJson);
+    });
   });
 }
 
 // 判断是否有本地存储的数据，读取出来展示
 function initStoredData() {
-  const json = getStoredData();
+  let json = getStoredData();
   if (json) {
     renderNavListByJson(json, APP.navContainer);
     handlerAfterRender();
+  } else {
+    json = generateNavListJson();
+    renderSideCategory(json);
   }
 }
 
@@ -146,20 +154,23 @@ function generateNavListJson(newSite) {
   $blocks.each(function (i, block) {
     const title = $(block).find('h2').text();
     const category = $(block).attr('id');
-    const sites = $(block).find('ul li').map(function (j, site) {
+    const sites = [];
+    $(block).find('ul li').each(function(j, site) {
       const $site = $(site);
       const siteName = $site.text().trim();
-      return siteName === Consts.ADD_SITE_TEXT ? null : {
-        name: siteName,
-        url: $site.find('a').attr('href'),
-        icon: $site.find('img').attr('src'),
-      };
+      if (siteName !== Consts.ADD_SITE_TEXT) {
+        sites.push({
+          name: siteName,
+          url: $site.find('a').attr('href'),
+          icon: $site.find('img').attr('src'),
+        });
+      }
     });
     if (newSite && category === newSite.category) sites.push(newSite.info);
     json.push({ title, category, sites });
   });
 
-  return json;
+  return Array.from(json);
 }
 
 // 添加一个“添加网址”的icon
@@ -253,7 +264,7 @@ function initAddSiteFn() {
           },
         };
         const showError = (msg) => {
-          const $error = $('.dialog-add-site .add-site-dialog-error')
+          const $error = $('.dialog-common .dialog-error')
           $error.html(msg).removeClass('hide');
           setTimeout(() => {
             $error.html('').addClass('hide');

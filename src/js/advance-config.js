@@ -6,7 +6,7 @@ export default function(conofigJson, callback) {
     <div>
       <div>
         <label style="vertical-align: top;">配置文件：</label>
-        <textarea class="advance-config-input" style="width: 400px;height: 200px;outline: none; padding: 10px;">
+        <textarea class="advance-config-input" style="width: 400px;height: 200px; padding: 10px;">
         ${JSON.stringify(conofigJson, null, 2)}
         </textarea>
       </div>

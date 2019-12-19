@@ -13,7 +13,7 @@ export default function(conofigJson, callback) {
       <div style="margin-top: 10px">
         <label style="vertical-align: top;">在线工具：</label>
         <span style="margin-right: 10px">
-          <a href="https://bejson.com" style="color: #666;" target="_blank" rel="nofollow">在线JSON格式化校验</a>
+          <a href="http://bejson.com" style="color: #666;" target="_blank" rel="nofollow">在线JSON格式化校验</a>
         </span>
         <span style="margin-right: 10px">
           <a href="https://sm.ms" style="color: #666;" target="_blank" rel="nofollow">免费图床</a>

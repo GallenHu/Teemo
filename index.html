@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>海风导航</title>
+  <meta name=keywords content="网址导航, 海风导航, 视频, 开发, 音乐, 创意灵感">
+  <meta name="description" content="简洁无广告的网址导航，分享优秀站点">
+  <link rel="shortcut icon" href="/static/favicon.ico" />
+  <link rel="bookmark" href="/static/favicon.ico" type="image/x-icon"　/>
+<link href="main.1d45cf12044756f6edcb.css" rel="stylesheet"></head>
+
+<body>
+  <div class="main">
+    <div class="main-content">
+      <div class="header">
+        <!-- <span>重庆天气：多云转晴 23度</span> -->
+      </div>
+      <div class="search">
+        <div class="search-engine">
+          <span class="engine-logo baidu">Baidu</span>
+          <span class="engine-logo google">Google</span>
+          <span class="engine-logo bing">Bing</span>
+        </div>
+        <div class="search-input">
+          <input type="text" class="search-input-el" id="searchInputEl" placeholder="百度搜索" spellcheck="false"
+            autocomplete="off">
+          <button style="display: none;" id="searchSubmitEl">Submit</button>
+        </div>
+      </div>
+      <div class="nav">
+        <div id="navCommon" class="nav-block">
+          <h2>常用网址</h2>
+          <ul class="fn-clear">
+            <li>
+              <a href="https://www.ifeng.com/" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="https://img.hinpc.com/img/picgo/fenghuang.svg" alt="凤凰网" class="site-icon">
+                </span>
+                <span class="site-name">凤凰网</span>
+                <i class="del"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://weibo.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="https://img.hinpc.com/img/picgo/20191218202036_weibo.png" alt="微博" class="site-icon">
+                </span>
+                <span class="site-name">微博</span>
+                <i class="del"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://iqiyi.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="https://img.hinpc.com/img/picgo/20191218202234_iqiyi.svg" alt="爱奇艺" class="site-icon">
+                </span>
+                <span class="site-name">爱奇艺</span>
+                <i class="del"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://music.163.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="https://img.hinpc.com/img/picgo/20191218202305_netease_music.svg" style="width: 90%;"
+                    alt="网易云音乐" class="site-icon">
+                </span>
+                <span class="site-name">网易云音乐</span>
+                <i class="del"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.douban.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="https://img.hinpc.com/img/picgo/20191218202633_douban.svg" alt="豆瓣网" class="site-icon">
+                </span>
+                <span class="site-name">豆瓣网</span>
+                <i class="del"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://outlook.live.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="https://img.hinpc.com/img/picgo/20191218202943_outlook.svg" alt="outlook" class="site-icon">
+                </span>
+                <span class="site-name">Outlook</span>
+                <i class="del"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://pan.baidu.com" class="site-link" target="_blank" rel="nofollow">
+                <span class="img-container">
+                  <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTc2NjU1ODk5ODMxIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjMzODgiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTQ2MC4wNSAxOTIuMjZjNDYuMjUtMTEuMjUgOTYuMTgtNy4xNyAxMzkuNzkgMTIgMzUuMiAxNS4zMSA2Ni4xOSA0MC4xMiA4OC44OSA3MS4wOCAyMy44NiAzMi4zOCAzOC41IDcxLjUzIDQxLjQyIDExMS42NyAwLjcxIDE1LjI2IDAuOTYgMzAuNjktMS4zMiA0NS44My0wLjIzIDAuNTYtMC42OCAxLjY4LTAuOSAyLjIzLTI3LjUxIDAuMDktNTQuOTEgNS44Ny04MC4yMiAxNi42NC0yMi44NyA5Ljg0LTQzLjY0IDI0LjEzLTYxLjg5IDQwLjk4LTUuMjEgNi4xNy0xMS4zMyAxMS40NS0xNi44NiAxNy4zMS0xOS42NSAxOS42OC0zOS40MSAzOS4yNC01OC45OCA1OC45OS01LjY4IDUuMzEtMTAuNjggMTEuMzYtMTYuOCAxNi4xOS05LjYxLTM1LjI1LTI5LjAzLTY3LjcxLTU1LjM5LTkyLjk5LTI2LjEtMjUuMTUtNTguOTgtNDMuMTktOTQuMjYtNTEuNTYtMTMuMTYtMi45MS0yNi42Mi01LjQ0LTQwLjE0LTUuMDUtMi41Ny0wLjE0LTUuMTMtMC40LTcuNjktMC41My0xLjYzLTEwLjI3LTEuOTgtMjAuNjctMS44Ny0zMS4wNS0wLjc0LTM0LjUxIDgtNjguOTcgMjMuNzQtOTkuNTkgMTUuMDQtMjkuMjUgMzYuODgtNTQuOTQgNjMuMTktNzQuNjcgMjMuNTMtMTcuNjkgNTAuNjktMzAuNTIgNzkuMjktMzcuNDhtMzcuNDcgMTAwLjRjLTI4LjQ0IDMuNDktNTUuMiAxOC40OC03My4xNyA0MC43Ny0xNS40NyAxOC45Ni0yNC40NSA0My4xLTI0Ljk5IDY3LjU3LTAuNjcgMjIuMTggNS41IDQ0LjQ5IDE3LjQ3IDYzLjE3IDE1Ljg2IDI1LjA3IDQyIDQzLjM4IDcxLjA0IDQ5LjU1IDI1LjQxIDUuNTUgNTIuNzIgMi4wMyA3NS44LTEwLjAyIDI1LjI1LTEyLjk4IDQ1LjIxLTM1Ljg5IDU0LjUtNjIuNzMgNy41NC0yMS40OSA4LjI2LTQ1LjI5IDIuMTEtNjcuMjEtNS4xNy0xOC41LTE1LjIzLTM1LjU4LTI4Ljg0LTQ5LjEzLTI0LjE1LTI0LjQtNTkuODktMzYuNTctOTMuOTItMzEuOTd6IiBmaWxsPSIjMkM2MUU0IiBwLWlkPSIzMzg5Ij48L3BhdGg+PHBhdGggZD0iTTcyNy45MyA0MzUuMDdjMC4yMi0wLjU1IDAuNjctMS42NyAwLjktMi4yMy0wLjAzIDAuNTYtMC4wOCAxLjY2LTAuMSAyLjIxIDM1Ljg2LTAuMDIgNzEuNjcgOS41OSAxMDIuNjQgMjcuNjcgMjguMzkgMTYuNDggNTIuNzEgMzkuOTEgNzAuMjQgNjcuNjYgMTYuMTIgMjUuNDMgMjYuNDYgNTQuNDkgMjkuOTggODQuMzkgNS4yOCA0My41Ni0zLjkxIDg4Ljc3LTI2LjE1IDEyNi42My0yMC4yMiAzNC43Ny01MC45NCA2My4zMS04Ny4xMSA4MC45MS00My44IDIxLjU3LTk1LjQyIDI2LjQ2LTE0Mi41OCAxMy45NC0yOS44NS03Ljg3LTU3Ljg2LTIyLjY0LTgxLjIyLTQyLjgzLTExLjE4LTkuNzYtMTcuNzYtMjQuNTMtMTcuNDEtMzkuMzggMC4xMi0xNS40NSA3Ljc2LTMwLjU1IDIwLjAzLTM5LjkgMTIuNjQtOS45IDMwLjAyLTEzLjIzIDQ1LjQ1LTguODkgNy43MyAyLjA3IDE0LjggNi4xNSAyMC44NiAxMS4zNCAxNi44OSAxNC4xNSAzOC41MiAyMi40OSA2MC41NCAyMy4zNiAzMi4xNCAxLjYyIDY0LjQ5LTEzLjI5IDg0LjE4LTM4LjczIDIwLjAyLTI1LjA5IDI2LjY4LTYwLjAzIDE3LjM5LTkwLjc1LTguODYtMzAuNjktMzMuMjYtNTYuMjUtNjMuNDMtNjYuNy0yOC41LTEwLjE5LTYxLjUyLTYuNzMtODcuMTcgOS40LTguOTcgNS4zNC0xNi40IDEyLjc4LTIzLjgxIDIwLjA0LTY4LjQ0IDY4LjItMTM2Ljg3IDEzNi40Mi0yMDUuMzEgMjA0LjYxLTkuNTUgOS44Ny0xOS43NiAxOS4xNC0zMC45OCAyNy4wOC0yOS43NiAyMS4zNS02NS4zNSAzNC40NC0xMDEuODYgMzcuNDEtMzguNDQgMy4yOC03Ny43OS00LjQ0LTExMS45OS0yMi4zNC0zNi41Ny0xOC45Ni02Ny4xNS00OS4yNS04Ni40MS04NS42Ny0xNy4yNy0zMi4zOC0yNS4zNS02OS41Mi0yMy4zNC0xMDYuMTUgMS44MS0zNS45OCAxMy41LTcxLjM4IDMzLjQ2LTEwMS4zNyAyMy4xMS0zNS4wMSA1Ny4yNi02Mi42IDk2LjM4LTc3Ljc3IDIzLjctOS4yNiA0OS4xNS0xMy45OCA3NC41OS0xMy45NiAyLjU2IDAuMTMgNS4xMiAwLjM5IDcuNjkgMC41MyAxMS44MyAxLjE5IDIyLjggNy41MiAzMC43NiAxNi4yIDkuMzggMTAuMjUgMTQuMjYgMjQuNDEgMTMuMTkgMzguMjYtMC45MyAxNC43Ny04LjcyIDI4Ljg1LTIwLjU5IDM3LjY1LTguMDcgNi4xMS0xNy45OCA5LjU4LTI4LjA1IDEwLjI4LTIwLjI2LTAuNDctNDAuNjYgNC45OC01Ny43MSAxNS45OS0yOC4wNiAxNy42Ny00Ni4zMiA0OS44NS00Ni42NSA4My4wNi0wLjk2IDMyLjgyIDE1LjU4IDY1LjM1IDQyLjQyIDg0LjE5IDI3LjE3IDE5LjcgNjQuMzUgMjQuMzEgOTUuNTUgMTIuMDEgMTUuNjUtNS45NSAyOS40Ny0xNi4xIDQwLjU1LTI4LjU3IDQwLjM4LTM5LjU0IDgwLTc5Ljg4IDEyMC4zMi0xMTkuNDcgNi4xMi00LjgzIDExLjEyLTEwLjg4IDE2LjgtMTYuMTkgMTkuNTctMTkuNzUgMzkuMzMtMzkuMzEgNTguOTgtNTguOTkgNS41My01Ljg2IDExLjY1LTExLjE0IDE2Ljg2LTE3LjMxIDE4LjI1LTE2Ljg1IDM5LjAyLTMxLjE0IDYxLjg5LTQwLjk4IDI1LjMxLTEwLjc3IDUyLjcxLTE2LjU1IDgwLjIyLTE2LjY0eiIgZmlsbD0iIzMzNzdGOSIgcC1pZD0iMzM5MCI+PC9wYXRoPjxwYXRoIGQ9Ik0zMDMuMzkgNDM1LjU4YzEzLjUyLTAuMzkgMjYuOTggMi4xNCA0MC4xNCA1LjA1IDM1LjI4IDguMzcgNjguMTYgMjYuNDEgOTQuMjYgNTEuNTYgMjYuMzYgMjUuMjggNDUuNzggNTcuNzQgNTUuMzkgOTIuOTktNDAuMzIgMzkuNTktNzkuOTQgNzkuOTMtMTIwLjMyIDExOS40NyA5LjYxLTExLjY4IDE3LjA4LTI1LjIzIDIwLjg1LTM5LjkzIDYuMDctMjIuOCAzLjc3LTQ3LjcyLTYuNDUtNjktMTIuMTgtMjUuNzUtMzUuNzQtNDUuODItNjMuMTQtNTMuNjYtOC4yNi0yLjQ2LTE2LjgzLTMuNjQtMjUuNDItNC4wOSAxMC4wNy0wLjcgMTkuOTgtNC4xNyAyOC4wNS0xMC4yOCAxMS44Ny04LjggMTkuNjYtMjIuODggMjAuNTktMzcuNjUgMS4wNy0xMy44NS0zLjgxLTI4LjAxLTEzLjE5LTM4LjI2LTcuOTYtOC42OC0xOC45My0xNS4wMS0zMC43Ni0xNi4yeiIgZmlsbD0iI0QyNDAyQyIgcC1pZD0iMzM5MSI+PC9wYXRoPjwvc3ZnPg==" alt="百度网盘" class="site-icon">
+                </span>
+                <span class="site-name">百度网盘</span>
+                <i class="del"></i>
+              </a>
+            </li>
+
+            <!--
+            <li>
+              <a href="javascript:;" class="j-add-site site-link" rel="nofollow">
+                <span class="img-container">
+                  <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTc2NTcyOTE2OTkxIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjI0NjciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTE2MCA2NEMxMDcuMjY0IDY0IDY0IDEwNy4yNjQgNjQgMTYwdjY0MGMwIDUyLjczNiA0My4yNjQgOTYgOTYgOTZoNjQwYzUyLjczNiAwIDk2LTQzLjI2NCA5Ni05NnYtNjQwYzAtNTIuNzM2LTQzLjI2NC05Ni05Ni05NnogbTAgNjRoNjQwYzE3Ljk4NCAwIDMyIDE0LjAxNiAzMiAzMnY2NDBjMCAxNy45ODQtMTQuMDE2IDMyLTMyIDMyaC02NDBhMzEuNjE2IDMxLjYxNiAwIDAgMS0zMi0zMnYtNjQwYzAtMTcuOTg0IDE0LjAxNi0zMiAzMi0zMnpNNDQ4IDI1NnYxOTJIMjU2djY0aDE5MnYxOTJoNjRWNTEyaDE5MlY0NDhINTEyVjI1NnoiIGZpbGw9IiNjZGNkY2QiIHAtaWQ9IjI0NjgiPjwvcGF0aD48L3N2Zz4=" style="width: 90%;" class="site-icon">
+                </span>
+                <span class="site-name">添加</span>
+              </a>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="side">
+    <h1 class="logo">
+      海风导航
+    </h1>
+    <ul class="category top-divider">
+      <!-- <li><a href="#navCommon">常用网址</a></li> -->
+
+      <li><a href="javascript:;" class="custom j-advance-config">高级配置</a></li>
+    </ul>
+    <div class="footer top-divider">
+      &copy; 2019 海风导航
+      <a href="https://github.com/GallenHu/Teemo" class="github" target="_blank">Github</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/artDialog/7.0.0/dialog.js"></script>
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9cba20eff7a96ae22881bff7e0039ec1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+<script type="text/javascript" src="main.bundle.1d45cf12044756f6edcb.js"></script></body>
+
+</html>

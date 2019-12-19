@@ -1,7 +1,8 @@
 # Teemo(v2)
-A simple navigation site.
+「提莫」: A simple navigation site.
 
-Teemo(提莫): “我去前面探探路!”
+- 导航通过`JSON`格式内容自定义，在本地存储
+- 站点利用`travis`自动部署，体验地址：https://123.hinpc.com/
 
 ## Requirement
 ```

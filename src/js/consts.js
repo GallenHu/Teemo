@@ -5,4 +5,5 @@ export default {
   ADD_SITE_TEXT: '添加网址',
   DEFAULT_ICON: heartIcon,
   STORAGE_NAME: 'nav_sites',
+  API_IP_ADDRESS: 'https://pv.sohu.com/cityjson?ie=utf-8',
 };

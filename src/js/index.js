@@ -5,6 +5,7 @@ import renderNavListByJson from './render_nav_list_by_json';
 import renderSideCategory from './render_side_category';
 import onClickAdvanceConfig from './advance-config';
 import CommonDialog from './common-dialog';
+import loadscript from './loadscript';
 
 const iconAdd = require('../asserts/svg/add.svg').default;
 
@@ -38,6 +39,7 @@ $(document).ready(function() {
   initDeleteable();
   initAdvanceConfig();
   initBaiduSug();
+  initAsyncData();
 });
 
 function initBaiduSug() {
@@ -328,4 +330,17 @@ function initDeleteable() {
       handlerAfterRender(newJson);
     });
   });
+}
+
+function initAsyncData() {
+  loadscript(Consts.API_IP_ADDRESS, () => {
+    console.log(returnCitySN);
+    const { cip, cname } = window.returnCitySN;
+    console.log(cip, cname);
+    showWearher(`${cname}`);
+  });
+
+  function showWearher(text) {
+    $('.weather').html(text).removeClass('hide');
+  }
 }

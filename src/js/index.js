@@ -4,6 +4,7 @@ import Consts from './consts';
 import renderNavListByJson from './render_nav_list_by_json';
 import renderSideCategory from './render_side_category';
 import onClickAdvanceConfig from './advance-config';
+import CommonDialog from './common-dialog';
 
 const iconAdd = require('../asserts/svg/add.svg').default;
 
@@ -316,13 +317,15 @@ function initDeleteable() {
     e.preventDefault();
     e.stopPropagation();
 
-    const $li = $(this).parents('li');
-    const index = $li.index();
-    const category = $(this).parents('.nav-block').attr('id');
+    CommonDialog.confirm('确定要删除吗？', () => {
+      const $li = $(this).parents('li');
+      const index = $li.index();
+      const category = $(this).parents('.nav-block').attr('id');
 
-    const json = generateNavListJson();
-    const newJson = deleteSiteByCategoryIndex(json, category, index);
-    renderNavListByJson(newJson, APP.navContainer);
-    handlerAfterRender(newJson);
+      const json = generateNavListJson();
+      const newJson = deleteSiteByCategoryIndex(json, category, index);
+      renderNavListByJson(newJson, APP.navContainer);
+      handlerAfterRender(newJson);
+    });
   });
 }

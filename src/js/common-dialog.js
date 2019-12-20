@@ -19,5 +19,6 @@ export default {
     });
 
     d.show();
+    window.APP.isDialogOpen = true;
   },
 };

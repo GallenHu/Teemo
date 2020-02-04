@@ -1,0 +1,26 @@
+<div class="dropdown-logged">
+  <p class="avator-wrapper">
+    <img class="avator" src="<%= data.avator %>" alt="<%= data.nickname %>">
+  </p>
+
+  <p>
+    <%= data.nickname%>，您好！
+  </p>
+
+  <div class="dropdown-divider"></div>
+
+  <p>Profiles:
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      + 新增
+    </button>
+  </p>
+  <ul class="list-profile list-group list-group-flush">
+    <% data.categories.forEach(function(category) { %>
+      <li class="list-group-item <% if (data.currentCategory == category.id) { %> active <% } %>" data-id="<%= category.id %>"><%= category.name %></li>
+    <% }); %>
+  </ul>
+
+  <p class="text-right">
+    <a class="j-logout" href="javascript:;">登出</a>
+  </p>
+</div>

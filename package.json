@@ -1,0 +1,39 @@
+{
+  "name": "teemo",
+  "version": "3.0.0",
+  "description": "A simple navigation site.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GallenHu/Teemo.git"
+  },
+  "keywords": [
+    "navigation"
+  ],
+  "author": "GallenHu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GallenHu/Teemo/issues"
+  },
+  "homepage": "https://github.com/GallenHu/Teemo#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-route": "^3.2.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.2.1",
+    "querystring": "^0.2.0",
+    "sequelize": "^5.21.3",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

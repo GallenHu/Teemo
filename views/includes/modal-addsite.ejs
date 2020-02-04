@@ -1,0 +1,47 @@
+<!-- Modal -->
+<div class="modal fade" id="addSiteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">新增站点</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- body -->
+      <div class="modal-body">
+        <form class="form">
+          <div class="form-row">
+            <label class="col-2" for="exampleInputEmail1">名称</label>
+            <input type="text" maxlength="9" class="col form-control" id="addSiteName">
+          </div>
+          <div class="form-row">
+            <label class="col-2" for="exampleInputEmail1">URL</label>
+            <input type="text" class="col form-control" id="addSiteUrl">
+          </div>
+          <div class="form-row">
+            <label class="col-2" for="exampleInputEmail1">图标URL</label>
+            <input type="text" class="col form-control" id="addSiteIcon">
+          </div>
+          <div class="form-row">
+            <label class="col-2" for="">顺序</label>
+            <input type="text" maxlength="1" class="col form-control" id="addSiteOrder"
+              placeholder="(选填) 0~9，默认0，数字越大越靠前">
+          </div>
+          <div class="form-row">
+            <label class="col-2" for="">Profile</label>
+            <input type="text" disabled class="col form-control" id="addSiteCategory">
+            <input type="hidden" disabled class="col form-control" id="addSiteCategoryId">
+          </div>
+        </form>
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary j-addsite-submit">提交</button>
+      </div>
+    </div>
+  </div>
+</div>

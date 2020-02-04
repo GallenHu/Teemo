@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><%= data.siteName %></title>
+  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/flat-ui/css/flat-ui.min.css" rel="stylesheet">
+  <link href="https://cdn.bootcss.com/fullPage.js/2.9.7/jquery.fullpage.min.css" rel="stylesheet">
+  <link href="https://cdn.bootcss.com/fullPage.js/2.9.7/jquery.fullpage.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+
+
+</head>
+<body>
+  <div class="header clearfix">
+    <div class="dropdown">
+      <a class="config" href="javascript:;" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <% if (data.userId) { %>
+          <img src="/svg/config_c.svg" alt="config">
+        <% } else { %>
+          <img src="/svg/config.svg" alt="config">
+        <% } %>
+      </a>
+
+      <div class="dropdown-menu dropdown-menu-right" style="width: 200px;">
+        <% if(data.userId){ %>
+          <%- include('includes/dropdown-logged'); -%>
+        <% } else{ %>
+          <%- include('includes/dropdown-unlogin'); -%>
+        <% } %>
+      </div>
+    </div>
+
+  </div>
+  <div class="main" id="fullpage">
+    <div class="section" data-anchor="index">
+      <h1 class="logo">海风导航</h1>
+
+      <div class="search-wrapper">
+        <div class="search">
+          <div class="search-engine">
+            <span class="engine-logo baidu">Baidu</span>
+            <span class="engine-logo google">Google</span>
+            <span class="engine-logo bing">Bing</span>
+          </div>
+          <div class="search-input">
+            <input type="text" class="search-input-el" id="searchInputEl" placeholder="百度搜索" spellcheck="false"
+              autocomplete="off">
+            <button style="display: none;" id="searchSubmitEl">Submit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-icon <% if (!data.userId) { %> hide <% } %>">
+        <img src="/svg/scroll-down.svg" alt="scroll">
+      </div>
+    </div>
+
+    <div class="section <% if (!data.userId) { %> hide <% } %>" data-anchor="nav">
+      <ul class="sites">
+        <% data.sites.forEach(function(site) { %>
+          <li data-toggle="tooltip" data-placement="top" title="<%= site.url %>">
+            <a href="<%= site.url %>" target="_blank">
+              <img class="site-icon" src="<%= site.icon %>" alt="<%= site.name %>">
+              <span><%= site.name %></span>
+            </a>
+          </li>
+        <% }); %>
+
+        <li>
+          <a href="javascript:;" class="j-addsite-trigger" data-toggle="modal" data-target="#addSiteModal">
+            <span>+ </span>
+            <span> 新增站点</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <%- include('includes/modal-addcategory'); -%>
+  <%- include('includes/modal-addsite'); -%>
+  <%- include('includes/toast'); -%>
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/popper.js/1.16.0/umd/popper.js"></script>
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.bootcss.com/fullPage.js/2.9.7/jquery.fullpage.min.js"></script>
+  <script src="/js/baidusug.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -12,6 +12,7 @@ var env       = process.env.NODE_ENV || 'development';
 var dbConfig    = require(__dirname + '/../config/config.js')[env].db;
 var db        = {};
 
+console.log('dbConfig\n', dbConfig);
 if (dbConfig.use_env_variable) {
   var sequelize = new Sequelize(process.env[dbConfig.use_env_variable], dbConfig);
 } else {

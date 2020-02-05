@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       defaultValue: ''
     },
+  }, {
+    paranoid: true
   });
 
   Category.associate = function(models) {

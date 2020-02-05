@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       defaultValue: ''
     }
+  }, {
+    paranoid: true
   });
 
   Site.associate = function (models) {

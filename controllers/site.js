@@ -7,7 +7,12 @@ module.exports = {
 
   getAllSites: async function(category) {
     if (!category) return [];
-    return await category.getSites();
+    return await category.getSites({
+      order: [
+        ['order', 'DESC'],
+        ['createdAt', 'ASC'],
+      ],
+    });
   },
 
   getSiteById: async function(user, siteId) {

@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0
     }
+  }, {
+    paranoid: true
   });
 
   User.associate = function(models) {

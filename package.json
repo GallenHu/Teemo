@@ -4,7 +4,8 @@
   "description": "A simple navigation site.",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "start": "NODE_ENV=production node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,7 +30,6 @@
     "koa-route": "^3.2.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.1",
-    "querystring": "^0.2.0",
     "sequelize": "^5.21.3",
     "sqlite3": "^4.1.1"
   },

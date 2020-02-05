@@ -1,15 +1,10 @@
-const qs = require('querystring');
-
 const config = {};
-const base = {
-  domain: 'http://127.0.0.1:3000',
-  githubOauth: '/ghoauth',
-};
 
 config.development = {
   db: {
     dialect: "sqlite",
-    storage: "./db.sqlite"
+    storage: "./database/db.sqlite",
+    logging: false
   },
   siteName: '海风导航',
   oauth: {
@@ -22,6 +17,7 @@ config.development = {
   jwtSecret: process.env.JWT_SECRET || '123456',
 };
 
-config.production = {...config.development};
+config.production = JSON.parse(JSON.stringify(config.development));
+config.production.db.logging = true;
 
 module.exports = config;

@@ -64,7 +64,7 @@ function handleAddProfile() {
     }).then(res => {
       if (res.success) {
         $('#exampleModal').modal('hide');
-        // location.reload();
+        location.reload();
       } else {
         toast(res.data);
       }
@@ -347,7 +347,7 @@ function initEditProfile() {
     }).then(res => {
       if (res.success) {
         $('#editCategoryModal').modal('hide');
-        // location.reload();
+        location.reload();
       } else {
         toast(res.data);
       }
@@ -476,7 +476,7 @@ function initEditSite() {
     }).then(res => {
       if (res.success) {
         $('#editSiteModal').modal('hide');
-        // location.reload();
+        location.reload();
       } else {
         toast(res.data);
       }

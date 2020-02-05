@@ -95,6 +95,85 @@ module.exports = (app) => {
       };
     }
   }));
+  app.use(_.post('/category/update', async (ctx) => {
+    const { id, name, order, remark } = ctx.request.body;
+
+    if (!ctx.request.user) {
+      ctx.body = {
+        code: 401,
+        data: '权限认证失败',
+        success: false
+      };
+      return;
+    }
+
+    if (id && name) {
+      try {
+        const category = await categoryController.getCategoryById(ctx.request.user, id);
+        category.update({
+          name,
+          order: Number(order),
+          remark: remark || ''
+        });
+
+        ctx.body = {
+          code: 200,
+          data: category,
+          success: true
+        }
+      } catch (err) {
+        console.error(err);
+        ctx.body = {
+          code: 500,
+          data: err.message || err,
+          success: false
+        }
+      }
+    } else {
+      ctx.body = {
+        code: 400,
+        data: '请输入 id, name',
+        success: false
+      };
+    }
+  }));
+  app.use(_.post('/category/delete', async (ctx) => {
+    const { id } = ctx.request.body;
+
+    if (!ctx.request.user) {
+      ctx.body = {
+        code: 401,
+        data: '权限认证失败',
+        success: false
+      };
+      return;
+    }
+
+    if (id) {
+      try {
+        await categoryController.deleteCategory(ctx.request.user, id);
+
+        ctx.body = {
+          code: 200,
+          data: null,
+          success: true
+        }
+      } catch (err) {
+        console.error(err);
+        ctx.body = {
+          code: 500,
+          data: err.message || err,
+          success: false
+        }
+      }
+    } else {
+      ctx.body = {
+        code: 400,
+        data: '请输入 id',
+        success: false
+      };
+    }
+  }));
 
   // 创建Site POST /site/create
   app.use(_.post('/site/create', async (ctx) => {
@@ -138,6 +217,46 @@ module.exports = (app) => {
       ctx.body = {
         code: 400,
         data: '请输入 name, url, categoryId',
+        success: false
+      };
+    }
+  }));
+
+  // 设置当前Profile POST /user/currentcategory/update
+  app.use(_.post('/user/currentcategory/update', async (ctx) => {
+    const { categoryId } = ctx.request.body;
+
+    if (!ctx.request.user) {
+      ctx.body = {
+        code: 401,
+        data: '权限认证失败',
+        success: false
+      };
+      return;
+    }
+
+    if (categoryId) {
+      let user = ctx.request.user;
+
+      try {
+        user = await userController.updateCurrentCategory(user, categoryId);
+        ctx.body = {
+          code: 200,
+          data: user,
+          success: true
+        }
+      } catch (err) {
+        console.error(err);
+        ctx.body = {
+          code: 500,
+          data: err.message || err,
+          success: false
+        }
+      }
+    } else {
+      ctx.body = {
+        code: 400,
+        data: '请输入 categoryId',
         success: false
       };
     }

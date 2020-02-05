@@ -22,6 +22,11 @@ $(document).ready(() => {
   handleBeforeAddSite();
   handleAddSite();
   initLogout();
+  initSwitchProfile();
+  initDropdown();
+  initMoreProfile();
+  initDelProfile();
+  handleDelSubmit();
 });
 
 /**
@@ -33,6 +38,9 @@ function handleAddProfile() {
       .val()
       .trim();
     const order = $('#addCategoryOrder')
+      .val()
+      .trim();
+    const remark = $('#addCategoryRemark')
       .val()
       .trim();
 
@@ -49,7 +57,8 @@ function handleAddProfile() {
       traditional: true,
       data: JSON.stringify({
         name,
-        order
+        order,
+        remark
       })
     }).then(res => {
       if (res.success) {
@@ -111,8 +120,8 @@ function handleAddSite() {
       })
     }).then(res => {
       if (res.success) {
-        $('#exampleModal').modal('hide');
-        // location.reload();
+        $('#addSiteModal').modal('hide');
+        location.reload();
       } else {
         toast(res.data);
       }
@@ -233,5 +242,150 @@ function initFullpage() {
 function initLogout() {
   $('.j-logout').on('click', () => {
     location.href = '/logout';
+  });
+}
+
+function initDropdown() {
+  $(document).on('click', '.header .dropdown-menu', function(e) {
+    if (e.target.nodeName === 'BUTTON') {
+    } else {
+      e.stopPropagation();
+    }
+  });
+}
+
+function initSwitchProfile() {
+  $('.list-profile li').on('click', function() {
+    if ($(this).hasClass('active')) return;
+
+    const categoryId = $(this).data('id');
+    $.ajax({
+      url: '/user/currentcategory/update',
+      method: 'post',
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
+      traditional: true,
+      data: JSON.stringify({
+        categoryId
+      })
+    }).then(res => {
+      if (res.success) {
+        location.reload();
+      } else {
+        toast(res.data);
+      }
+    });
+  });
+}
+
+function initMoreProfile() {
+  const showMore = localStorage.getItem('show_more');
+  if (showMore) $('.list-profile').addClass('show-more');
+
+  $('body').on('click', '.nickname', () => {
+    const $list = $('.list-profile');
+    $list.toggleClass('show-more');
+    if ($list.hasClass('show-more')) {
+      localStorage.setItem('show_more', 1);
+    } else {
+      localStorage.removeItem('show_more');
+    }
+  });
+}
+
+function initDelProfile() {
+  let currentCategoryId;
+  $('.j-edit-category').on('click', function(e) {
+    e.stopPropagation();
+
+    $('#editCategoryModal').modal('toggle');
+
+    const $parent = $(this).parent();
+    const id = $parent.data('id');
+    const name = $parent.find('span:first-child').text();
+    const order = $parent.data('order');
+    const remark = $parent.data('remark') || '';
+
+    $('#editCategoryId').val(id);
+    $('#editCategoryName').val(name);
+    $('#editCategoryOrder').val(order);
+    $('#editCategoryRemark').val(remark);
+
+    currentCategoryId = id;
+  });
+
+  $('.j-editcategory-submit').on('click', () => {
+    const id = $('#editCategoryId').val();
+    const name = $('#editCategoryName')
+      .val()
+      .trim();
+    const order = $('#editCategoryOrder')
+      .val()
+      .trim();
+    const remark = $('#editCategoryRemark')
+      .val()
+      .trim();
+
+    if (!name) {
+      toast('请填写名称');
+      return;
+    }
+
+    $.ajax({
+      url: '/category/update',
+      method: 'post',
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
+      traditional: true,
+      data: JSON.stringify({
+        id,
+        name,
+        order,
+        remark
+      })
+    }).then(res => {
+      if (res.success) {
+        $('#editCategoryModal').modal('hide');
+        // location.reload();
+      } else {
+        toast(res.data);
+      }
+    });
+  });
+
+  $('.j-delcategory-trigger').on('click', () => {
+    $('#editCategoryModal').modal('hide');
+    $('#confirmModal').modal('toggle')
+      .find('.modal-body')
+      .attr('data-id', currentCategoryId)
+      .attr('data-type', 'del-category');
+  });
+}
+
+function handleDelSubmit() {
+  $('.j-delconfirm-submit').on('click', () => {
+    const $body = $('#confirmModal .modal-body');
+    const type = $body.data('type');
+    const id = $body.data('id');
+
+    if (type === 'del-category') {
+      $.ajax({
+        url: '/category/delete',
+        method: 'post',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        traditional: true,
+        data: JSON.stringify({
+          id
+        })
+      }).then(res => {
+        if (res.success) {
+          location.reload();
+        } else {
+          toast(res.data);
+        }
+      });
+    }
+
   });
 }

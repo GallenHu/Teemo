@@ -22,7 +22,8 @@ module.exports = {
           nickname
         });
         const defaultCategory = await user.createCategory({
-          name: '默认'
+          name: '默认',
+          order: 9
         });
         user.update({ current_category: defaultCategory.id });
       }
@@ -40,5 +41,11 @@ module.exports = {
   getUser: async function(userId) {
     const user = await db.User.findOne({ where: { id: userId } });
     return user;
+  },
+
+  updateCurrentCategory: async function(user, categoryId) {
+    return await user.update({
+      current_category: Number(categoryId)
+    });
   }
 };

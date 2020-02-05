@@ -58,29 +58,33 @@
       </div>
     </div>
 
-    <div class="section <% if (!data.userId) { %> hide <% } %>" data-anchor="nav">
-      <ul class="sites">
-        <% data.sites.forEach(function(site) { %>
-          <li data-toggle="tooltip" data-placement="top" title="<%= site.url %>">
-            <a href="<%= site.url %>" target="_blank">
-              <img class="site-icon" src="<%= site.icon %>" alt="<%= site.name %>">
-              <span><%= site.name %></span>
+    <% if (data.userId) { %>
+      <div class="section" data-anchor="nav">
+        <ul class="sites">
+          <% data.sites.forEach(function(site) { %>
+            <li data-toggle="tooltip" data-placement="top" title="<%= site.url %>">
+              <a class="shadow-sm" href="<%= site.url %>" target="_blank">
+                <img class="site-icon" src="<%= site.icon %>" alt="<%= site.name %>">
+                <span><%= site.name %></span>
+              </a>
+            </li>
+          <% }); %>
+
+          <li>
+            <a class="shadow-sm j-addsite-trigger" href="javascript:;" data-toggle="modal" data-target="#addSiteModal">
+              <span>+ </span>
+              <span> 新增站点</span>
             </a>
           </li>
-        <% }); %>
-
-        <li>
-          <a href="javascript:;" class="j-addsite-trigger" data-toggle="modal" data-target="#addSiteModal">
-            <span>+ </span>
-            <span> 新增站点</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+        </ul>
+      </div>
+    <% } %>
   </div>
 
   <%- include('includes/modal-addcategory'); -%>
+  <%- include('includes/modal-editcategory'); -%>
   <%- include('includes/modal-addsite'); -%>
+  <%- include('includes/modal-confirm'); -%>
   <%- include('includes/toast'); -%>
 
 

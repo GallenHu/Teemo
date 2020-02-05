@@ -1,5 +1,5 @@
 const db = require('../models');
-const sequelize = db.sequelize;
+const userController = require('./user');
 
 module.exports = {
   getAllCategories: async function(user) {
@@ -16,5 +16,14 @@ module.exports = {
 
   createCategory: async function(user, params) {
     return await user.createCategory(params);
+  },
+
+  deleteCategory: async function(user, categoryId) {
+    const category = await this.getCategoryById(user, categoryId);
+    if (category) {
+      if (categoryId === user.current_category)
+        await userController.updateCurrentCategory(user, 1);
+      await category.destroy();
+    }
   }
 };

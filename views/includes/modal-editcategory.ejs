@@ -1,10 +1,10 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">新增 Profile</h5>
+        <h5 class="modal-title" id="exampleModalLabel">修改 Profile</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -12,27 +12,30 @@
       <!-- body -->
       <div class="modal-body">
         <form class="form">
+          <input type="hidden" id="editCategoryId">
           <div class="form-row">
             <label class="col-2">名称</label>
-            <input type="text" maxlength="9" class="col form-control" id="addCategoryName">
+            <input type="text" maxlength="9" class="col form-control" id="editCategoryName">
           </div>
           <br>
           <div class="form-row">
             <label class="col-2" for="">顺序</label>
-            <input type="text" maxlength="1" class="col form-control" id="addCategoryOrder" placeholder="0~9，数字越大越靠前">
+            <input type="text" maxlength="1" class="col form-control" id="editCategoryOrder" placeholder="0~9，数字越大越靠前">
           </div>
           <br>
           <div class="form-row">
             <label class="col-2">备注</label>
-            <input type="text" maxlength="9" class="col form-control" id="addCategoryRemark" placeholder="(选填)">
+            <input type="text" maxlength="9" class="col form-control" id="editCategoryRemark" placeholder="(选填)">
           </div>
         </form>
       </div>
 
       <!-- footer -->
       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary j-delcategory-trigger">删除此项</button>
+
         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary j-addcategory-submit">提交</button>
+        <button type="button" class="btn btn-primary j-editcategory-submit">提交</button>
       </div>
     </div>
   </div>

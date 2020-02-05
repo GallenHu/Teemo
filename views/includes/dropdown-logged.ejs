@@ -3,24 +3,35 @@
     <img class="avator" src="<%= data.avator %>" alt="<%= data.nickname %>">
   </p>
 
-  <p>
-    <%= data.nickname%>，您好！
+  <p class="name text-center">
+    <span class="nickname"><%= data.nickname%></span>，您好！
   </p>
 
   <div class="dropdown-divider"></div>
 
-  <p>Profiles:
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  <p class="item-title">
+    <span>Profiles:</span>
+    <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModal">
       + 新增
     </button>
   </p>
-  <ul class="list-profile list-group list-group-flush">
+  <ul class="list-profile">
     <% data.categories.forEach(function(category) { %>
-      <li class="list-group-item <% if (data.currentCategory == category.id) { %> active <% } %>" data-id="<%= category.id %>"><%= category.name %></li>
+      <li
+        class="list-profile-item <% if (data.currentCategory == category.id) { %> active<% } %> <% if (category.remark == 'hide') { %> init-hide<% } %>"
+        data-id="<%= category.id %>"
+        data-order="<%= category.order %>"
+        data-remark="<%= category.remark %>"
+      >
+        <span><%= category.name %></span>
+        <% if (category.id != 1) { %>
+          <img class="j-edit-category" src="/svg/edit.svg" width="20px" />
+        <% } %>
+      </li>
     <% }); %>
   </ul>
 
-  <p class="text-right">
-    <a class="j-logout" href="javascript:;">登出</a>
-  </p>
+  <div class="text-right mt-2">
+    <button class="btn btn-link j-logout">退出登录</button>
+  </div>
 </div>

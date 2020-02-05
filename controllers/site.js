@@ -7,6 +7,7 @@ module.exports = {
   },
 
   getAllSites: async function(category) {
+    if (!category) return [];
     return await category.getSites();
   }
 };

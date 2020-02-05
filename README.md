@@ -11,6 +11,14 @@ npm install
 npm run dev
 ```
 
+## Run with Docker
+```
+docker run -d -p 3000:3000 teemo:v3 --name teemo
+
+# backup database
+docker cp teemo:/app/database/db.sqlite ~/db.sqlite
+```
+
 ## Database
 ```
 ```

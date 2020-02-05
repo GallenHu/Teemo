@@ -25,8 +25,9 @@ $(document).ready(() => {
   initSwitchProfile();
   initDropdown();
   initMoreProfile();
-  initDelProfile();
+  initEditProfile();
   handleDelSubmit();
+  initEditSite();
 });
 
 /**
@@ -74,9 +75,9 @@ function handleAddProfile() {
 function handleBeforeAddSite() {
   $('.j-addsite-trigger').on('click', () => {
     const $activeProfile = $('.list-profile .active');
-    const name = $activeProfile.text();
+    const name = $activeProfile.text().trim();
     const cid = $activeProfile.data('id');
-    console.log(name, cid);
+
     $('#addSiteCategory').val(name + ' (可在右上角「 设置」中切换)');
     $('#addSiteCategoryId').val(cid);
   });
@@ -293,7 +294,7 @@ function initMoreProfile() {
   });
 }
 
-function initDelProfile() {
+function initEditProfile() {
   let currentCategoryId;
   $('.j-edit-category').on('click', function(e) {
     e.stopPropagation();
@@ -355,13 +356,15 @@ function initDelProfile() {
 
   $('.j-delcategory-trigger').on('click', () => {
     $('#editCategoryModal').modal('hide');
-    $('#confirmModal').modal('toggle')
+    $('#confirmModal')
+      .modal('toggle')
       .find('.modal-body')
       .attr('data-id', currentCategoryId)
       .attr('data-type', 'del-category');
   });
 }
 
+// 通用删除提交
 function handleDelSubmit() {
   $('.j-delconfirm-submit').on('click', () => {
     const $body = $('#confirmModal .modal-body');
@@ -386,6 +389,106 @@ function handleDelSubmit() {
         }
       });
     }
+    if (type === 'del-site') {
+      $.ajax({
+        url: '/site/delete',
+        method: 'post',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        traditional: true,
+        data: JSON.stringify({
+          id
+        })
+      }).then(res => {
+        if (res.success) {
+          location.reload();
+        } else {
+          toast(res.data);
+        }
+      });
+    }
+  });
+}
 
+function initEditSite() {
+  let currentSiteId;
+  $('.j-edit-site').on('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    $('#editSiteModal').modal('toggle');
+
+    const $parent = $(this).parent();
+    const name = $parent.text().trim();
+    const id = $parent.data('id');
+    const order = $parent.data('order');
+    const url = $parent.attr('href');
+    const iconUrl = $parent.find('.site-icon').attr('src');
+    const remark = $parent.data('remark');
+
+    $('#editSiteId').val(id);
+    $('#editSiteName').val(name);
+    $('#editSiteOrder').val(order);
+    $('#editSiteUrl').val(url);
+    $('#editSiteIcon').val(iconUrl);
+    $('#editSiteRemark').val(remark);
+
+    currentSiteId = id;
+  });
+
+  $('.j-editsite-submit').on('click', function() {
+    const id = $('#editSiteId').val();
+    const name = $('#editSiteName')
+      .val()
+      .trim();
+    const order = $('#editSiteOrder')
+      .val()
+      .trim();
+    const url = $('#editSiteUrl')
+      .val()
+      .trim();
+    const iconUrl = $('#editSiteIcon')
+      .val()
+      .trim();
+    const remark = $('#editSiteRemark')
+      .val()
+      .trim();
+
+    if (!name || !url) {
+      toast('请填写名称及URL');
+      return;
+    }
+
+    $.ajax({
+      url: '/site/update',
+      method: 'post',
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
+      traditional: true,
+      data: JSON.stringify({
+        id,
+        name,
+        url,
+        iconUrl,
+        order,
+        remark
+      })
+    }).then(res => {
+      if (res.success) {
+        $('#editSiteModal').modal('hide');
+        // location.reload();
+      } else {
+        toast(res.data);
+      }
+    });
+  });
+
+  $('.j-delsite-trigger').on('click', () => {
+    $('#editSiteModal').modal('hide');
+    $('#confirmModal')
+      .modal('toggle')
+      .find('.modal-body')
+      .attr('data-id', currentSiteId)
+      .attr('data-type', 'del-site');
   });
 }

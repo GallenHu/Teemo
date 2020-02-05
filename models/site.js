@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+    models.Site.belongsTo(models.User, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
   };
 
   return Site;

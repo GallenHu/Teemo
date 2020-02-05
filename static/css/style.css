@@ -209,11 +209,13 @@ ul.sites li {
   margin-bottom: 20px;
 }
 ul.sites li a {
+  position: relative;
   display: block;
-  width: 110px;
+  width: 86px;
+  box-sizing: content-box;
   height: 40px;
   line-height: 40px;
-  padding: 0 10px;
+  padding: 0 30px 0 10px;
   font-size: 14px;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -222,11 +224,20 @@ ul.sites li a {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-ul.sites li a img {
+ul.sites li a img.site-icon {
   width: 24px;
   max-height: 30px;
   margin-right: 2px;
   overflow: hidden;
   display: inline-block;
   vertical-align: middle;
+}
+ul.sites li a .j-edit-site {
+  display: none;
+  position: absolute;
+  right: 4px;
+  padding: 0 6px;
+}
+ul.sites li a:hover .j-edit-site {
+  display: inline-block;
 }

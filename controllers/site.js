@@ -1,5 +1,4 @@
 const db = require('../models');
-const sequelize = db.sequelize;
 
 module.exports = {
   createSite: async function(category, params) {
@@ -9,5 +8,17 @@ module.exports = {
   getAllSites: async function(category) {
     if (!category) return [];
     return await category.getSites();
+  },
+
+  getSiteById: async function(user, siteId) {
+    if (!user || !siteId) return null;
+    return await db.Site.findOne({
+      where: { id: siteId, UserId: user.id }
+    });
+  },
+
+  deleteSite: async function(user, id) {
+    const site = await this.getSiteById(user, id);
+    await site.destroy();
   }
 };

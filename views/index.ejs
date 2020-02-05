@@ -63,9 +63,16 @@
         <ul class="sites">
           <% data.sites.forEach(function(site) { %>
             <li data-toggle="tooltip" data-placement="top" title="<%= site.url %>">
-              <a class="shadow-sm" href="<%= site.url %>" target="_blank">
+              <a class="shadow-sm" href="<%= site.url %>" target="_blank"
+                data-id="<%= site.id %>"
+                data-order="<%= site.order %>"
+                data-remark="<%= site.remark %>"
+              >
                 <img class="site-icon" src="<%= site.icon %>" alt="<%= site.name %>">
                 <span><%= site.name %></span>
+                <span class="j-edit-site">
+                  <img src="/svg/edit.svg" width="20px" />
+                </span>
               </a>
             </li>
           <% }); %>
@@ -84,6 +91,7 @@
   <%- include('includes/modal-addcategory'); -%>
   <%- include('includes/modal-editcategory'); -%>
   <%- include('includes/modal-addsite'); -%>
+  <%- include('includes/modal-editsite'); -%>
   <%- include('includes/modal-confirm'); -%>
   <%- include('includes/toast'); -%>
 

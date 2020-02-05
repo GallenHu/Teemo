@@ -3,7 +3,6 @@ const sequelize = db.sequelize;
 
 module.exports = {
   createOrGetUser: async function(userInfo) {
-    console.log('userInfo', userInfo);
     const { email, avator, nickname, username } = userInfo;
     let transaction;
 

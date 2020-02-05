@@ -2,8 +2,8 @@ const request = require('request');
 
 module.exports = {
   getGithubToken: function(params) {
-    console.log('get github info params:');
-    console.log(params);
+    console.info('get github info params:');
+    console.info(params);
 
     return new Promise((resolve, reject) => {
       request.post(

@@ -190,15 +190,15 @@ module.exports = (app) => {
 
     if (name && url && categoryId) {
       const category = await categoryController.getCategoryById(ctx.request.user, Number(categoryId));
-      console.log('category');
-      console.log(category);
+
       try {
         const site = await siteController.createSite(category, {
           name,
           url,
           icon,
           order: Number(order) || 0,
-          remark: remark || ''
+          remark: remark || '',
+          UserId: ctx.request.user.id
         });
         ctx.body = {
           code: 200,
@@ -217,6 +217,95 @@ module.exports = (app) => {
       ctx.body = {
         code: 400,
         data: '请输入 name, url, categoryId',
+        success: false
+      };
+    }
+  }));
+  app.use(_.post('/site/update', async (ctx) => {
+    const { id, name, url, iconUrl, order, remark } = ctx.request.body;
+
+    if (!ctx.request.user) {
+      ctx.body = {
+        code: 401,
+        data: '权限认证失败',
+        success: false
+      };
+      return;
+    }
+
+    if (name && url && id) {
+      const user = ctx.request.user;
+      try {
+        let site = await siteController.getSiteById(user, id);
+        if (site) {
+          site = await site.update({
+            name,
+            url,
+            icon: iconUrl,
+            order,
+            remark
+          });
+          ctx.body = {
+            code: 200,
+            data: site,
+            success: true
+          }
+        } else {
+          ctx.body = {
+            code: 400,
+            data: '未查找到站点信息，请确认您是否有权限',
+            success: false
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        ctx.body = {
+          code: 500,
+          data: err.message || err,
+          success: false
+        }
+      }
+    } else {
+      ctx.body = {
+        code: 400,
+        data: '请输入 name, url, categoryId',
+        success: false
+      };
+    }
+  }));
+  app.use(_.post('/site/delete', async (ctx) => {
+    const { id } = ctx.request.body;
+
+    if (!ctx.request.user) {
+      ctx.body = {
+        code: 401,
+        data: '权限认证失败',
+        success: false
+      };
+      return;
+    }
+
+    if (id) {
+      const user = ctx.request.user;
+      try {
+        await siteController.deleteSite(user, id);
+        ctx.body = {
+          code: 200,
+          data: null,
+          success: true
+        }
+      } catch (err) {
+        console.error(err);
+        ctx.body = {
+          code: 500,
+          data: err.message || err,
+          success: false
+        }
+      }
+    } else {
+      ctx.body = {
+        code: 400,
+        data: '请输入 id',
         success: false
       };
     }

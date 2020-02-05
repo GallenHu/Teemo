@@ -36,8 +36,7 @@ app.use(async function(ctx) {
 
   if (ctx.request.user) {
     const user = ctx.request.user;
-    console.log('\nuser:');
-    console.log(user);
+
     data.user = user;
     data.userId = user.id;
     data.nickname = user.nickname;

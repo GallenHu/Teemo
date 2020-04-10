@@ -1,0 +1,124 @@
+@searchWidth: 700px;
+
+.main {
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: rgba(247, 247, 247, 0.9);
+
+  .main-flex {
+    display: flex;
+    height: 100%;
+
+    .nav {
+      .logo {
+        h1 {
+          font-size: 16px;
+        }
+      }
+      position: relative;
+      width: 208px;
+      height: 100%;
+      color: #555;
+      transition: width ease-in-out 0.3s;
+      background: #fff;
+      border-right: 1px solid #eee;
+    }
+  }
+
+  .main-content {
+    position: relative;
+    overflow: auto;
+    flex: 1;
+
+    .main-header {
+      position: absolute;
+      top: 0;
+      height: 50px;
+      line-height: 50px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #search {
+      display: flex;
+      height: 100%;
+
+      .search-form {
+        display: inline-block;
+        width: @searchWidth;
+        margin: 100px auto 0;
+      }
+
+      .searcher-logo {
+        width: @searchWidth;
+        height: 215px;
+        overflow: hidden;
+        &>i {
+          display: block;
+          margin: 0 auto;
+          display: none;
+        }
+        .baidu {
+          position: relative;
+          bottom: -80px;
+          width: 300px;
+          height: 200px;
+          background: url(../images/baidu.svg) center bottom no-repeat;
+          background-size: 270px auto;
+        }
+        .google {
+          width: 300px;
+          height: 200px;
+          background: url(../images/google_logo.svg) center bottom no-repeat;
+          background-size: contain;
+        }
+        .dogedoge {
+          width: 300px;
+          height: 200px;
+          background: url(../images/dogedoge.png) center bottom no-repeat;
+          background-size: contain;
+        }
+      }
+
+      .searcher-logo.baidu .baidu,.searcher-logo.google .google,.searcher-logo.dogedoge .dogedoge {
+        display: block;
+      }
+
+      .search-input {
+        position: relative;
+        width: @searchWidth;
+        .search-input-el {
+          background: #fff;
+          border: none;
+          width: 100%;
+          font-size: 16px;
+          height: 48px;
+          line-height: 48px;
+          padding: 0 60px 0 10px;
+          border-radius: 4px;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          color: #333;
+          outline: none;
+        }
+        #searchSubmitEl {
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 48px;
+          width: 48px;
+          background: #3385ff;
+          color: #fff;
+          border-radius: 0 4px 4px 0;
+          &:hover {
+            background: #317ef3;
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,12 +3,24 @@ $(document).ready(() => {
     onClickEngine($(this).attr('class').replace('engine-choose ', '').toLowerCase());
   });
   $('.nav-toggle').click(onClickNavToggle);
+  $('.nav-toggle').on('mouseover', () => {
+    if ($('.main-inner').hasClass('is-nav-shrink')) {
+      onClickNavToggle();
+    }
+  });
+
   $('.search-form').on('submit', onSearchFormSubmit);
   initBaiduSug();
+  onSiteIconError();
+  onClickNav();
 
   const lastEngine = getLastEngine() || '';
+  const navShrink = getNavShrink() || '';
   if (lastEngine) {
     $(`.engine-choose.${lastEngine}`).trigger('click');
+  }
+  if (!navShrink) {
+    $('.main-inner').removeClass('is-nav-shrink');
   }
 });
 
@@ -32,7 +44,16 @@ function getLastEngine() {
   return localStorage.getItem('engine');
 }
 
+function getNavShrink() {
+  return localStorage.getItem('nav-shrink');
+}
+
 function onClickNavToggle() {
+  if ($('.main-inner').hasClass('is-nav-shrink')) {
+    localStorage.removeItem('nav-shrink');
+  } else {
+    localStorage.setItem('nav-shrink', '1');
+  }
   $('.main-inner').toggleClass('is-nav-shrink');
 }
 
@@ -64,4 +85,23 @@ function goSearch(engine, text) {
   };
 
   window.open(SearchEngineUrlMap[engine] + text);
+}
+
+function onSiteIconError() {
+  const errImg = 'https://i.loli.net/2020/04/13/JHzefbqgFWTCIDi.png';
+  console.log(errImg);
+  $('.sites img').on('error', function () {
+    console.log($(this));
+    $(this).off('error').attr('src', errImg)
+  });
+}
+
+function onClickNav() {
+  $('.nav ul li a').click(function (e) {
+    e.preventDefault();
+    const target = $(this).attr('href').replace('#', '');
+    const top = $(`#category_${target}`)[0].offsetTop;
+    console.log(top);
+    $('.main-content')[0].scrollTop = top;
+  });
 }

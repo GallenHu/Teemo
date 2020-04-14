@@ -7,11 +7,18 @@
   <title>海风导航</title>
   <link rel="stylesheet" href="styles/style.css">
   <script>
-    window.addEventListener('error', function(e){
+    window.addEventListener('error', function (e) {
       if (e.target.nodeName === 'IMG') {
         e.target.src = 'https://i.loli.net/2020/04/13/JHzefbqgFWTCIDi.png';
       }
     }, true);
+  </script>
+  <script>
+    window.APP_CONFIG = {
+      user: "hinpc_office",
+      user_sites: [{ "uid": "work", "alias": "\u529e\u516c", "sites": [{ "name": "office", "url": "http:\/\/hinpc.com", "icon": "", "desc": "nb" }] }, { "uid": "tool", "alias": "\u5de5\u5177", "sites": [{ "name": "office", "url": "http:\/\/hinpc.com", "icon": "", "desc": "nb" }] }],
+      ver: 0.1
+    }
   </script>
 </head>
 

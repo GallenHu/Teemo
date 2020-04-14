@@ -1,0 +1,30 @@
+{
+    "user": {
+        "hinpc_office": [
+            {
+                "uid": "work",
+                "alias": "办公",
+                "sites": [
+                    {
+                        "name": "office",
+                        "url": "http://hinpc.com",
+                        "icon": "",
+                        "desc": "nb"
+                    }
+                ]
+            },
+            {
+                "uid": "tool",
+                "alias": "工具",
+                "sites": [
+                    {
+                        "name": "office",
+                        "url": "http://hinpc.com",
+                        "icon": "",
+                        "desc": "nb"
+                    }
+                ]
+            }
+        ]
+    }
+}

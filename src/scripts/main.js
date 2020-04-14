@@ -16,6 +16,7 @@ $(document).ready(() => {
   onSiteIconError();
   onClickNav();
   initUserSites();
+  initUserList();
 
   const lastEngine = getLastEngine() || '';
   const navShrink = getNavShrink() || '';
@@ -153,4 +154,30 @@ function generateSiteSection(categoryId, categoryName, sites) {
       </a>
     </li>`;
   $('.nav ul').append(nav);
+}
+
+function initUserList() {
+  let userList = getCookie('userlist')
+  userList = userList? userList.split(',') : '';
+
+  if (userList && userList.length) {
+    const h = userList.map(u => {
+      return `<a href="javascript:void 0">${u}</a>`;
+    }).join('');
+    $('.user-list').append(h).removeClass('hide');
+  }
+
+  $('.user-list').on('click', 'a', function () {
+    const user = $(this).text().trim();
+    document.cookie = `user=${user}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=` + location.host;
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  });
+}
+
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
 }

@@ -47,7 +47,7 @@ gulp.task('styles', () => {
 
 gulp.task("scripts", () => {
   return gulp
-    .src([`${scriptDir}/zepto.min.js`, `${scriptDir}/main.js`])
+    .src([`${scriptDir}/zepto.min.js`, `${scriptDir}/baidusug.js`, `${scriptDir}/main.js`])
     .pipe($.newer(`${tempDir}/scripts`))
     .pipe($.sourcemaps.init())
     .pipe($.concat("main.js"))
@@ -80,4 +80,34 @@ gulp.task('serve', (cb) => {
   runSequence('clean', 'styles', 'scripts', 'bs', cb);
 });
 
-gulp.task('default', ['clean'], (cb) => runSequence('styles', 'scripts', cb));
+gulp.task("rev", () => {
+  return gulp
+    .src(["dist/**/*.css", "dist/**/*.js"])
+    .pipe($.rev())
+    .pipe(gulp.dest("dist/"))
+    .pipe($.rev.manifest())
+    .pipe(gulp.dest("dist/"));
+});
+gulp.task("replace", function() {
+  gulp
+    .src(["dist/*.json", "./src/index.html"])
+    .pipe(
+      $.revCollector({
+        replaceReved: true // 热更新
+      })
+    )
+    .pipe(gulp.dest("./dist"));
+});
+
+gulp.task("move", function () {
+  gulp
+    .src(["src/lib/**"])
+    .pipe(gulp.dest("./dist/lib"));
+
+    gulp
+    .src(["src/images/**"])
+    .pipe(gulp.dest("./dist/images"));
+});
+
+
+gulp.task('default', ['clean'], (cb) => runSequence('styles', 'scripts', 'rev', 'replace', 'move', cb));

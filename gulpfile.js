@@ -47,7 +47,7 @@ gulp.task('styles', () => {
 
 gulp.task("scripts", () => {
   return gulp
-    .src([`${scriptDir}/zepto.min.js`, `${scriptDir}/baidusug.js`, `${scriptDir}/main.js`])
+    .src([`${scriptDir}/baidusug.js`, `${scriptDir}/main.js`])
     .pipe($.newer(`${tempDir}/scripts`))
     .pipe($.sourcemaps.init())
     .pipe($.concat("main.js"))

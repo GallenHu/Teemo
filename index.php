@@ -8,20 +8,32 @@
   <meta name=keywords content="网址导航, 海风导航, 简洁, 视频, 开发, 音乐, 创意灵感">
   <meta name="description" content="简洁无广告，可自定义的网址导航，分享优秀站点">
   <link rel="stylesheet" href="styles/style-fdcc4920b4.css">
-  <script>
-    window.addEventListener('error', function (e) {
-      if (e.target.nodeName === 'IMG') {
-        e.target.src = 'https://i.loli.net/2020/04/13/JHzefbqgFWTCIDi.png';
-      }
-    }, true);
-  </script>
-  <!-- <script>
-    window.APP_CONFIG = {
-      user: "hinpc_office",
-      user_sites: [{ "uid": "work", "alias": "\u529e\u516c", "sites": [{ "name": "office", "url": "http:\/\/hinpc.com", "icon": "", "desc": "nb" }] }, { "uid": "tool", "alias": "\u5de5\u5177", "sites": [{ "name": "office", "url": "http:\/\/hinpc.com", "icon": "", "desc": "nb" }] }],
-      ver: 0.1
+<script>
+  window.addEventListener('error', function (e) {
+    if (e.target.nodeName === 'IMG') {
+      e.target.src = 'https://i.loli.net/2020/04/13/JHzefbqgFWTCIDi.png';
     }
-  </script> -->
+  }, true);
+</script>
+<script>
+  <?php
+  $str = file_get_contents('./config.json');
+  $json = json_decode($str, true);
+  $cookie_user = $_COOKIE['user'];
+  foreach($json['user'] as $key => $value) {
+    // Use $field and $value here
+    if ($cookie_user === $key) {
+      $user_sites = $value;
+    }
+  }
+  ?>
+
+  window.APP_CONFIG={
+    user: "<?=$cookie_user?>",
+    user_sites: <?php echo json_encode($user_sites);?>,
+    ver: 0.1
+  }
+</script>
 </head>
 
 <body>

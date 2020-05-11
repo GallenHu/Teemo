@@ -18,10 +18,8 @@ jobs:
         node-version: '10.x'
         registry-url: 'https://registry.npmjs.org'
 
-    - name: Install and Build 🔧
-        run: |
-          yarn install
-          yarn build
+    - run: yarn install
+    - run: yarn build
 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@releases/v3

@@ -1,0 +1,40 @@
+{
+	"user": {
+		"hinpc_home": [{
+				"uid": "video",
+				"alias": "视频",
+				"sites": [{
+					"name": "爱奇艺",
+					"url": "https://www.iqiyi.com/",
+					"icon": "https://img.hinpc.com/img/picgo/20191218202234_iqiyi.svg",
+					"desc": "爱奇艺（iQIYI.COM）是拥有海量、优质、高清的网络视频的大型视频网站"
+				},{
+					"name": "优酷",
+					"url": "https://youku.com",
+					"icon": "https://i.loli.net/2019/12/19/tBEMjcFuHx3VOXW.png",
+					"desc": "优酷视频"
+				},{
+					"name": "腾讯视频",
+					"url": "https://youku.com",
+					"icon": "https://i.loli.net/2019/12/20/seAlr8QUbouZni2.png",
+					"desc": "在线视频媒体平台"
+				},{
+					"name": "斗鱼",
+					"url": "https://www.douyu.com/",
+					"icon": "https://i.loli.net/2019/12/20/ls1mbkzdqrhatG3.png",
+					"desc": "直播平台"
+				}]
+			},
+			{
+				"uid": "tool",
+				"alias": "工具",
+				"sites": [{
+					"name": "二维码生成",
+					"url": "https://www.the-qrcode-generator.com/",
+					"icon": "",
+					"desc": "国外qrcode"
+				}]
+			}
+		]
+	}
+}

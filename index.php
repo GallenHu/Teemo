@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>海风导航</title>
+  <meta name=keywords content="网址导航, 海风导航, 简洁, 视频, 开发, 音乐, 创意灵感">
+  <meta name="description" content="简洁无广告，可自定义的网址导航，分享优秀站点">
+  <link rel="stylesheet" href="styles/style-d7f8947e90.css">
+  <script>
+    window.addEventListener('error', function (e) {
+      if (e.target.nodeName === 'IMG') {
+        e.target.src = 'https://i.loli.net/2020/04/13/JHzefbqgFWTCIDi.png';
+      }
+    }, true);
+  </script>
+  <script>
+    <?php
+    $str = file_get_contents('./config.json');
+    $json = json_decode($str, true);
+    $cookie_user = $_COOKIE['user'];
+    foreach($json['user'] as $key => $value) {
+      // Use $field and $value here
+      if ($cookie_user === $key) {
+        $user_sites = $value;
+      }
+    }
+    ?>
+
+    window.APP_CONFIG={
+      user: "<?=$cookie_user?>",
+      user_sites: <?php echo json_encode($user_sites);?>,
+      ver: 0.1
+    }
+  </script>
+</head>
+
+<body>
+  <div class="main">
+    <div class="main-inner is-nav-shrink">
+      <div class="nav">
+        <div class="logo">
+          <h1>海风导航</h1>
+        </div>
+        <ul>
+          <li>
+            <a href="#search">
+              <span>搜索</span>
+            </a>
+          </li>
+          <li>
+            <a href="#usual">
+              <span>常用</span>
+            </a>
+          </li>
+          <li>
+            <a href="#video">
+              <span>视频</span>
+            </a>
+          </li>
+        </ul>
+        <button class="nav-toggle">
+          <span>
+            <img width="14px"
+              src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTg2NzQ3ODY4NjcyIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjI4NjgiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48L3N0eWxlPjwvZGVmcz48cGF0aCBkPSJNMjU4LjEwNDk5ODc3IDQ3NS40MTA2OTQyMkw3MTQuOTkwOTkyMzEgMTguMzk4NDAxNDNhNDguMjQ2MTUwODMgNDguMjQ2MTUwODMgMCAxIDEgNjguMzI3NjYzMTkgNjguMzI3NjY0MjRMMzYwLjU5NjQ5MzU1IDUwOS41MTEzNzY3MWw0MjMuNzMyNTUyODQgNDIyLjcyMjE2MTk0YTQ4LjMwOTI5OTkzIDQ4LjMwOTI5OTkzIDAgMSAxLTY4LjMyNzY2NDI0IDY4LjQ1Mzk2MTM4TDI1OC4xNjgxNDc4OCA1NDMuNjEyMDU5MTlhNDguMjQ2MTUwODMgNDguMjQ2MTUwODMgMCAwIDEgMC02OC4zMjc2NjQyMnoiIHAtaWQ9IjI4NjkiIGZpbGw9IiNmZmZmZmYiPjwvcGF0aD48L3N2Zz4=">
+          </span>
+        </button>
+      </div>
+      <div class="main-content" id="category_search">
+        <section class="main-header">
+          <span></span>
+          <span><?=$cookie_user?></span>
+        </section>
+        <section class="search" id="search">
+          <form class="search-form">
+            <div class="searcher-logo baidu">
+              <i class="baidu"></i>
+              <i class="google"></i>
+              <i class="dogedoge"></i>
+            </div>
+            <div class="search-input">
+              <input type="text" class="search-input-el" id="searchInputEl" placeholder="Baidu 搜索" spellcheck="false"
+                autocomplete="off">
+              <button id="searchSubmitEl">
+                <img width="20px"
+                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTg2NTA5NjYxMjkxIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjEyNjQiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48L3N0eWxlPjwvZGVmcz48cGF0aCBkPSJNODg3LjQ0OTYgOTU4LjM2MTZsLTE0MS41NjgtMTQxLjU2OGE0OS44MTc2IDQ5LjgxNzYgMCAwIDEtNS40MjcyLTYuNCA0MjMuMjcwNCA0MjMuMjcwNCAwIDAgMS0yNjMuNzMxMiA5MS44NTI4IDQyNS44ODE2IDQyNS44ODE2IDAgMCAxLTQyNS40NzItNDI1LjQyMDggNDI1LjkzMjggNDI1LjkzMjggMCAwIDEgNDI1LjQ3Mi00MjUuNDIwOCA0MjUuODgxNiA0MjUuODgxNiAwIDAgMSA0MjUuMzY5NiA0MjUuNDIwOCA0MjMuMzcyOCA0MjMuMzcyOCAwIDAgMS05MS44NTI4IDI2My43ODI0IDUwLjI3ODQgNTAuMjc4NCAwIDAgMSA2LjQgNS40MjcybDE0MS41NjggMTQxLjU2OGE1MC4wNzM2IDUwLjA3MzYgMCAwIDEgMCA3MC43NTg0IDQ5LjkyIDQ5LjkyIDAgMCAxLTM1LjM3OTIgMTQuNjQzMiA0OS44Njg4IDQ5Ljg2ODggMCAwIDEtMzUuMzc5Mi0xNC42NDMyek0xNTEuMzk4NCA0NzYuODI1NmEzMjUuNjgzMiAzMjUuNjgzMiAwIDAgMCAzMjUuMzI0OCAzMjUuMzI0OCAzMjUuNjgzMiAzMjUuNjgzMiAwIDAgMCAzMjUuMjczNi0zMjUuMzI0OCAzMjUuNjgzMiAzMjUuNjgzMiAwIDAgMC0zMjUuMjczNi0zMjUuMzI0OCAzMjUuNjgzMiAzMjUuNjgzMiAwIDAgMC0zMjUuNDI3MiAzMjUuMTJ6IiBwLWlkPSIxMjY1IiBmaWxsPSIjZmZmZmZmIj48L3BhdGg+PC9zdmc+" />
+              </button>
+            </div>
+            <div class="search-engine">
+              <span class="engine-choose baidu">
+                <span style="color:#2100E0">Baidu</span>
+              </span>
+              <span class="engine-choose google">
+                <label for="type-google"><span style="color:#3B83FA">G</span><span style="color:#F3442C">o</span><span
+                    style="color:#FFC300">o</span><span style="color:#4696F8">g</span><span
+                    style="color:#2CAB4E">l</span><span style="color:#F54231">e</span></label>
+              </span>
+              <span class="engine-choose dogedoge">
+                <span style="color: #000;">Dogedoge</span>
+              </span>
+            </div>
+          </form>
+        </section>
+
+        <section class="sites">
+          <div class="sites-section">
+            <h2 class="category" id="category_usual">
+              <span>常用</span>
+            </h2>
+            <ul>
+              <li>
+                <a href="https://mail.163.com/">
+                  <img src="https://i.loli.net/2020/04/13/F3qdjxPXp5I1ewv.png">
+                  <span>
+                    <span>163网易免费邮</span>
+                    <p>网易163免费邮箱</p>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.douban.com">
+                  <img src="https://i.loli.net/2019/12/28/wyWUQgNckJEZ6Il.png">
+                  <span>
+                    <span>豆瓣</span>
+                    <p>提供图书、电影、音乐唱片的推荐、评论和价格比较，以及城市独特的文化生活</p>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.douyu.com/">
+                  <img src="https://i.loli.net/2019/12/20/ls1mbkzdqrhatG3.png">
+                  <span>
+                    <span>斗鱼</span>
+                    <p>直播平台</p>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://mo.fish/">
+                  <img src="https://i.loli.net/2020/04/13/Iys396Wq7V4lQLr.png">
+                  <span>
+                    <span>鱼塘热榜</span>
+                    <p>直播平台</p>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sites-section">
+            <h2 class="category" id="category_video">
+              <span>视频</span>
+            </h2>
+            <ul>
+              <li>
+                <a href="https://www.iqiyi.com/">
+                  <img src="https://img.hinpc.com/img/picgo/20191218202234_iqiyi.svg">
+                  <span>
+                    <span>爱奇艺</span>
+                    <p>爱奇艺（iQIYI.COM）是拥有海量、优质、高清的网络视频的大型视频网站</p>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://youku.com">
+                  <img src="https://i.loli.net/2019/12/19/tBEMjcFuHx3VOXW.png">
+                  <span>
+                    <span>优酷</span>
+                    <p>优酷视频</p>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://v.qq.com/">
+                  <img src="https://i.loli.net/2019/12/20/seAlr8QUbouZni2.png">
+                  <span>
+                    <span>腾讯视频</span>
+                    <p>在线视频媒体平台</p>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="lib/baidusug.js"></script>
+  <script src="scripts/main-b5572b109c.js"></script>
+</body>
+
+</html>

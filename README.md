@@ -2,11 +2,9 @@
 v4
 
 ## Deploy
-```
-yarn build
-# 1. 修改dist/index.html 为 php
-# 2. 参考template，修改index.php内容：
-#     将 <head> 中的所有script替换即可。
-# 3. 修改并拷贝config.json到dist
-# 发布整个dist目录
+```sh
+git clone -b gh-pages https://github.com/GallenHu/Teemo.git
+cd Teemo
+# modify config.json
+docker run -d -p 8000:80 --name teemo-php -v "$PWD":/var/www/html php:7.2-apache
 ```

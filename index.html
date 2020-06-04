@@ -5,9 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>海风导航</title>
+  <link rel="shortcut icon" href="https://i.loli.net/2020/06/04/ZmDsY2GqMwHIC9n.png">
   <meta name=keywords content="网址导航, 海风导航, 简洁, 视频, 开发, 音乐, 创意灵感">
   <meta name="description" content="简洁无广告，可自定义的网址导航，分享优秀站点">
-  <link rel="stylesheet" href="styles/style-fdcc4920b4.css">
 <script>
   window.addEventListener('error', function (e) {
     if (e.target.nodeName === 'IMG') {
@@ -34,6 +34,7 @@
     ver: 0.1
   }
 </script>
+  </script> -->
 </head>
 
 <body>

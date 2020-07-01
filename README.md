@@ -8,7 +8,7 @@ yarn serve
 yarn build
 bash scripts/gen_webroot.sh
 
-# push dist folder to branch gh-pages
+# Github Actions
 ```
 
 ## Deploy

@@ -20,7 +20,7 @@ jobs:
 
     - run: yarn install
     - run: yarn build
-    - run: chmod +x scripts/replace.sh && bash scripts/replace.sh
+    - run: chmod +x scripts/gen_webroot.sh && bash scripts/gen_webroot.sh
 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@releases/v3

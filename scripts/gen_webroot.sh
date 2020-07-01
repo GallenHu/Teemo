@@ -4,12 +4,13 @@ cd dist
 
 # in macOS
 # brew install gnu-sed
+# replace command "sed" with "gsed"
 
 # delete lines
-gsed -i '12,25d' index.html
+sed -i '12,25d' index.html
 
 # append content to line 11
-gsed -i '11 r script-with-vars.php' index.html
+sed -i '11 r script-with-vars.php' index.html
 
 cp index.html index.php
 

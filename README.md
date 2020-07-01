@@ -1,6 +1,16 @@
 # Teemo
 v4
 
+## Dev
+```
+yarn serve
+
+yarn build
+bash scripts/gen_webroot.sh
+
+# push dist folder to branch gh-pages
+```
+
 ## Deploy
 ```sh
 git clone -b gh-pages https://github.com/GallenHu/Teemo.git

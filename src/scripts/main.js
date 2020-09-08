@@ -86,7 +86,7 @@ function initBaiduSug() {
 
 function goSearch(engine, text) {
   const SearchEngineUrlMap = {
-    baidu: 'https://www.baidu.com/s?wd=',
+    baidu: 'http://gallenhu.github.io/allso/#',
     google: 'https://www.google.com/search?q=',
     dogedoge: 'https://www.dogedoge.com/results?q=',
   };

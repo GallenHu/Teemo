@@ -27,6 +27,10 @@ $(document).ready(() => {
   if (!navShrink) {
     $('.main-inner').removeClass('is-nav-shrink');
   }
+
+  setTimeout(() => {
+    $('#searchInputEl').focus();
+  }, 500);
 });
 
 function onClickEngine(engine) {

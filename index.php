@@ -198,7 +198,7 @@
 
   <script src="https://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
   <script src="lib/baidusug.js"></script>
-  <script src="scripts/main-36ac18fbb2.js"></script>
+  <script src="scripts/main-da736e6651.js"></script>
 </body>
 
 </html>

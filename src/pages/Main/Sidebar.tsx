@@ -40,6 +40,7 @@ const Sidebar = (props: { categories: Category[] }) => {
     } else {
       open();
     }
+    // eslint-disable-next-line
   }, [isSidebarShrink]);
 
   return (

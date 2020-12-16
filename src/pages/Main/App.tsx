@@ -16,6 +16,7 @@ const InitConfig: Config = {
 
 function App() {
   const [config, setConfig] = useState(InitConfig);
+  const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('unknown');
 
   React.useEffect(() => {
@@ -24,12 +25,17 @@ function App() {
     setUsername(username);
 
     if (gistId) {
+      setLoading(true);
       getConfig(gistId).then((data) => {
+        setLoading(false);
         if (data) {
           const config = getConfigFromGistData(data);
           setConfig(config);
           console.log('config', config, username);
         }
+      }).catch(err => {
+        console.error(err);
+        setLoading(false);
       });
     }
   }, [username]);
@@ -42,7 +48,7 @@ function App() {
         <div className="main-content">
           <section className="main-header">
             <span></span>
-            <span>{username}</span>
+            <span>{loading ? 'loading...' : username}</span>
           </section>
 
           <Search></Search>

@@ -1,0 +1,24 @@
+{
+  "user": {
+      "my_user_name": [
+          {
+              "uid": "video",
+              "alias": "影音",
+              "sites": [
+                  {
+                      "name": "优酷",
+                      "url": "https://youku.com",
+                      "icon": "https://i.loli.net/2019/12/19/tBEMjcFuHx3VOXW.png",
+                      "desc": "优酷视频"
+                  },
+                  {
+                      "name": "腾讯视频",
+                      "url": "https://v.qq.com",
+                      "icon": "https://i.loli.net/2019/12/20/seAlr8QUbouZni2.png",
+                      "desc": "在线视频媒体平台"
+                  }
+              ]
+          }
+      ]
+  }
+}

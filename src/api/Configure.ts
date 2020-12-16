@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-const ghToken = localStorage.getItem('ghtoken') || '';
-
-export function getConfig(gistId: string) {
+export function getConfig(gistId: string, ghToken?: string) {
   return axios
     .get(`https://api.github.com/gists/${gistId}`, {
       headers: {

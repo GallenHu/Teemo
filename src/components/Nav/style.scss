@@ -1,0 +1,36 @@
+.nav {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+  top: 50vh;
+  height: 100px;
+  width: 50px;
+  cursor: pointer;
+  transition: background .3s;
+
+  img {
+    height: 40px;
+    transform: translateX(4px);
+    opacity: .5;
+    transition: opacity .3s;
+  }
+
+  &:hover {
+    background-color: rgba(255,255,255, .2);
+
+    img {
+      opacity: 1;
+    }
+  }
+}
+
+.nav.back {
+  right: auto;
+  left: 0;
+
+  img {
+    transform: rotate(180deg);
+  }
+}

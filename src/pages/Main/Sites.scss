@@ -1,0 +1,78 @@
+.sites {
+  margin-top: 100px;
+  max-height: 300px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity .8s;
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+.slider-wrapper {
+  width: 800px;
+  margin: 0 auto;
+}
+.site-slider-item {
+  .category-name {
+    text-align: center;
+    padding: 20px 0 10px;
+    color: #fff;
+    font-size: 18px;
+  }
+}
+.site-items-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  height: 234px;
+}
+.site-item {
+  width: 20%;
+  text-align: center;
+  padding: 10px 0;
+
+  .site-item-inner {
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 14px;
+    width: 75px;
+    height: 75px;
+    padding-top: 10px;
+    text-decoration: none;
+    color: #333;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: .7;
+    transition: all .3s;
+    &:hover {
+      opacity: 1;
+      box-shadow: 3px 3px 4px #666;
+    }
+
+    img {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.tns-nav {
+  text-align: center;
+}
+.tns-nav > [aria-controls] {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  margin: 0 5px;
+  border-radius: 50%;
+  background: #ddd;
+  border: 0;
+  outline: none;
+}
+.tns-nav > .tns-nav-active {
+  background: #999;
+}

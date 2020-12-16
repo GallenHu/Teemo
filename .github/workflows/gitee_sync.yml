@@ -1,0 +1,19 @@
+name: Sync to Gitee
+on: [ push ]
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Black list
+      uses: Yikun/hub-mirror-action@master
+      with:
+        src: github/gallenhu
+        dst: gitee/gallenhu
+        dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+        dst_token: ${{ secrets.GITEE_TOKEN }}
+        clone_style: "ssh"
+        # 仅同步这个repo
+        static_list: ${{ github.event.repository.name }}
+        force_update: true
+        debug: true
+        timeout: '1h'

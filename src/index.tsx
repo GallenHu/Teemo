@@ -1,25 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './pages/Main/App';
+import Router from './router';
+import './styles/index.scss';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router />,
   document.getElementById('root'),
   callback
 );
 
+// global function
 function callback() {
   function initBaiduSug() {
     new (window as any).BaiduSug('searchInputEl', {
-      className: 'hinote-search',
+      className: 'teemo-search',
+      width: 798,
       border: '1px solid #ddd',
-      xOffset: -1,
+      xOffset: -44,
+      yOffset: 8,
       maxCount: 9,
       callback: function (text: string) {
         (document.querySelector('#searchInputEl') as any).value = text;
-        (document.querySelector('#searchSubmitEl') as any).click();
+        (document.querySelector('#searchSubmitter') as any).click();
       },
     });
   }

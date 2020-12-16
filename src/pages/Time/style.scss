@@ -1,0 +1,33 @@
+@font-face {
+  font-family: 'Lato';
+  src: url('../../assets/fonts/Lato-Regular.ttf');
+}
+
+.date-page {
+  color: #fff;
+  height: 100vh;
+
+  .clock {
+    position: absolute;
+    top: 40vh;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-family: 'Lato';
+
+    .date {
+      font-size: 20px;
+    }
+    .time {
+      font-size: 80px;
+      letter-spacing: 20px;
+      font-weight: bold;
+    }
+  }
+
+  .tip {
+    background-color: rgba(250, 250, 250, 0.3);
+    padding: 10px;
+    border-radius: 4px;
+  }
+}

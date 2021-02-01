@@ -26,17 +26,19 @@ function App() {
 
     if (gistId) {
       setLoading(true);
-      getConfig(gistId).then((data) => {
-        setLoading(false);
-        if (data) {
-          const config = getConfigFromGistData(data);
-          setConfig(config);
-          console.log('config', config, username);
-        }
-      }).catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
+      getConfig(gistId)
+        .then((data) => {
+          setLoading(false);
+          if (data) {
+            const config = getConfigFromGistData(data);
+            setConfig(config);
+            console.log('config', config, username);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setLoading(false);
+        });
     }
   }, [username]);
 
@@ -58,6 +60,8 @@ function App() {
       </div>
 
       <Widget></Widget>
+
+      <iframe src="http://gif.pm" title="ip" frameBorder="0" id="ipIframe"></iframe>
     </div>
   );
 }

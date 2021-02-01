@@ -20,4 +20,10 @@ yarn build
 - `ghtoken`: 用于请求 API 的 GitHub token
 - `gistid`: gist id
 
+```js
+window.localStorage.setItem('username', 'hinpc_home');
+window.localStorage.setItem('ghtoken', 'xxx');
+window.localStorage.setItem('gistid', 'xxx');
+```
+
 3. 刷新页面

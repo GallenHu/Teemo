@@ -16,5 +16,5 @@ before_install:
 install:
   - yarn install
   - CI='' yarn build
-script:
+deploy:
   - bash .travis/deploy.sh

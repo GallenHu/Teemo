@@ -1,7 +1,7 @@
 #!/bin/sh
 repo="${TRAVIS_REPO_SLUG}" # GallenHu/Teemo
 repo_name1=${repo//\//-}
-repo_name2=`echo ${name1}| tr '[:upper:]' '[:lower:]'`
+repo_name2=`echo ${repo_name1}| tr '[:upper:]' '[:lower:]'`
 
 mkdir -p /tmp/my-travis-build/${repo_name2}
 cp -rf ./build/ /tmp/my-travis-build/${repo_name2}

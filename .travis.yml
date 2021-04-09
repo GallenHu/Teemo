@@ -15,6 +15,6 @@ before_install:
   - sudo apt-get install sshpass
 install:
   - yarn install
-  - yarn build
+  - CI='' yarn build
 script:
   - bash .travis/deploy.sh

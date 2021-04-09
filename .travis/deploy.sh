@@ -7,5 +7,4 @@ mkdir -p /tmp/my-travis-build/${repo_name2}
 cp -rf ./build/ /tmp/my-travis-build/${repo_name2}
 
 cd /tmp/my-travis-build/
-# sshpass -p "${SERVER_PWD}" scp -P 1991 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${repo_name2} root@qhk.nicebook.win:/home/wwwroot/
-scp -P 1991 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${repo_name2} root@qhk.nicebook.win:/home/wwwroot/
+sshpass -p "${SERVER_PWD}" scp -P 1991 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${repo_name2} root@qhk.nicebook.win:/home/wwwroot/

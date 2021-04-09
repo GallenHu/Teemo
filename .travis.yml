@@ -13,8 +13,8 @@ cache:
 sudo: true
 before_install:
   - sudo apt-get install sshpass
-install:
+
+script:
   - yarn install
   - CI='' yarn build
-deploy:
   - bash .travis/deploy.sh

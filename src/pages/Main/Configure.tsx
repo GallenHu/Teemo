@@ -70,7 +70,7 @@ const Configure = (props: Props) => {
 
     Modal.setAppElement('#app');
     Modal.defaultStyles.overlay.backgroundColor = 'rgba(0,0,0,.2)';
-  });
+  }, []);
 
   return (
     <Modal

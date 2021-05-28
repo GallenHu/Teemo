@@ -28,25 +28,25 @@ function BaiduSug(domId, config) {
   this.currentLiIndex = -1;
   this.isMovingCursor = false;
 
-  this.debounce = function(fun, delay) {
-    return function(args) {
+  this.debounce = function (fun, delay) {
+    return function (args) {
       let that = this;
       let _args = args;
       clearTimeout(fun.id);
-      fun.id = setTimeout(function() {
+      fun.id = setTimeout(function () {
         fun.call(that, _args);
       }, delay);
     };
   };
 
-  this.getSearchText = function() {
+  this.getSearchText = function () {
     return document.getElementById(this.domId).value.trim();
   };
 
-  this.loadScript = function(url) {
+  this.loadScript = function (url) {
     var script = document.createElement('script');
     var uid = 'script_' + Date.now;
-    script.onload = function() {
+    script.onload = function () {
       document.getElementById(uid).remove();
     };
     script.src = url;
@@ -54,10 +54,10 @@ function BaiduSug(domId, config) {
     document.body.appendChild(script);
   };
 
-  this.debounceSearchSuggest = function() {
+  this.debounceSearchSuggest = function () {
     var self = this;
 
-    return this.debounce(function() {
+    return this.debounce(function () {
       // 移动光标操作，不要进行后续搜索
       if (self.isMovingCursor) {
         self.isMovingCursor = false;
@@ -69,14 +69,14 @@ function BaiduSug(domId, config) {
 
       self.loadScript(
         'https://www.baidu.com/su?cb=BaiduSuggestionCB&t=' +
-          t +
-          '&wd=' +
-          searchText
+        t +
+        '&wd=' +
+        searchText
       );
     }, 400);
   };
 
-  this.showResult = function(result, config) {
+  this.showResult = function (result, config) {
     this.currentLiIndex = -1; // showResult会重新生成内容，所以要重置 LiIndex
 
     var self = this;
@@ -97,12 +97,12 @@ function BaiduSug(domId, config) {
         'position: absolute',
         'left: 0',
         'top: 100%',
-        'transform:' + 'translateX('+ (config.xOffset || 0) +'px)'
-          + ' translateY('+ (config.yOffset || 0) +'px)',
+        'transform:' + 'translateX(' + (config.xOffset || 0) + 'px)'
+        + ' translateY(' + (config.yOffset || 0) + 'px)',
         'background: ' + (config.background ? config.background : '#fff'),
         'z-index: ' + (config.zIndex ? config.zIndex : '999'),
         'box-shadow: ' +
-          (config.shadow ? config.shadow : '1px 1px 3px rgba(0, 0, 0, .1)'),
+        (config.shadow ? config.shadow : '1px 1px 3px rgba(0, 0, 0, .1)'),
         'border: ' + (config.border ? config.border : '1px solid #ddd')
       ].join(';');
 
@@ -128,11 +128,11 @@ function BaiduSug(domId, config) {
     }
 
     var lis = document.querySelectorAll('.' + this.resultClassName + ' li');
-    var onMouseEnter = function(e) {
+    var onMouseEnter = function (e) {
       var i = e.target.getAttribute('data-i');
       self.setCurrentLi(i, true);
     };
-    var onClick = function(e) {
+    var onClick = function (e) {
       self.onSubmit(e.target.innerText);
       self.currentLiIndex = -1;
       self.clearResult();
@@ -145,13 +145,13 @@ function BaiduSug(domId, config) {
     }
   };
 
-  this.clearResult = function() {
+  this.clearResult = function () {
     var resultDom = document.querySelector('.' + this.resultClassName);
     if (resultDom) resultDom.remove();
   };
 
   // 添加全局样式
-  this.addStyle = function() {
+  this.addStyle = function () {
     var headStyle = document.createElement('style');
     var liSelector = '.' + this.resultClassName + ' li';
     var liStyle = [
@@ -180,7 +180,7 @@ function BaiduSug(domId, config) {
     }
   }
 
-  this.setCurrentLi = function(index, disableInputChange) {
+  this.setCurrentLi = function (index, disableInputChange) {
     var resultLiDoms = document.querySelectorAll(
       '.' + this.resultClassName + ' li'
     );
@@ -204,19 +204,19 @@ function BaiduSug(domId, config) {
     }
   };
 
-  this.onSubmit = function(text) {
+  this.onSubmit = function (text) {
     var cb =
       this.config.callback ||
-      function() {
+      function () {
         console.log('submit text: ' + text);
       };
     cb(text);
     this.domInput.blur();
   };
 
-  this.onClickOutside = function() {
+  this.onClickOutside = function () {
     var self = this;
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       const targetId = e.target.getAttribute('id');
       if (targetId === domId) {
         return;
@@ -225,10 +225,10 @@ function BaiduSug(domId, config) {
     });
   }
 
-  this.init = function() {
+  this.init = function () {
     var self = this;
 
-    window.BaiduSuggestionCB = function(res) {
+    window.BaiduSuggestionCB = function (res) {
       if (res && res.s && res.s.length) {
         self.showResult(res.s, self.config);
       } else {
@@ -237,7 +237,8 @@ function BaiduSug(domId, config) {
     };
 
     if (this.domInput) {
-      self.domInput.addEventListener('keyup', function(e) {
+      // keypress事件不能对系统功能键例如：后退、删除等、不能对中文输入法进行正常的响应
+      self.domInput.addEventListener('keypress', function (e) {
         // enter
         if (e.keyCode === 13) {
           self.currentLiIndex = -1;
@@ -245,8 +246,11 @@ function BaiduSug(domId, config) {
           self.onSubmit(self.getSearchText());
           self.isMovingCursor = true; // 回车也要禁止后续搜索
         }
+      });
+
+      self.domInput.addEventListener('keyup', function (e) {
         // up
-        else if (e.keyCode === 38) {
+        if (e.keyCode === 38) {
           self.setCurrentLi(self.currentLiIndex - 1);
           self.isMovingCursor = true;
         }
@@ -262,7 +266,7 @@ function BaiduSug(domId, config) {
       });
 
       self.domInput.addEventListener('keyup', this.debounceSearchSuggest());
-      self.domInput.addEventListener('keydown', function(e) {
+      self.domInput.addEventListener('keydown', function (e) {
         if (e.keyCode === 38) e.preventDefault(); // 禁止方向上键移动光标到句首
       });
       // self.domInput.addEventListener('focus', function(e) {

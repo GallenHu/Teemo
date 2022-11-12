@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const win = window as any;
   const FullPageScroll = win.FullPageScroll;
 
-  console.log(window.location);
+  if (window.location.hash.indexOf('#/') === 0) return; // disable for mobile
 
   setTimeout(() => {
     win.fps = new FullPageScroll(document.querySelector('.main'), {

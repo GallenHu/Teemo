@@ -1,0 +1,9 @@
+language: node_js
+
+sudo: true
+before_install:
+  - sudo apt-get install sshpass
+  - yarn install
+  - CI=false npm run build
+script:
+  - bash .travis/release.sh

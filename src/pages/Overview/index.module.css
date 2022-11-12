@@ -1,0 +1,10 @@
+.page {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+.searchWrap {
+  text-align: center;
+  width: 600px;
+  margin: 0 auto;
+}

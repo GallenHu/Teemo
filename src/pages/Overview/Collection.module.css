@@ -1,0 +1,12 @@
+.collection {
+  position: absolute;
+  width: 100%;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: .3;
+  transition: opacity .3s;
+}
+.collection:hover {
+  opacity: 1;
+}

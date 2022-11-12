@@ -1,0 +1,23 @@
+.mobilePage {
+  background-color: #fff;
+  padding: 20px;
+  min-height: 100vh;
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 18%);
+  grid-column-gap: 2.5%;
+}
+.siteItem {
+  width: 18vw;
+  height: 18vw;
+  line-height: 18vw;
+  background-color: #409EFF;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 2vw;
+}
+.siteItem a {
+  color: #fff;
+  text-decoration: none;
+}

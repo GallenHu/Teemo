@@ -1,0 +1,61 @@
+@import '~antd/dist/antd.css';
+
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif, Arial, 'PingFang SC', 'Microsoft YaHei',
+    '微软雅黑', SimHei, SimSun;
+  color: #fff;
+  background-color: #2a2f31;
+}
+
+html,
+body,
+#root,
+.app {
+  height: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bg {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+.bg::before {
+  display: block;
+  content: ' ';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: url('assets/images/background/morning.min.jpg') no-repeat center center;
+  background-size: cover;
+  filter: blur(5px);
+  transform: scale(1.02);
+  transition: background .5s;
+}
+.bg.afternoon::before {
+  background-image: url('assets/images/background/beach.min.jpg');
+}
+.bg.night::before {
+  background-image: url('assets/images/background/nightfall.min.jpg');
+}
+
+.main {
+  position: relative;
+  /* overflow: hidden; */
+}
+
+.teemo-search li {
+  text-align: left;
+}

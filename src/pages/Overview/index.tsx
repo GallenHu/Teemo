@@ -1,13 +1,12 @@
 import Search from './Search';
 import ScrollDown from './ScrollDown';
+import HeWeather from '../../components/HeWeather';
 import Time from './Time';
 import Collection from './Collection';
-import Configure, { STORAGE_KEY } from './Configure';
+import Configure from './Configure';
 import styles from './index.module.css';
 import { CategoryType, RemoteConfigure } from '../../types/remote-configure';
-import { useEffect, useState } from 'react';
 import GistUtils from '../../utils/GistUtils';
-import LocalStorageUtils from '../../utils/LocalStorageUtils';
 
 interface Props {
   config: CategoryType[];
@@ -37,6 +36,8 @@ export default function Overview(props: Props) {
 
       <Configure onRefresh={handleRefreshConfigure}></Configure>
       <ScrollDown></ScrollDown>
+
+      <HeWeather />
     </div>
   );
 }

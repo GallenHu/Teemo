@@ -4,6 +4,6 @@
 
 ### `npm run build`
 
-Auto deploy with Cloudflare Pages.
+Auto deploy with Cloudflare Pages from Github.
 
-http://localhost:3000/#/m
+Mobile Page: http://localhost:3000/#/m

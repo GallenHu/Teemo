@@ -6063,6 +6063,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lunar-typescript@^1.2.27:
+  version "1.2.27"
+  resolved "https://registry.npmmirror.com/lunar-typescript/-/lunar-typescript-1.2.27.tgz#9f025807993aa9df01b15b14653e86846c1b5e36"
+  integrity sha512-ViYL0fyaeJypGyLkzzrw4TgMcpIA2+cj8zmKt8WJicDF/d7v76TLImPQWIMVx544aVdymkwEjZ3OLGBZosPtDw==
+
 lz-string@^1.4.4:
   version "1.4.4"
   resolved "https://registry.npmmirror.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"

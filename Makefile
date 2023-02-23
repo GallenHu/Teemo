@@ -8,6 +8,8 @@ nvm:
 
 ec:
 	curl -o .editorconfig -sSL https://ghproxy.com/https://raw.githubusercontent.com/Hinpc/static/master/configfile/editorconfig.conf
+pre:
+	curl -o .prettierrc -sSL https://ghproxy.com/https://raw.githubusercontent.com/Hinpc/static/master/configfile/prettierrc.json
 
 docker:
 	touch Dockerfile

@@ -1,0 +1,103 @@
+$icon-size: 20px;
+
+.sidebar {
+  position: fixed;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 2px 6px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+
+  .dividing {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 6px 0;
+  }
+
+  .icon-wrapper {
+    width: $icon-size;
+    height: $icon-size;
+    padding: 6px;
+    margin: 6px 0;
+    background-color: transparent;
+    border-radius: 4px;
+    //overflow: hidden;
+    cursor: pointer;
+    transition: background-color ease 0.3s;
+
+    i {
+      font-size: $icon-size;
+      color: rgba(255, 255, 255, 0.8);
+      transition: color ease 0.3s;
+    }
+
+    &.active,
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+
+      i {
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+  }
+}
+
+.sidebar-popover-content {
+  height: 26px;
+  line-height: 26px;
+  color: #fff;
+  padding: 0 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 8px;
+
+  &.active {
+    color: #222;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.setting-popup-container {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 8px;
+
+  li {
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-size: 14px;
+
+    svg {
+      transform: translateY(3px);
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.75);
+    }
+  }
+}
+
+.icon-selector-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 48px);
+  grid-row-gap: 6px;
+  grid-column-gap: 2px;
+
+  .icon-selector {
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &.active,
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+      color: #fff;
+    }
+  }
+}

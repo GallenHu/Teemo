@@ -1,0 +1,47 @@
+.widget-time {
+  position: relative;
+  background-image: url('https://images.unsplash.com/photo-1672243774955-6c22646333c2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 20px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+
+  &::before {
+    content: ' ';
+    display: block;
+    background-color: var(--mask-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .content {
+    position: relative;
+
+    .time {
+      font-size: 60px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-align: center;
+      margin: 40px 0 20px;
+    }
+    .date {
+      width: 80%;
+      text-align: center;
+      margin: 0 auto;
+      color: #efefef;
+    }
+
+    .holiday {
+      text-align: center;
+      color: #eee;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  }
+}

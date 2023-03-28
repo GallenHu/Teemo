@@ -1,0 +1,8 @@
+@for $i from 1 through 10 {
+  @for $j from 1 through 10 {
+    .g-#{$i}-#{$j} {
+      grid-column-start: span #{$i};
+      grid-row-start: span #{$j};
+    }
+  }
+}

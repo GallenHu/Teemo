@@ -1,0 +1,16 @@
+.login-box {
+  padding-top: 20px;
+
+  .title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+}
+
+.already-login-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

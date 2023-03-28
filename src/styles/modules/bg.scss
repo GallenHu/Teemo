@@ -1,0 +1,16 @@
+#root > div:first-child {
+  .desktop-bg {
+    position: relative;
+  }
+  .desktop-bg-img {
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s;
+  }
+  .desktop-bg-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+}

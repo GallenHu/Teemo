@@ -1,0 +1,108 @@
+.site-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+
+  .scroll-content {
+    transition: all ease-in-out 0.3s;
+  }
+  .section {
+    height: 100vh;
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 25vh;
+    box-sizing: border-box;
+    display: grid;
+    //grid-template-columns: repeat(auto-fill, var(--icon-size));
+    grid-template-columns: repeat(auto-fill, var(--icon-size));
+    grid-auto-rows: calc(var(--icon-size) + var(--icon-text-size));
+    grid-column-gap: var(--icon-gap);
+    grid-row-gap: var(--icon-gap);
+    grid-auto-flow: row dense;
+
+    .widget {
+      grid-column-start: span 3;
+      grid-row-start: span 2;
+      //width: calc(var(--icon-size) * 3);
+      //height: calc(var(--icon-size) * 2);
+      border: 1px solid;
+    }
+
+    .site-item {
+      transform: translateY(0px);
+      transition: all ease 0.3s;
+      cursor: pointer;
+
+      .name {
+        height: var(--icon-text-size);
+        line-height: var(--icon-text-size);
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+      }
+
+      &:hover {
+        transform: translateY(-4px);
+
+        .name {
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+    }
+
+    .extra-site-icon-wrapper {
+      width: var(--icon-size);
+      height: var(--icon-size);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+
+      .extra-site-icon {
+        width: 70%;
+        height: 70%;
+        path {
+          fill: rgba(255, 255, 255, 0.4);
+        }
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        .extra-site-icon {
+          path {
+            fill: rgba(255, 255, 255, 0.7);
+          }
+        }
+      }
+    }
+  }
+}
+
+.site-list .icon,
+.preview .icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: var(--shadow);
+  border-radius: 18px;
+
+  text-align: center;
+  line-height: var(--icon-size);
+  font-weight: 500;
+  color: #fff;
+
+  &.color-icon-1 {
+    font-size: 48px;
+  }
+  &.color-icon-2 {
+    font-size: 32px;
+  }
+}

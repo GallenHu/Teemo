@@ -1,0 +1,118 @@
+$suggestionItemHeight: 30px;
+
+.search-box {
+  position: fixed;
+  top: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 550px;
+  height: 40px;
+  box-shadow: var(--shadow);
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+
+  .engine {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 100%;
+  }
+
+  .input-wrapper {
+    flex: 1;
+    > div {
+      width: 100%;
+      height: 100%;
+
+      input {
+        background: none;
+        border: none;
+        outline: none;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 6px 10px;
+      }
+    }
+  }
+
+  .suggestion-icon {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    display: inline-block;
+    vertical-align: middle;
+    width: $suggestionItemHeight;
+    height: $suggestionItemHeight;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    transform: scale(0.7);
+    path {
+      fill: rgba(0, 0, 0, 0.5);
+    }
+  }
+  .suggestion-content {
+    margin-left: $suggestionItemHeight + 6px;
+  }
+}
+
+.engine-selector {
+  width: 40px;
+  background-color: #fff;
+
+  .engine-selector-item {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+.engine-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  cursor: pointer;
+
+  &.baidu {
+    background-image: url('../../assets/images/baidu.webp');
+  }
+  &.google {
+    background-image: url('../../assets/images/google.webp');
+  }
+  &.bing {
+    background-image: url('../../assets/images/bing.webp');
+  }
+}
+
+.react-autosuggest__suggestions-container {
+  margin-top: 2px;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #222;
+  border-radius: 4px;
+  margin-left: -41px;
+
+  .suggestion-item {
+    position: relative;
+    height: $suggestionItemHeight;
+    padding: 6px 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  .react-autosuggest__suggestion--highlighted {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}

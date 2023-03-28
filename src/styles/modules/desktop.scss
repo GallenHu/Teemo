@@ -1,0 +1,17 @@
+#root > div:first-child {
+  width: 100%;
+  height: 100%;
+
+  .desktop-app,
+  .desktop-bg,
+  .desktop-bg-img,
+  .desktop-bg-mask {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.desktop-app a {
+  color: #fff;
+  text-decoration: none;
+}

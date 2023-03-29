@@ -1,7 +1,8 @@
 import AutoSuggest from 'react-autosuggest';
 import { StatefulPopover, TRIGGER_TYPE } from 'baseui/popover';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { getSuggestion } from '@/services/search';
+import Storage from '@/utils/storage';
 import SearchIcon from 'baseui/icon/search';
 
 class Suggestion {
@@ -29,7 +30,7 @@ class Suggestion {
 export default function SearchBox() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [currentEngine, setCurrentEngine] = useState('baidu');
+  const [currentEngine, setCurrentEngine] = useState(Storage.getSearchEngine() || 'baidu');
   let submitting = false;
 
   const ENGINES: Record<string, string> = {
@@ -147,6 +148,11 @@ export default function SearchBox() {
       }, 100);
     }
   };
+
+  useEffect(() => {
+    Storage.setSearchEngine(currentEngine);
+  }, [currentEngine]);
+
   /**
    * 输入框配置
    */

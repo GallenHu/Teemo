@@ -51,6 +51,27 @@ class Configuration {
     return this;
   }
 
+  updateSite(pageId: string, site: Site) {
+    const page = this.pages.find(item => item.id === pageId);
+    if (page) {
+      const index = page.children.findIndex(item => item.id === site.id);
+      if (index > -1) {
+        page.children[index] = {
+          ...site,
+          id: page.children[index].id,
+          updateAt: Date.now(),
+        };
+        this.timestamp = Date.now();
+      } else {
+        console.error('site not found!');
+      }
+    } else {
+      console.error('page not found!');
+    }
+
+    return this;
+  }
+
   deleteSite(pageId: string, site: Site) {
     const page = this.pages.find(item => item.id === pageId);
 

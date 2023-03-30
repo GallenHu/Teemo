@@ -53,8 +53,14 @@ export default function SiteList(props: Props) {
     props.onLongPress?.();
   });
 
-  function onClickSite(site: Site) {
-    if (!manageMode) window.open(site.url, '_blank', 'noopener,noreferrer');
+  function onClickSite(site: Site, page: Page) {
+    if (manageMode) {
+      setCurrentPage(page);
+      setCurrentSite(site);
+      setIsOpenSiteCreateModal(true);
+    } else {
+      window.open(site.url, '_blank', 'noopener,noreferrer');
+    }
   }
 
   /**
@@ -84,10 +90,26 @@ export default function SiteList(props: Props) {
     quitManageMode();
   }
 
-  function onConfirmSiteCreate(site: Site) {
-    const newConf = configuration.addSite(currentPage?.id || '', site);
+  function onConfirmSiteCreate(site: Site, isModify?: boolean) {
+    if (!currentPage?.id) {
+      throw new Error('Could not locate current page!');
+    }
+
+    let newConf: any = null;
+    if (isModify) {
+      newConf = configuration.updateSite(currentPage!.id || '', site);
+    } else {
+      newConf = configuration.addSite(currentPage!.id || '', site);
+    }
+
+    setCurrentSite(null);
     setIsOpenSiteCreateModal(false);
     setGlobalValue({ ...globalValue, configuration: newConf });
+  }
+
+  function onCloseSiteCreate() {
+    setCurrentSite(null);
+    setIsOpenSiteCreateModal(false);
   }
 
   function handleClickDeleteIcon(site: Site, page: Page) {
@@ -119,7 +141,7 @@ export default function SiteList(props: Props) {
 
   function renderSite(site: Site, page: Page) {
     const renderSiteIcon = () => (
-      <div key={site.id} className="site-item" onClick={() => onClickSite(site)} {...bindLongPress()}>
+      <div key={site.id} className="site-item" onClick={() => onClickSite(site, page)} {...bindLongPress()}>
         {site.bgType === 'image' ? (
           <div className="icon" style={{ backgroundImage: `url(${site.bgImage})` }}></div>
         ) : (
@@ -187,8 +209,9 @@ export default function SiteList(props: Props) {
       </div>
 
       <SiteCreateModal
+        defaultSite={currentSite}
         isOpen={isOpenSiteCreateModal}
-        onClose={() => setIsOpenSiteCreateModal(false)}
+        onClose={onCloseSiteCreate}
         onConfirm={onConfirmSiteCreate}
       ></SiteCreateModal>
 

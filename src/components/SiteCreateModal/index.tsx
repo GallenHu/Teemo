@@ -1,6 +1,6 @@
 import { Input } from 'baseui/input';
 import { Modal, ModalBody, ModalButton, ModalFooter, ModalHeader } from 'baseui/modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormControl } from 'baseui/form-control';
 import { Textarea } from 'baseui/textarea';
 import { TwitterPicker } from 'react-color';
@@ -11,18 +11,19 @@ import Site from '@/containers/Desktop/SiteList/helper/Site';
 
 interface Props {
   isOpen: boolean;
+  defaultSite: Site | null;
   onClose?: () => void;
-  onConfirm?: (site: Site) => void;
+  onConfirm?: (site: Site, isModify?: boolean) => void;
 }
 
 export default function SiteCreateModal(props: Props) {
-  const { isOpen, onClose, onConfirm } = props;
-  const [name, setName] = useState('');
-  const [url, setUrl] = useState('');
-  const [type, setType] = useState<'image' | 'color'>('image');
-  const [img, setImg] = useState('');
-  const [color, setColor] = useState(constants.DEFAULT_ICON_BG_COLOR);
-  const [iconText, setIconText] = useState('');
+  const { isOpen, defaultSite, onClose, onConfirm } = props;
+  const [name, setName] = useState(defaultSite?.name ?? '');
+  const [url, setUrl] = useState(defaultSite?.url ?? '');
+  const [type, setType] = useState<'image' | 'color'>(defaultSite?.bgType ?? 'image');
+  const [img, setImg] = useState(defaultSite?.bgImage ?? '');
+  const [color, setColor] = useState(defaultSite?.bgColor ?? constants.DEFAULT_ICON_BG_COLOR);
+  const [iconText, setIconText] = useState(defaultSite?.iconText ?? '');
   const [shouldShowError, setShouldShowError] = useState(false);
 
   const onBlurUrl = () => {
@@ -34,10 +35,19 @@ export default function SiteCreateModal(props: Props) {
     const valid = url.startsWith('http://') || url.startsWith('https://');
     setShouldShowError(!valid);
   };
-  const close = onClose || (() => '');
-  const confirm = () => {
-    if (!name || !url) return;
 
+  const close = () => {
+    setName('');
+    setUrl('');
+    setType('image');
+    setImg('');
+    setColor(constants.DEFAULT_ICON_BG_COLOR);
+    setIconText('');
+
+    onClose && onClose();
+  };
+
+  const confirmCreate = () => {
     const site = new Site({
       name,
       url,
@@ -50,8 +60,45 @@ export default function SiteCreateModal(props: Props) {
       site.iconText = iconText;
     }
 
-    onConfirm && onConfirm(site);
+    onConfirm && onConfirm(site, !!defaultSite);
   };
+
+  const confirmUpdate = () => {
+    const site = { ...(defaultSite as Site) };
+
+    site.name = name;
+    site.url = url;
+    site.bgType = type;
+    if (type === 'image') {
+      site.bgImage = img;
+    } else {
+      site.bgColor = color;
+      site.iconText = iconText;
+    }
+
+    onConfirm && onConfirm(site, !!defaultSite);
+  };
+
+  const confirm = () => {
+    if (!name || !url) return;
+
+    if (defaultSite) {
+      confirmUpdate();
+    } else {
+      confirmCreate();
+    }
+  };
+
+  useEffect(() => {
+    if (defaultSite) {
+      setName(defaultSite?.name || '');
+      setUrl(defaultSite?.url || '');
+      setType(defaultSite?.bgType || 'image');
+      setImg(defaultSite?.bgImage || '');
+      setColor(defaultSite?.bgColor || constants.DEFAULT_ICON_BG_COLOR);
+      setIconText(defaultSite?.iconText || '');
+    }
+  }, [defaultSite]);
 
   return (
     <Modal
@@ -67,7 +114,7 @@ export default function SiteCreateModal(props: Props) {
       onClose={close}
       isOpen={isOpen}
     >
-      <ModalHeader>新增图标</ModalHeader>
+      <ModalHeader>{defaultSite ? '修改' : '新增'}图标</ModalHeader>
       <ModalBody>
         <FormControl>
           <Input value={name} onChange={event => setName(event.currentTarget.value)} placeholder="网站名称" />

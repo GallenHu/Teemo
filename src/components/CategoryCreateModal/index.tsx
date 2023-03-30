@@ -1,17 +1,19 @@
 import { Input } from 'baseui/input';
 import { Modal, ModalBody, ModalButton, ModalFooter, ModalHeader } from 'baseui/modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormControl } from 'baseui/form-control';
 import IconSelector from '@/components/IconSelector';
+import { Page } from '@/types/configuration';
 
 interface Props {
   isOpen: boolean;
+  defaultCategory: Page | null;
   onClose?: () => void;
-  onConfirm?: (name: string, icon: string) => void;
+  onConfirm?: (name: string, icon: string, isModify?: boolean) => void;
 }
 
 export default function CategoryCreateModal(props: Props) {
-  const { isOpen, onClose, onConfirm } = props;
+  const { isOpen, defaultCategory, onClose, onConfirm } = props;
   const [name, setName] = useState('');
   const [icon, setIcon] = useState('');
 
@@ -23,8 +25,15 @@ export default function CategoryCreateModal(props: Props) {
   const confirm = () => {
     if (!name || !icon) return;
 
-    onConfirm && onConfirm(name, icon);
+    onConfirm && onConfirm(name, icon, !!defaultCategory);
   };
+
+  useEffect(() => {
+    if (defaultCategory) {
+      setName(defaultCategory.name);
+      setIcon(defaultCategory.icon);
+    }
+  }, [defaultCategory]);
 
   return (
     <Modal
@@ -40,7 +49,7 @@ export default function CategoryCreateModal(props: Props) {
       onClose={close}
       isOpen={isOpen}
     >
-      <ModalHeader>新增分类</ModalHeader>
+      <ModalHeader>{defaultCategory ? '编辑' : '新增'}分类</ModalHeader>
       <ModalBody>
         <FormControl>
           <Input

@@ -6,30 +6,30 @@ interface IconSelectorProps {
 }
 
 const icons = [
-  'shezhi',
-  'user',
-  'shandian',
-  'shangchuan',
-  'shouye',
-  'tishi',
-  'weixin',
-  'xiazai',
-  'xiaoshi',
-  'yanchu',
-  'dianying',
-  'huati',
-  'lihe',
-  'network',
-  'travel',
-  'calculator',
-  'good',
-  'home',
-  'more',
-  'movie',
-  'picture',
-  'shop',
-  'wallet',
-  'zhibo',
+  'icon-shezhi',
+  'icon-user',
+  'icon-shandian',
+  'icon-shangchuan',
+  'icon-shouye',
+  'icon-tishi',
+  'icon-weixin',
+  'icon-xiazai',
+  'icon-xiaoshi',
+  'icon-yanchu',
+  'icon-dianying',
+  'icon-huati',
+  'icon-lihe',
+  'icon-network',
+  'icon-travel',
+  'icon-calculator',
+  'icon-good',
+  'icon-home',
+  'icon-more',
+  'icon-movie',
+  'icon-picture',
+  'icon-shop',
+  'icon-wallet',
+  'icon-zhibo',
 ];
 
 const IconSelector: React.FC<IconSelectorProps> = ({ selectedIcon, onIconSelect }) => {
@@ -41,7 +41,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({ selectedIcon, onIconSelect 
           key={icon}
           onClick={() => onIconSelect(icon)}
         >
-          <i className={`iconfont icon-${icon}`} style={{ fontSize: '24px', margin: '8px', cursor: 'pointer' }}></i>
+          <i className={`iconfont ${icon}`} style={{ fontSize: '24px', margin: '8px', cursor: 'pointer' }}></i>
         </div>
       ))}
     </div>

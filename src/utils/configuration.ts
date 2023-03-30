@@ -94,6 +94,14 @@ class Configuration {
     return this;
   }
 
+  updatePage(pageIndex: number, name: string, icon: string) {
+    this.pages[pageIndex].name = name;
+    this.pages[pageIndex].icon = icon;
+
+    this.timestamp = Date.now();
+    return this;
+  }
+
   deletePage(pageIndex: number) {
     this.pages.splice(pageIndex, 1);
     this.timestamp = Date.now();

@@ -58,6 +58,7 @@ export default function SideBar(props: Props) {
   const { pageIndex, manageMode, onTriggerManageUI, onTriggerManageFinish } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [categoryCreateModalVisible, setCategoryCreateModalVisible] = useState(false);
+  const [isCategoryOnModify, setIsCategoryOnModify] = useState(false);
   const [loginModalVisible, setLoginModalVisible] = useState(false);
   const [importModalVisible, setImportModalVisible] = useState(false);
   const [confirmImportModalVisible, setConfirmImportModalVisible] = useState(false);
@@ -110,6 +111,11 @@ export default function SideBar(props: Props) {
     showConfirm(SYNC_CONFIRM_TIPS.toLocal);
   }
 
+  function updateCurrentCategory() {
+    setIsCategoryOnModify(true);
+    setCategoryCreateModalVisible(true);
+  }
+
   function renderUserPopup() {
     const children: PopupChild[] = user
       ? [
@@ -128,6 +134,7 @@ export default function SideBar(props: Props) {
   function renderSettingPopup() {
     const commChildren = [
       { text: '新增分类', onClickEvent: () => setCategoryCreateModalVisible(true) },
+      { text: '编辑分类', onClickEvent: updateCurrentCategory },
       { text: '导出配置', onClickEvent: () => exportConfiguration() },
       { text: '导入配置', onClickEvent: () => importConfiguration() },
     ];
@@ -153,10 +160,21 @@ export default function SideBar(props: Props) {
    * @param name
    * @param icon
    */
-  function onConfirmCategoryCreate(name: string, icon: string) {
-    const newConf = configuration.addPage(name, icon);
+  function onConfirmCategoryCreate(name: string, icon: string, isModify?: boolean) {
+    let newConf: any = null;
+    if (isModify) {
+      newConf = configuration.updatePage(pageIndex, name, icon);
+    } else {
+      newConf = configuration.addPage(name, icon);
+    }
+
     setGlobalValue({ ...globalValue, configuration: newConf });
     props.onChangePage?.(newConf.pages.length - 1);
+    setCategoryCreateModalVisible(false);
+    setIsCategoryOnModify(false);
+  }
+  function onCloseCategoryCreate() {
+    setIsCategoryOnModify(false);
     setCategoryCreateModalVisible(false);
   }
 
@@ -285,7 +303,8 @@ export default function SideBar(props: Props) {
 
       <CategoryCreateModal
         isOpen={categoryCreateModalVisible}
-        onClose={() => setCategoryCreateModalVisible(false)}
+        defaultCategory={isCategoryOnModify ? pages[pageIndex] : null}
+        onClose={onCloseCategoryCreate}
         onConfirm={onConfirmCategoryCreate}
       ></CategoryCreateModal>
 

@@ -19,8 +19,8 @@
     //grid-template-columns: repeat(auto-fill, var(--icon-size));
     grid-template-columns: repeat(auto-fill, var(--icon-size));
     grid-auto-rows: calc(var(--icon-size) + var(--icon-text-size));
-    grid-column-gap: var(--icon-gap);
-    grid-row-gap: var(--icon-gap);
+    grid-column-gap: var(--icon-gap-col);
+    grid-row-gap: var(--icon-gap-row);
     grid-auto-flow: row dense;
 
     .widget {

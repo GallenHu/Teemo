@@ -105,6 +105,8 @@ export default function SiteList(props: Props) {
     setCurrentSite(null);
     setIsOpenSiteCreateModal(false);
     setGlobalValue({ ...globalValue, configuration: newConf });
+
+    return true;
   }
 
   function onCloseSiteCreate() {

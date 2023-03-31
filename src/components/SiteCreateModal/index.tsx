@@ -13,7 +13,7 @@ interface Props {
   isOpen: boolean;
   defaultSite: Site | null;
   onClose?: () => void;
-  onConfirm?: (site: Site, isModify?: boolean) => void;
+  onConfirm?: (site: Site, isModify?: boolean) => boolean | undefined;
 }
 
 export default function SiteCreateModal(props: Props) {
@@ -36,56 +36,54 @@ export default function SiteCreateModal(props: Props) {
     setShouldShowError(!valid);
   };
 
-  const close = () => {
+  const resetForm = () => {
     setName('');
     setUrl('');
     setType('image');
     setImg('');
     setColor(constants.DEFAULT_ICON_BG_COLOR);
     setIconText('');
+    setShouldShowError(false);
+  };
 
+  const close = () => {
+    resetForm();
     onClose && onClose();
-  };
-
-  const confirmCreate = () => {
-    const site = new Site({
-      name,
-      url,
-      bgType: type,
-    });
-    if (type === 'image') {
-      site.bgImage = img;
-    } else {
-      site.bgColor = color;
-      site.iconText = iconText;
-    }
-
-    onConfirm && onConfirm(site, !!defaultSite);
-  };
-
-  const confirmUpdate = () => {
-    const site = { ...(defaultSite as Site) };
-
-    site.name = name;
-    site.url = url;
-    site.bgType = type;
-    if (type === 'image') {
-      site.bgImage = img;
-    } else {
-      site.bgColor = color;
-      site.iconText = iconText;
-    }
-
-    onConfirm && onConfirm(site, !!defaultSite);
   };
 
   const confirm = () => {
     if (!name || !url) return;
 
+    let site: any = {};
+
     if (defaultSite) {
-      confirmUpdate();
+      // update
+      site = { ...(defaultSite as Site) };
+
+      site.name = name;
+      site.url = url;
+      site.bgType = type;
     } else {
-      confirmCreate();
+      // create
+      site = new Site({
+        name,
+        url,
+        bgType: type,
+      });
+    }
+
+    if (type === 'image') {
+      site.bgImage = img;
+    } else {
+      site.bgColor = color;
+      site.iconText = iconText;
+    }
+
+    if (typeof onConfirm === 'function') {
+      const close = onConfirm(site, !!defaultSite);
+      if (close !== false) {
+        resetForm();
+      }
     }
   };
 
@@ -113,6 +111,7 @@ export default function SiteCreateModal(props: Props) {
       }}
       onClose={close}
       isOpen={isOpen}
+      closeable={false}
     >
       <ModalHeader>{defaultSite ? '修改' : '新增'}图标</ModalHeader>
       <ModalBody>

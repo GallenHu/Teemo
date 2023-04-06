@@ -7,7 +7,7 @@ export default class Hours extends React.Component {
       <div>
         {/* <div className="title">小时</div> */}
         <NumEl type="hours-pre" num="3" />
-        <NumEl type="hours-last" num="5" />
+        <NumEl type="hours-last" num="10" />
         <div className="semicolon">
           <span></span>
           <span></span>

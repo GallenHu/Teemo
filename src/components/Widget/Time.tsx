@@ -19,14 +19,11 @@ export default function Time() {
   };
 
   return (
-    <div className="widget-time g-3-1">
+    <div className="widget widget-time g-2-1">
       <div className="content">
-        <div className="date">
-          <span>{date}</span>
-          <span className="week">{weekdays[week]}</span>
-        </div>
-        <Clock />
+        <Clock showSeconds={false} />
       </div>
+      <div className="name">时间</div>
     </div>
   );
 }

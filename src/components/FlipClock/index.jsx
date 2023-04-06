@@ -13,6 +13,10 @@ const minutes = now.getMinutes().toString().padStart(2, '0');
 const seconds = now.getSeconds().toString().padStart(2, '0');
 
 export default class FlipClock extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   $$(str) {
     return document.querySelectorAll(str);
   }
@@ -89,11 +93,12 @@ export default class FlipClock extends React.Component {
   }
 
   render() {
+    const { showSeconds } = this.props;
     return (
       <div className="flip-clock-wrapper">
-        <Hours />
-        <Minutes />
-        <Seconds />
+        <Hours showSeconds={showSeconds} />
+        <Minutes showSeconds={showSeconds} />
+        <Seconds showSeconds={showSeconds} />
       </div>
     );
   }

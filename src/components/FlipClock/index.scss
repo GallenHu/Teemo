@@ -1,8 +1,9 @@
 :root {
-  --flipClockNumSize: 32px;
-  --flipClockDotSize: 6px;
+  --flipClockNumSize: 30px;
+  --flipClockDotSize: 4px;
   --flipClockBgColor: #1c1c1e;
   --flipClockFrontColor: #ccc;
+  --flipClockDotColor: #999;
 }
 
 @mixin up-shadow {
@@ -255,13 +256,29 @@
     transform: translate(0, -50%);
     vertical-align: top;
 
+    @keyframes blink {
+      0%,100% {
+        opacity: 1;
+      }
+      20%,80% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+
+    &.blink {
+      animation: blink 1s linear infinite;
+    }
+
     & > span {
       display: block;
       width: var(--flipClockDotSize);
       height: var(--flipClockDotSize);
-      background: #323434;
+      background: var(--flipClockDotColor);
       border-radius: 50%;
-      margin-bottom: 10px;
+      margin: 0 auto calc(var(--flipClockDotSize) * 1.5);
 
       &:last-child {
         margin-bottom: 0px;

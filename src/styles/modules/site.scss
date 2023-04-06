@@ -23,14 +23,6 @@
     grid-row-gap: var(--icon-gap-row);
     grid-auto-flow: row dense;
 
-    .widget {
-      grid-column-start: span 3;
-      grid-row-start: span 2;
-      //width: calc(var(--icon-size) * 3);
-      //height: calc(var(--icon-size) * 2);
-      border: 1px solid;
-    }
-
     .site-item {
       transform: translateY(0px);
       transition: all ease 0.3s;
@@ -40,7 +32,7 @@
         height: var(--icon-text-size);
         line-height: var(--icon-text-size);
         font-size: 12px;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--icon-text-color);
         text-align: center;
       }
 

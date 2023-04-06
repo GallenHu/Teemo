@@ -1,6 +1,6 @@
 .widget-time {
   position: relative;
-  background-color: #fff;
+  background-color: rgba(0,0,0,0.9);
   // background-image: url('https://static.199100.xyz/images/website/widget-bg-coast.webp');
   background-position: center;
   background-repeat: no-repeat;
@@ -24,19 +24,15 @@
   .content {
     position: relative;
 
-    .time {
-      font-size: 48px;
-      font-weight: 500;
-      letter-spacing: 4px;
-      text-align: center;
-      margin-top: calc(var(--icon-size) * 0.75);
-      margin-bottom: 10px;
-    }
     .date {
-      width: 80%;
+      font-size: 12px;
+      padding: 10px 0 6px 10px;
+      color: rgba(255,255,255,0.6);
       text-align: center;
-      margin: 0 auto;
-      color: #efefef;
+    }
+
+    .week {
+      margin-left: 10px;
     }
 
     .holiday {

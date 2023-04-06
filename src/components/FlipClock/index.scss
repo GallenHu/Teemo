@@ -1,3 +1,10 @@
+:root {
+  --flipClockNumSize: 32px;
+  --flipClockDotSize: 6px;
+  --flipClockBgColor: #1c1c1e;
+  --flipClockFrontColor: #ccc;
+}
+
 @mixin up-shadow {
   background: -webkit-gradient(
     linear,
@@ -33,11 +40,11 @@
     position: relative;
     padding: 0px;
     margin: 5px;
-    width: 60px;
-    height: 90px;
-    font-size: 80px;
+    width: var(--flipClockNumSize);
+    height: calc(var(--flipClockNumSize) + 10px);
+    line-height: calc(var(--flipClockNumSize) + 10px);
+    font-size: var(--flipClockNumSize);
     font-weight: bold;
-    line-height: 87px;
     border-radius: 6px;
     background: #000;
     display: inline-block;
@@ -56,7 +63,7 @@
       & > span {
         display: block;
         height: 100%;
-        perspective: 200px;
+        perspective: calc(var(--flipClockNumSize) *2);
         margin: 0 !important;
         overflow: visible !important;
         cursor: default !important;
@@ -67,7 +74,7 @@
           left: 0;
           width: 100%;
           height: 50%;
-          font-size: 80px;
+          font-size: var(--flipClockNumSize);
           overflow: hidden;
         }
       }
@@ -135,12 +142,12 @@
     z-index: 1;
     width: 100%;
     height: 200%;
-    color: #ccc;
+    color: var(--flipClockFrontColor);
     text-shadow: 0 1px 2px #000;
     text-align: center;
-    background-color: #502d2d;
+    background-color: var(--flipClockBgColor);
     border-radius: 6px;
-    font-size: 70px;
+    font-size: calc(var(--flipClockNumSize) * 0.9);
   }
 
   .flip-clock-active {
@@ -244,14 +251,14 @@
     width: 10px;
     height: 100%;
     position: relative;
-    top: 50px;
+    top: calc(var(--flipClockNumSize) * 0.5 + 10px);
     transform: translate(0, -50%);
     vertical-align: top;
 
     & > span {
       display: block;
-      width: 10px;
-      height: 10px;
+      width: var(--flipClockDotSize);
+      height: var(--flipClockDotSize);
       background: #323434;
       border-radius: 50%;
       margin-bottom: 10px;

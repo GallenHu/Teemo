@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import TimeUtils from '@/utils/time';
 import { getNextHoliday } from '@/services/date';
 import Clock from '@/components/FlipClock';
@@ -18,19 +18,13 @@ export default function Time() {
     setHoliday(d);
   };
 
-  useEffect(() => {
-    // const timer = setInterval(() => {
-    //   setTime(TimeUtils.getHMS(new Date()));
-    // }, 1000);
-    // getHoliday();
-    // return function cleanup() {
-    //   timer && clearInterval(timer);
-    // };
-  }, []);
-
   return (
-    <div className="widget-time g-4-2">
+    <div className="widget-time g-3-1">
       <div className="content">
+        <div className="date">
+          <span>{date}</span>
+          <span className="week">{weekdays[week]}</span>
+        </div>
         <Clock />
       </div>
     </div>

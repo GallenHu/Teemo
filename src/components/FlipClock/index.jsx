@@ -6,12 +6,19 @@ import Minutes from './minutes';
 import Hours from './hours';
 import './index.scss';
 
+const now = new Date();
+
+const hours = now.getHours().toString().padStart(2, '0');
+const minutes = now.getMinutes().toString().padStart(2, '0');
+const seconds = now.getSeconds().toString().padStart(2, '0');
+
 export default class FlipClock extends React.Component {
   $$(str) {
     return document.querySelectorAll(str);
   }
 
   componentDidMount() {
+    this.init();
     this.flip();
   }
 
@@ -21,32 +28,41 @@ export default class FlipClock extends React.Component {
     }, 1000);
   }
 
+  init() {
+    const time = `${hours}${minutes}${seconds}`;
+    ['.hours-pre', '.hours-last', '.minutes-pre', '.minutes-last', '.seconds-pre', '.seconds-last'].forEach(
+      (className, i) => {
+        this.$$(`${className} > li`)[Number(time[i])].className = 'flip-clock-active';
+      }
+    );
+  }
+
   hoursPredMove = (() => {
-    return this.move('.hours-pre');
+    return this.move('.hours-pre', null, hours[0]);
   })();
 
   hoursLastMove = (() => {
-    return this.move('.hours-last', this.hoursPredMove);
+    return this.move('.hours-last', this.hoursPredMove, hours[1]);
   })();
 
   minutesPredMove = (() => {
-    return this.move('.minutes-pre', this.hoursLastMove);
+    return this.move('.minutes-pre', this.hoursLastMove, minutes[0]);
   })();
 
   minutesLastMove = (() => {
-    return this.move('.minutes-last', this.minutesPredMove);
+    return this.move('.minutes-last', this.minutesPredMove, minutes[1]);
   })();
 
   secondsPredMove = (() => {
-    return this.move('.seconds-pre', this.minutesLastMove);
+    return this.move('.seconds-pre', this.minutesLastMove, seconds[0]);
   })();
 
   secondsLastMove = (() => {
-    return this.move('.seconds-last', this.secondsPredMove);
+    return this.move('.seconds-last', this.secondsPredMove, seconds[1]);
   })();
 
-  move(className, fn) {
-    let num = 0;
+  move(className, fn, init = 0) {
+    let num = Number(init);
     let ele = null;
     return () => {
       const element = ele || (ele = this.$$(`${className} > li`));

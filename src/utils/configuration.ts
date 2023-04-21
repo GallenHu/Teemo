@@ -1,11 +1,22 @@
 import type { Page, Widget } from '@/types/configuration';
 import Site from '@/containers/Desktop/SiteList/helper/Site';
 import DEFAULT_PAGES from '@/constants/default-pages';
+import { getRandomImage } from '@/utils/random';
 
 class Configuration {
   timestamp = 0; // updatedAt
   id = '';
   pages = [...DEFAULT_PAGES] as Page[];
+  bgUrl = '';
+
+  get bg() {
+    return this.bgUrl || getRandomImage();
+  }
+
+  set bg(url: string) {
+    this.bgUrl = url;
+    this.timestamp = Date.now();
+  }
 
   constructor(defaultData?: Configuration) {
     if (defaultData) {
@@ -13,6 +24,7 @@ class Configuration {
     } else {
       this.timestamp = Date.now();
       this.id = window.btoa('anonymous') + '_' + this.timestamp;
+      this.bgUrl = getRandomImage();
     }
 
     return this;
@@ -42,6 +54,7 @@ class Configuration {
     this.timestamp = conf.timestamp;
     this.id = conf.id;
     this.pages = conf.pages;
+    this.bgUrl = conf.bgUrl;
     return this;
   }
 

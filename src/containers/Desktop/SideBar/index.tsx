@@ -12,7 +12,9 @@ import PopupContainer, { Child as PopupChild } from './popup';
 import FileUtils from '@/utils/file';
 import { setRemote, getRemote } from '@/services/firestore';
 import constants from '@/constants';
+import bgImages from '@/constants/background-images';
 import Configuration from '@/utils/configuration';
+import { getRandomImage } from '@/utils/random';
 
 interface Props {
   pageIndex: number;
@@ -51,6 +53,8 @@ const popoverStyles = {
   },
 };
 
+const usedBg: string[] = [];
+
 export default function SideBar(props: Props) {
   const [globalValue, setGlobalValue] = useGlobalValue();
   const { configuration } = globalValue;
@@ -65,6 +69,10 @@ export default function SideBar(props: Props) {
   const [active, setActive] = useState('');
   const [uploadingFile, setUploadingFile] = useState<File | null>(null);
   const [confirmText, setConfirmText] = useState('');
+
+  const updateConfiguration = (newConf: Configuration) => {
+    setGlobalValue({ ...globalValue, configuration: newConf });
+  };
 
   const { user } = useContext(UserContext);
 
@@ -131,8 +139,15 @@ export default function SideBar(props: Props) {
     const classNames = ['sidebar-popover-content', active === id ? 'active' : ''].join(' ');
     return <div className={classNames}>{text}</div>;
   }
+  function changeBG() {
+    usedBg.push(configuration.bg);
+    configuration.bg = getRandomImage({ excludes: usedBg });
+    updateConfiguration(configuration);
+    usedBg.length === bgImages.length && (usedBg.length = 0);
+  }
   function renderSettingPopup() {
     const commChildren = [
+      { text: '更换壁纸', onClickEvent: () => changeBG() },
       { text: '新增分类', onClickEvent: () => setCategoryCreateModalVisible(true) },
       { text: '编辑分类', onClickEvent: updateCurrentCategory },
       { text: '导出配置', onClickEvent: () => exportConfiguration() },
@@ -168,7 +183,7 @@ export default function SideBar(props: Props) {
       newConf = configuration.addPage(name, icon);
     }
 
-    setGlobalValue({ ...globalValue, configuration: newConf });
+    updateConfiguration(newConf);
     props.onChangePage?.(newConf.pages.length - 1);
     setCategoryCreateModalVisible(false);
     setIsCategoryOnModify(false);
@@ -232,7 +247,7 @@ export default function SideBar(props: Props) {
 
           if (!error) {
             const newConf = configuration.applyConfiguration(data);
-            setGlobalValue({ ...globalValue, configuration: newConf });
+            updateConfiguration(newConf);
             hideConfirm();
             toaster.info('同步成功！');
           }

@@ -1,10 +1,14 @@
-export default function Background() {
+interface Props {
+  url: string;
+}
+
+export default function Background(props: Props) {
   return (
     <div className="desktop-bg">
       <div
         className="desktop-bg-img"
         style={{
-          backgroundImage: 'url(https://static.199100.xyz/images/wallpagers/snow-mountain_w5084.webp)',
+          backgroundImage: `url(${props.url})`,
         }}
       ></div>
       <div className="desktop-bg-mask" style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}></div>

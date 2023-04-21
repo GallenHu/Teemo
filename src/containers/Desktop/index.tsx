@@ -62,7 +62,7 @@ export default function Desktop() {
 
   return (
     <div className="desktop-app">
-      <Background />
+      <Background url={configuration.bg} />
       <SiteList
         pageIndex={currentPage}
         manageMode={manageMode}

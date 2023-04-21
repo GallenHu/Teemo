@@ -12,14 +12,14 @@ const bgImg = 'https://img.picgo.net/2023/04/21/bg40a041b4ec48271b.webp';
 export default forwardRef<HTMLDivElement>(function Time(_, ref) {
   const [holiday, setHoliday] = useState({ name: '', rest: 0 });
 
-  const getHoliday = async () => {
-    const d = await getNextHoliday();
-    setHoliday(d);
-  };
-
   useEffect(() => {
+    const getHoliday = async () => {
+      const d = await getNextHoliday();
+      setHoliday(d);
+    };
+
     !holiday.name && getHoliday();
-  }, [getHoliday]);
+  }, [holiday.name]);
 
   return (
     <div ref={ref} className="widget widget-holiday g-2-2 with-mask">

@@ -28,4 +28,6 @@ export class StorageUtils {
   }
 }
 
-export default new StorageUtils();
+const storage = new StorageUtils();
+
+export default storage;

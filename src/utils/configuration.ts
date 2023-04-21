@@ -1,7 +1,7 @@
 import type { Page, Widget } from '@/types/configuration';
 import Site from '@/containers/Desktop/SiteList/helper/Site';
 import DEFAULT_PAGES from '@/constants/default-pages';
-import { getRandomImage } from '@/utils/random';
+import bgs from '@/constants/background-images';
 
 class Configuration {
   timestamp = 0; // updatedAt
@@ -10,7 +10,7 @@ class Configuration {
   bgUrl = '';
 
   get bg() {
-    return this.bgUrl || getRandomImage();
+    return this.bgUrl || bgs[0];
   }
 
   set bg(url: string) {
@@ -24,7 +24,7 @@ class Configuration {
     } else {
       this.timestamp = Date.now();
       this.id = window.btoa('anonymous') + '_' + this.timestamp;
-      this.bgUrl = getRandomImage();
+      this.bgUrl = bgs[0];
     }
 
     return this;

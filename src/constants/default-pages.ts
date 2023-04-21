@@ -1,8 +1,11 @@
+import images from './background-images';
+
 const DEFAULT_PAGES = [
   {
     id: 'page-home',
     name: '主页',
     icon: 'icon-shouye',
+    bg: images[0],
     children: [
       {
         type: 'widget',

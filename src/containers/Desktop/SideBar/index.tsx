@@ -10,11 +10,14 @@ import UserContext from '@/contexts/userContext';
 import useConfirm from '@/hooks/useConfirm';
 import PopupContainer, { Child as PopupChild } from './popup';
 import FileUtils from '@/utils/file';
-import { setRemote, getRemote } from '@/services/firestore';
+import { getRemote, setRemote } from '@/services/firestore';
 import constants from '@/constants';
 import bgImages from '@/constants/background-images';
 import Configuration from '@/utils/configuration';
 import { getRandomImage } from '@/utils/random';
+import { ContentType, Widget } from '@/types/configuration.d';
+import defaultPages from '@/constants/default-pages';
+import { difference } from 'lodash';
 
 interface Props {
   pageIndex: number;
@@ -145,6 +148,19 @@ export default function SideBar(props: Props) {
     updateConfiguration(configuration);
     usedBg.length === bgImages.length && (usedBg.length = 0);
   }
+  function syncWidgets() {
+    const allWidgets = (defaultPages[0].children as any[]).filter(item => item.type === ContentType.WIDGET);
+    const currNodes = configuration.pages[0].children;
+    const curr = currNodes.filter(item => item.type === ContentType.WIDGET).map(item => item.name);
+    const allWidgetNames = allWidgets.map(item => item.name);
+
+    if (curr.length < allWidgetNames.length) {
+      const diffNames = difference(allWidgetNames, curr);
+      const widgets = allWidgets.filter(item => diffNames.includes(item.name));
+      configuration.pages[0].children = [...(widgets as Widget[]), ...currNodes];
+      updateConfiguration(configuration);
+    }
+  }
   function renderSettingPopup() {
     const commChildren = [
       { text: '更换壁纸', onClickEvent: () => changeBG() },
@@ -152,6 +168,7 @@ export default function SideBar(props: Props) {
       { text: '编辑分类', onClickEvent: updateCurrentCategory },
       { text: '导出配置', onClickEvent: () => exportConfiguration() },
       { text: '导入配置', onClickEvent: () => importConfiguration() },
+      { text: '更新组件', onClickEvent: () => syncWidgets() },
     ];
     const children: PopupChild[] = manageMode
       ? [{ text: '调整完毕', onClickEvent: handleClickManageFinish }, ...commChildren]

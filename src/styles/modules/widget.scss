@@ -1,6 +1,17 @@
 .widget {
   .content {
+    position: relative;
     height: calc(100% - 30px);
+
+    .mask {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
   }
   .name {
     height: var(--icon-text-size);
@@ -9,6 +20,12 @@
     color: var(--icon-text-color);
     text-align: center;
     letter-spacing: 0.4em;
+  }
+
+  .content-inner {
+    position: relative;
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -27,6 +44,7 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
 
     &.is-screenfull {
       .flip-clock-wrapper {
@@ -50,6 +68,37 @@
       color: #eee;
       font-size: 12px;
       margin-top: 10px;
+    }
+  }
+}
+
+.widget-holiday {
+  .content {
+    background-color: rgba(0, 0, 0, 0.05);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+
+    .desc {
+      margin-top: 20%;
+      margin-bottom: 1em;
+    }
+    .day {
+      font-size: 50px;
+
+      small {
+        font-size: 14px;
+      }
+    }
+    .extra {
+      margin-top: 1em;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
     }
   }
 }

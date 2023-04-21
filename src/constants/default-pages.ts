@@ -10,6 +10,11 @@ const DEFAULT_PAGES = [
         id: 'widget-date',
       },
       {
+        type: 'widget',
+        name: 'HOLIDAY',
+        id: 'widget-holiday',
+      },
+      {
         id: 'site-sina',
         name: '新浪微博',
         url: 'https://weibo.com',

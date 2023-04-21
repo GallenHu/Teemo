@@ -105,7 +105,6 @@ class Configuration {
   updateSiteList(pageId: string, siteList: (Widget | Site)[]) {
     const page = this.pages.find(item => item.id === pageId);
 
-    console.log(233, pageId, page);
     if (page) {
       page.children = siteList;
 

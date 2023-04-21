@@ -10,6 +10,7 @@
     "@types/node": "^16.11.47",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "@types/throttle-debounce": "^5.0.0",
     "baseui": "^12.2.0",
     "chinese-lunar": "^0.1.4",
     "dayjs": "^1.11.5",
@@ -30,6 +31,7 @@
     "screenfull": "^6.0.2",
     "styletron-engine-atomic": "^1.5.0",
     "styletron-react": "^6.1.0",
+    "throttle-debounce": "^5.0.0",
     "typescript": "^4.7.4",
     "use-long-press": "^2.0.3",
     "web-vitals": "^2.1.4"

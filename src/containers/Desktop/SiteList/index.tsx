@@ -1,16 +1,17 @@
 import SiteCreateModal from '@/components/SiteCreateModal';
-import Widget from '@/components/Widget';
 import type Site from '@/containers/Desktop/SiteList/helper/Site';
 import useConfirm from '@/hooks/useConfirm';
 import useGlobalValue from '@/hooks/useGlobalState';
-import { ContentType, Page } from '@/types/configuration.d';
 import Check from 'baseui/icon/check';
 import Delete from 'baseui/icon/delete';
 import Plus from 'baseui/icon/plus';
 import update from 'immutability-helper';
 import { useCallback, useState } from 'react';
 import { useLongPress } from 'use-long-press';
-import SiteItem from './SiteItem';
+import { throttle } from 'throttle-debounce';
+import ListNode from './ListNode';
+import Configuration from '@/utils/configuration';
+import { Page } from '@/types/configuration.d';
 
 interface Props {
   pageIndex: number;
@@ -36,6 +37,10 @@ export default function SiteList(props: Props) {
   const scrollContentStyle = {
     height: `${pages.length * 100}vh`,
     transform: `translate3D(0,${pageIndex * -100}vh, 0)`,
+  };
+
+  const updateConfiguration = (newConf: Configuration) => {
+    setGlobalValue({ ...globalValue, configuration: newConf });
   };
 
   const [showConfirm, hideConfirm, ConfirmModal] = useConfirm(
@@ -100,7 +105,7 @@ export default function SiteList(props: Props) {
 
     setCurrentSite(null);
     setIsOpenSiteCreateModal(false);
-    setGlobalValue({ ...globalValue, configuration: newConf });
+    updateConfiguration(newConf);
 
     return true;
   }
@@ -119,10 +124,10 @@ export default function SiteList(props: Props) {
   function onConfirmDelete() {
     if (deleteTarget === DELETABLE_TARGET.site) {
       const newConf = configuration.deleteSite(currentPage!.id || '', currentSite!);
-      setGlobalValue({ ...globalValue, configuration: newConf });
+      updateConfiguration(newConf);
     } else if (deleteTarget === DELETABLE_TARGET.page) {
       const newConf = configuration.deletePage(pageIndex);
-      setGlobalValue({ ...globalValue, configuration: newConf });
+      updateConfiguration(newConf);
       onTriggerChangePage?.(Math.max(pageIndex - 1, 0));
       quitManageMode();
     }
@@ -136,7 +141,7 @@ export default function SiteList(props: Props) {
     setDeleteTarget(null);
   }
 
-  const moveCard = useCallback((cardId: string, hoverIndex: number) => {
+  const throttleMoveCard = throttle(300, (cardId: string, hoverIndex: number) => {
     const siteList = [...(currentPage?.children || [])];
 
     const dragIndex = siteList.findIndex(item => item.id === cardId);
@@ -148,8 +153,12 @@ export default function SiteList(props: Props) {
       ],
     });
 
-    configuration.updateSiteList(currentPage.id, newSiteList);
-  }, []);
+    const newConf = configuration.updateSiteList(currentPage.id, newSiteList);
+
+    updateConfiguration(newConf);
+  });
+
+  const moveCard = useCallback(throttleMoveCard, [throttleMoveCard]);
 
   return (
     <div className="site-list">
@@ -157,23 +166,21 @@ export default function SiteList(props: Props) {
         {pages.map(page => {
           return (
             <section className="section" key={page.id}>
-              {page.children.map((item, index) => {
-                return item.type === ContentType.WIDGET ? (
-                  <Widget key={item.id} name={item.name} />
-                ) : (
-                  <SiteItem
-                    manageMode={manageMode}
-                    key={item.id}
-                    site={item}
-                    page={page}
-                    index={index}
-                    onClickSite={onClickSite}
-                    onClickDeleteIcon={handleClickDeleteIcon}
-                    bindLongPress={bindLongPress}
-                    moveCard={moveCard}
-                  />
-                );
-              })}
+              {page.children.map((item, index) => (
+                <ListNode
+                  key={item.id}
+                  type={item.type}
+                  name={item.name}
+                  manageMode={manageMode}
+                  node={item}
+                  page={page}
+                  index={index}
+                  onClickSite={onClickSite}
+                  onClickDeleteIcon={handleClickDeleteIcon}
+                  bindLongPress={bindLongPress}
+                  moveCard={moveCard}
+                />
+              ))}
 
               {manageMode ? (
                 <>

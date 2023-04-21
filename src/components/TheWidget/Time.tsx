@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, forwardRef } from 'react';
 import TimeUtils from '@/utils/time';
 import { getNextHoliday } from '@/services/date';
 import Clock from '@/components/FlipClock';
@@ -10,7 +10,7 @@ const week = TimeUtils.getDay(now);
 const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
 const lunarDay = TimeUtils.getLunarDay(now);
 
-export default function Time() {
+export default forwardRef<HTMLDivElement>(function Time(_, ref) {
   const clockElm = useRef(null);
   const [isScreenFull, setIsScreenFull] = useState(false);
   const [time, setTime] = useState(TimeUtils.getHMS(now));
@@ -44,7 +44,7 @@ export default function Time() {
   }, []);
 
   return (
-    <div className="widget widget-time g-2-1">
+    <div ref={ref} className="widget widget-time g-2-1">
       <div
         className={['content', isScreenFull && 'is-screenfull'].join(' ')}
         ref={clockElm}
@@ -56,4 +56,4 @@ export default function Time() {
       <div className="name">时间</div>
     </div>
   );
-}
+});

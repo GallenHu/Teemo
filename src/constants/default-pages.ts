@@ -32,7 +32,7 @@ const DEFAULT_PAGES = [
       },
 
       {
-        id: 'site-iqiyi',
+        id: 'site-vqq',
         name: '腾讯视频',
         url: 'https://v.qq.com',
         type: 'site', // site, widget

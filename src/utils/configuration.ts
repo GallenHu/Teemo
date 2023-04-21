@@ -1,4 +1,4 @@
-import { Page } from '@/types/configuration';
+import type { Page, Widget } from '@/types/configuration';
 import Site from '@/containers/Desktop/SiteList/helper/Site';
 import DEFAULT_PAGES from '@/constants/default-pages';
 
@@ -99,6 +99,19 @@ class Configuration {
     this.pages[pageIndex].icon = icon;
 
     this.timestamp = Date.now();
+    return this;
+  }
+
+  updateSiteList(pageId: string, siteList: (Widget | Site)[]) {
+    const page = this.pages.find(item => item.id === pageId);
+
+    console.log(233, pageId, page);
+    if (page) {
+      page.children = siteList;
+
+      this.timestamp = Date.now();
+    }
+
     return this;
   }
 

@@ -66,8 +66,7 @@ export default function Desktop() {
       <SiteList
         pageIndex={currentPage}
         manageMode={manageMode}
-        onLongPress={() => setManageMode(!manageMode)}
-        onTriggerQuitManageMode={() => setManageMode(false)}
+        setManageMode={setManageMode}
         onTriggerChangePage={page => setCurrentPage(page)}
       />
       <SideBar

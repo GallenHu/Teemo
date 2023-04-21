@@ -1,22 +1,21 @@
-import Delete from 'baseui/icon/delete';
-import { useLongPress } from 'use-long-press';
-import Widget from '@/components/Widget';
-import { NotificationCircle } from 'baseui/badge';
-import { ContentType, Page } from '@/types/configuration.d';
 import SiteCreateModal from '@/components/SiteCreateModal';
-import { useState } from 'react';
-import IconColorBg from '@/components/IconColorBg';
-import Site from '@/containers/Desktop/SiteList/helper/Site';
+import Widget from '@/components/Widget';
+import type Site from '@/containers/Desktop/SiteList/helper/Site';
 import useConfirm from '@/hooks/useConfirm';
 import useGlobalValue from '@/hooks/useGlobalState';
-import Plus from 'baseui/icon/plus';
+import { ContentType, Page } from '@/types/configuration.d';
 import Check from 'baseui/icon/check';
+import Delete from 'baseui/icon/delete';
+import Plus from 'baseui/icon/plus';
+import update from 'immutability-helper';
+import { useCallback, useState } from 'react';
+import { useLongPress } from 'use-long-press';
+import SiteItem from './SiteItem';
 
 interface Props {
   pageIndex: number;
   manageMode: boolean;
-  onLongPress?: () => void;
-  onTriggerQuitManageMode?: () => void;
+  setManageMode: (isManageMode: boolean) => void;
   onTriggerChangePage?: (pageIndex: number) => void;
 }
 
@@ -29,11 +28,11 @@ export default function SiteList(props: Props) {
   const [globalValue, setGlobalValue] = useGlobalValue();
   const { configuration } = globalValue;
   const [isOpenSiteCreateModal, setIsOpenSiteCreateModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState<Page | null>(null);
-  const [currentSite, setCurrentSite] = useState<Site | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<DELETABLE_TARGET | null>(null);
-  const { pageIndex, manageMode, onTriggerQuitManageMode, onTriggerChangePage } = props;
+  const { pageIndex, manageMode, setManageMode, onTriggerChangePage } = props;
   const { pages } = configuration;
+  const [currentPage] = useState<Page>(pages[pageIndex]);
+  const [currentSite, setCurrentSite] = useState<Site | null>(null);
   const scrollContentStyle = {
     height: `${pages.length * 100}vh`,
     transform: `translate3D(0,${pageIndex * -100}vh, 0)`,
@@ -50,12 +49,11 @@ export default function SiteList(props: Props) {
   );
 
   const bindLongPress = useLongPress(() => {
-    props.onLongPress?.();
+    setManageMode(true);
   });
 
   function onClickSite(site: Site, page: Page) {
     if (manageMode) {
-      setCurrentPage(page);
       setCurrentSite(site);
       setIsOpenSiteCreateModal(true);
     } else {
@@ -68,19 +66,17 @@ export default function SiteList(props: Props) {
    * @param page
    */
   function onClickAdd(page: Page) {
-    setCurrentPage(page);
     setIsOpenSiteCreateModal(true);
   }
 
   function onClickDeletePage(page: Page, pageIndex: number) {
-    setCurrentPage(page);
     setDeleteTarget(DELETABLE_TARGET.page);
 
     showConfirm(`Confirm delete category "${page.name}" ?`);
   }
 
   function quitManageMode() {
-    onTriggerQuitManageMode?.();
+    setManageMode(false);
   }
 
   /**
@@ -116,7 +112,6 @@ export default function SiteList(props: Props) {
 
   function handleClickDeleteIcon(site: Site, page: Page) {
     setCurrentSite(site);
-    setCurrentPage(page);
     setDeleteTarget(DELETABLE_TARGET.site);
     showConfirm(`Confirm delete site "${site.name}" ?`);
   }
@@ -141,29 +136,20 @@ export default function SiteList(props: Props) {
     setDeleteTarget(null);
   }
 
-  function renderSite(site: Site, page: Page) {
-    const renderSiteIcon = () => (
-      <div key={site.id} className="site-item" onClick={() => onClickSite(site, page)} {...bindLongPress()}>
-        {site.bgType === 'image' ? (
-          <div className="icon" style={{ backgroundImage: `url(${site.bgImage})` }}></div>
-        ) : (
-          <IconColorBg bgColor={site.bgColor} text={site.iconText || site.name.slice(0, 1).toUpperCase()} />
-        )}
-        <div className="name">{site.name}</div>
-      </div>
-    );
+  const moveCard = useCallback((cardId: string, hoverIndex: number) => {
+    const siteList = [...(currentPage?.children || [])];
 
-    return manageMode ? (
-      <NotificationCircle
-        key={site.id}
-        content={<Delete className="icon-close" onClick={() => handleClickDeleteIcon(site, page)} />}
-      >
-        {renderSiteIcon()}
-      </NotificationCircle>
-    ) : (
-      renderSiteIcon()
-    );
-  }
+    const dragIndex = siteList.findIndex(item => item.id === cardId);
+
+    const newSiteList = update(siteList, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, siteList[dragIndex]],
+      ],
+    });
+
+    configuration.updateSiteList(currentPage.id, newSiteList);
+  }, []);
 
   return (
     <div className="site-list">
@@ -171,11 +157,21 @@ export default function SiteList(props: Props) {
         {pages.map(page => {
           return (
             <section className="section" key={page.id}>
-              {page.children.map(item => {
+              {page.children.map((item, index) => {
                 return item.type === ContentType.WIDGET ? (
                   <Widget key={item.id} name={item.name} />
                 ) : (
-                  renderSite(item, page)
+                  <SiteItem
+                    manageMode={manageMode}
+                    key={item.id}
+                    site={item}
+                    page={page}
+                    index={index}
+                    onClickSite={onClickSite}
+                    onClickDeleteIcon={handleClickDeleteIcon}
+                    bindLongPress={bindLongPress}
+                    moveCard={moveCard}
+                  />
                 );
               })}
 

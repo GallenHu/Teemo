@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import ReactDOM from 'react-dom/client';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import Loading from '@/containers/Loading';
+import UserContexts from '@/contexts/userContext';
 import '@/styles/base.scss';
+import { User } from '@/types/user.d';
+import { BaseProvider, LightTheme } from 'baseui';
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
-import { BaseProvider, LightTheme } from 'baseui';
-import UserContexts from '@/contexts/userContext';
-import { User } from '@/types/user.d';
 
 const engine = new Styletron();
 
@@ -44,9 +46,11 @@ root.render(
   <>
     <StyletronProvider value={engine}>
       <BaseProvider theme={LightTheme}>
+        <DndProvider backend={HTML5Backend}>
         <UserProvider>
           <RouterProvider router={router} />
         </UserProvider>
+        </DndProvider>
       </BaseProvider>
     </StyletronProvider>
   </>

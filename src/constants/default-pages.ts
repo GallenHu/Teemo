@@ -6,13 +6,13 @@ const DEFAULT_PAGES = [
     children: [
       {
         type: 'widget',
-        name: 'TIME',
-        id: 'widget-date',
+        name: 'HOLIDAY',
+        id: 'widget-holiday',
       },
       {
         type: 'widget',
-        name: 'HOLIDAY',
-        id: 'widget-holiday',
+        name: 'TIME',
+        id: 'widget-date',
       },
       {
         id: 'site-sina',

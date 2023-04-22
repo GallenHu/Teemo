@@ -153,7 +153,7 @@ export default function SiteList(props: Props) {
       ],
     });
 
-    const newConf = configuration.updateSiteList(currentPage.id, newSiteList);
+    const newConf = configuration.updatePageNodes(currentPage.id, newSiteList);
 
     updateConfiguration(newConf);
   });

@@ -157,8 +157,9 @@ export default function SideBar(props: Props) {
     if (curr.length < allWidgetNames.length) {
       const diffNames = difference(allWidgetNames, curr);
       const widgets = allWidgets.filter(item => diffNames.includes(item.name));
-      configuration.pages[0].children = [...(widgets as Widget[]), ...currNodes];
-      updateConfiguration(configuration);
+      const nodes = [...(widgets as Widget[]), ...currNodes];
+      const newConf = configuration.updatePageNodes(configuration.pages[0].id, nodes);
+      updateConfiguration(newConf);
     }
   }
   function renderSettingPopup() {

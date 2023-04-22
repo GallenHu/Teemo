@@ -115,11 +115,11 @@ class Configuration {
     return this;
   }
 
-  updateSiteList(pageId: string, siteList: (Widget | Site)[]) {
+  updatePageNodes(pageId: string, nodes: (Widget | Site)[]) {
     const page = this.pages.find(item => item.id === pageId);
 
     if (page) {
-      page.children = siteList;
+      page.children = nodes;
 
       this.timestamp = Date.now();
     }

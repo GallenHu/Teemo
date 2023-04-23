@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import SiteCreateModal from '@/components/SiteCreateModal';
 import type Site from '@/containers/Desktop/SiteList/helper/Site';
 import useConfirm from '@/hooks/useConfirm';
@@ -32,7 +33,7 @@ export default function SiteList(props: Props) {
   const [deleteTarget, setDeleteTarget] = useState<DELETABLE_TARGET | null>(null);
   const { pageIndex, manageMode, setManageMode, onTriggerChangePage } = props;
   const { pages } = configuration;
-  const [currentPage] = useState<Page>(pages[pageIndex]);
+  const currentPage = useMemo<Page>(() => pages[pageIndex], [pageIndex, pages]);
   const [currentSite, setCurrentSite] = useState<Site | null>(null);
   const scrollContentStyle = {
     height: `${pages.length * 100}vh`,

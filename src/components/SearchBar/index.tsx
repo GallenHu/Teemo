@@ -3,6 +3,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import Autocomplete from "@mui/joy/Autocomplete";
 import Button from "@mui/joy/Button";
 import { EngineContext } from "../contexts";
+import { getSuggestions } from "../../services/search";
 import {
   BUTTON_COLORS,
   BUTTON_VARIANT,
@@ -11,15 +12,23 @@ import {
 } from "../../constants";
 
 export default function SearchBar() {
-  const [options, setOptions] = React.useState([]);
-  const [value, setValue] = React.useState<string>();
+  const [options, setOptions] = React.useState<string[]>([]);
+  // const [value, setValue] = React.useState<string>();
   const [inputValue, setInputValue] = React.useState("");
-  const { engine, setEngine } = React.useContext(EngineContext);
+  const { engine } = React.useContext(EngineContext);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const url = ENGINE_URL[engine].replace("$key$", inputValue);
     window.open(url, "_blank", "noopener");
+  };
+
+  const onInputChange = async (_: any, newInputValue: string) => {
+    const data = await getSuggestions(newInputValue);
+    const suggestions = data.s || [];
+    setOptions(suggestions);
+
+    setInputValue(newInputValue);
   };
 
   return (
@@ -33,14 +42,8 @@ export default function SearchBar() {
         type="search"
         freeSolo
         disableClearable
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
         inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
-        }}
+        onInputChange={onInputChange}
         options={options.map((option) => option)}
         startDecorator={<SearchOutlined />}
         endDecorator={

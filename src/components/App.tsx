@@ -18,8 +18,8 @@ function App() {
 
   return (
     <EngineContext.Provider value={contextValue}>
-      <div className="h-full relative">
-        <div className="absolute w-[600px] top-[50%] left-[50%] -mt-[300px] -translate-x-2/4">
+      <div className="relative h-full">
+        <div className="absolute left-[50%] top-[50%] w-[600px] -translate-x-2/4 -translate-y-full">
           <TheLogo></TheLogo>
           <SearchBar></SearchBar>
         </div>

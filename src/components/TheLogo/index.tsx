@@ -19,8 +19,8 @@ export default function TheLogo() {
   };
 
   return (
-    <div className="text-center w-full" onClick={toggleEngine}>
-      <img src={ICONS[engine]} className="inline-block w-[300px]" />
+    <div className="w-full text-center">
+      <img src={ICONS[engine]} className="inline-block w-[300px]" onClick={toggleEngine} />
     </div>
   );
 }

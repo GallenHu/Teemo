@@ -10,26 +10,63 @@ import {
   BUTTON_TEXT,
   ENGINE_URL,
 } from "../../constants";
+import { useDebounce } from "react-use";
 
 export default function SearchBar() {
   const [options, setOptions] = React.useState<string[]>([]);
-  // const [value, setValue] = React.useState<string>();
+  // Dropdown Value (hidden)
+  const [value, setValue] = React.useState<string>("");
+  // Input Value
   const [inputValue, setInputValue] = React.useState("");
+  const [searchValue, setSearchValue] = React.useState("");
   const { engine } = React.useContext(EngineContext);
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const url = ENGINE_URL[engine].replace("$key$", inputValue);
+  const submit = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    const url = ENGINE_URL[engine].replace("$key$", value);
     window.open(url, "_blank", "noopener");
   };
 
-  const onInputChange = async (_: any, newInputValue: string) => {
-    const data = await getSuggestions(newInputValue);
+  const fetch = async (keyword: string) => {
+    if (!keyword) {
+      setOptions([]);
+      return;
+    }
+    const data = await getSuggestions(keyword);
     const suggestions = data.s || [];
     setOptions(suggestions);
-
-    setInputValue(newInputValue);
   };
+
+  // 正常输入将触发 InputChange, 方向键不会
+  const onInputChange = (evt: React.SyntheticEvent, newInputValue: string) => {
+    setInputValue(newInputValue);
+    setValue(newInputValue);
+    setSearchValue(newInputValue);
+  };
+
+  const onKeyUp = (evt: any) => {
+    if (evt.key.toLowerCase() === "enter") {
+      submit();
+    }
+  };
+
+  const onHighlightChange = (
+    event: React.SyntheticEvent,
+    option: string | null
+  ) => {
+    if (option) {
+      setValue(option);
+      setInputValue(option);
+    }
+  };
+
+  useDebounce(
+    () => {
+      fetch(searchValue);
+    },
+    300,
+    [searchValue]
+  );
 
   return (
     <form onSubmit={submit}>
@@ -42,9 +79,14 @@ export default function SearchBar() {
         type="search"
         freeSolo
         disableClearable
+        autoFocus
+        value={value}
         inputValue={inputValue}
         onInputChange={onInputChange}
-        options={options.map((option) => option)}
+        onKeyUp={onKeyUp}
+        options={options}
+        /* do not filter */
+        filterOptions={(x) => x}
         startDecorator={<SearchOutlined />}
         endDecorator={
           <Button
@@ -58,6 +100,7 @@ export default function SearchBar() {
             {BUTTON_TEXT[engine]}
           </Button>
         }
+        onHighlightChange={onHighlightChange}
       />
     </form>
   );

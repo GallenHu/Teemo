@@ -11,6 +11,7 @@ import {
   ENGINE_URL,
 } from "../../constants";
 import { useDebounce } from "react-use";
+import useKeyboardJs from "react-use/lib/useKeyboardJs";
 
 export default function SearchBar() {
   const [options, setOptions] = React.useState<string[]>([]);
@@ -20,6 +21,9 @@ export default function SearchBar() {
   const [inputValue, setInputValue] = React.useState("");
   const [searchValue, setSearchValue] = React.useState("");
   const { engine } = React.useContext(EngineContext);
+  const inputRef = React.useRef<any>();
+
+  const [isPressedHotkeyFocus] = useKeyboardJs("/");
 
   const submit = (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -68,6 +72,14 @@ export default function SearchBar() {
     [searchValue]
   );
 
+  React.useEffect(() => {
+    if (isPressedHotkeyFocus) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      });
+    }
+  }, [isPressedHotkeyFocus]);
+
   return (
     <form onSubmit={submit}>
       <Autocomplete
@@ -77,6 +89,11 @@ export default function SearchBar() {
           "--Input-radius": "10px",
         }}
         type="search"
+        slotProps={{
+          input: {
+            ref: inputRef,
+          },
+        }}
         freeSolo
         disableClearable
         autoFocus

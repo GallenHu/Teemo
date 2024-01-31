@@ -22,7 +22,8 @@ export default function TheLogo() {
     <div className="w-full text-center">
       <img
         src={ICONS[engine]}
-        className="inline-block w-[300px]"
+        alt={engine}
+        className="inline-block w-[50%]"
         onClick={toggleEngine}
       />
     </div>

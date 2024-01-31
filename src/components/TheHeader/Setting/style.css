@@ -4,8 +4,6 @@
   transition: color 0.3s ease;
 }
 
-.btn-setting:hover {
-  .icon-setting {
-    color: #555;
-  }
+.btn-setting:hover .icon-setting {
+  color: #555;
 }

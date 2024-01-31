@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useColorScheme } from "@mui/joy/styles";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Select from "@mui/joy/Select";
@@ -7,12 +8,14 @@ import Stack from "@mui/joy/Stack";
 import { SettingContext } from "../../contexts";
 
 export default function () {
-  const { theme, background, setTheme, setBackground } = React.useContext(
-    SettingContext
-  );
+  const { mode, setMode } = useColorScheme();
 
-  const handleChange = (field: string, d: any) => {
-    console.log(field, d);
+  const { background, setBackground } = React.useContext(SettingContext);
+
+  const handleChange = (field: string, data: any) => {
+    if (field === "theme") {
+      setMode(data);
+    }
   };
 
   return (
@@ -23,10 +26,10 @@ export default function () {
             <FormLabel>主题模式</FormLabel>
             <Select
               name="theme"
-              defaultValue={theme}
+              defaultValue={mode}
               onChange={(e, d) => handleChange("theme", d)}
             >
-              <Option value="auto">自动</Option>
+              <Option value="system">跟随系统</Option>
               <Option value="light">浅色</Option>
               <Option value="dark">深色</Option>
             </Select>

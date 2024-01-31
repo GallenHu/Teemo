@@ -2,7 +2,7 @@ import * as React from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Autocomplete from "@mui/joy/Autocomplete";
 import Button from "@mui/joy/Button";
-import { EngineContext } from "../contexts";
+import { SettingContext } from "../contexts";
 import { getSuggestions } from "../../services/search";
 import {
   BUTTON_COLORS,
@@ -20,7 +20,7 @@ export default function SearchBar() {
   // Input Value
   const [inputValue, setInputValue] = React.useState("");
   const [searchValue, setSearchValue] = React.useState("");
-  const { engine } = React.useContext(EngineContext);
+  const { engine } = React.useContext(SettingContext);
   const inputRef = React.useRef<any>();
 
   const [isPressedHotkeyFocus] = useKeyboardJs("/");

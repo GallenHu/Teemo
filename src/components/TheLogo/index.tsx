@@ -1,10 +1,10 @@
 import * as React from "react";
 import IconG from "../../assets/google.svg";
 import IconB from "../../assets/baidu.svg";
-import { EngineContext } from "../contexts";
+import { SettingContext } from "../contexts";
 
 export default function TheLogo() {
-  const { engine, setEngine } = React.useContext(EngineContext);
+  const { engine, setEngine } = React.useContext(SettingContext);
   const ICONS = {
     baidu: IconB,
     google: IconG,
@@ -20,7 +20,11 @@ export default function TheLogo() {
 
   return (
     <div className="w-full text-center">
-      <img src={ICONS[engine]} className="inline-block w-[300px]" onClick={toggleEngine} />
+      <img
+        src={ICONS[engine]}
+        className="inline-block w-[300px]"
+        onClick={toggleEngine}
+      />
     </div>
   );
 }

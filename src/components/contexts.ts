@@ -1,8 +1,19 @@
 import * as React from "react";
 
-const EngineContext = React.createContext<{
+const SettingContext = React.createContext<{
   engine: string;
+  theme: string;
+  background: string;
   setEngine: React.Dispatch<React.SetStateAction<string>>;
-}>({ engine: "", setEngine: () => null });
+  setTheme: React.Dispatch<React.SetStateAction<string>>;
+  setBackground: React.Dispatch<React.SetStateAction<string>>;
+}>({
+  engine: "",
+  theme: "",
+  background: "",
+  setEngine: () => null,
+  setTheme: () => null,
+  setBackground: () => null,
+});
 
-export { EngineContext };
+export { SettingContext };

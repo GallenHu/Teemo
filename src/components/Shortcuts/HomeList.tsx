@@ -21,12 +21,7 @@ const GridList: React.FC<GridListProps> = ({ items }) => {
   };
 
   return (
-    <div
-      className="flex gap-[20px] absolute w-full top-[100%] mt-[20px]"
-      style={{
-        gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
-      }}
-    >
+    <div className="flex gap-[20px] absolute w-full top-[100%] mt-[20px]">
       {list.map((item, index) => (
         <DraggableItem
           key={index}
@@ -42,7 +37,7 @@ const GridList: React.FC<GridListProps> = ({ items }) => {
 const App: React.FC = () => {
   return (
     <DndProvider backend={HTML5Backend}>
-      <GridList items={SHORTCUTS_MARKET} />
+      <GridList items={SHORTCUTS_MARKET["首页"]} />
     </DndProvider>
   );
 };

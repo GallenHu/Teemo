@@ -7,7 +7,7 @@ interface ContainerComponentProps {
 
 export default function (props: ContainerComponentProps) {
   return (
-    <div id={props.id} className="h-screen bg-white dark:bg-slate-800">
+    <div id={props.id} className="h-screen bg-slate-100 dark:bg-slate-800">
       {props.children}
     </div>
   );

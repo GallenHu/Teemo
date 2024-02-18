@@ -1,12 +1,10 @@
 import * as React from "react";
 import { CssVarsProvider, extendTheme } from "@mui/joy/styles";
-import Typography from "@mui/joy/Typography";
 import "./App.scss";
 import PageContainer from "./PageContainer/index";
 import TheHeader from "./TheHeader/index";
 import SearchBar from "./SearchBar/index";
 import TheLogo from "./TheLogo/index";
-import HomeListShortcuts from "./Shortcuts/HomeList";
 import NavListShortcuts from "./Shortcuts/NavList";
 import { SettingContext } from "./contexts";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -21,6 +19,7 @@ declare module "@mui/joy/Button" {
 function App() {
   const [engine, setEngine] = useLocalStorage("engine", "baidu");
   const [bg, setBg] = useLocalStorage("background", "default");
+  const [scrollState, setScrollState] = React.useState("ready");
 
   const contextValue = React.useMemo(
     () => ({
@@ -51,6 +50,42 @@ function App() {
     },
   });
 
+  React.useEffect(() => {
+    const top0 = document.getElementById("main")?.offsetTop || 0;
+    const top1 = document.getElementById("nav")?.offsetTop || 0;
+
+    const handleScroll = (e: any) => {
+      e.preventDefault();
+
+      const scrollTop = document.documentElement.scrollTop;
+      console.log(
+        e.deltaY,
+        Math.abs(scrollTop - top0),
+        Math.abs(scrollTop - top1)
+      );
+
+      if (e.deltaY > 0) {
+        // down
+        if (Math.abs(scrollTop - top0) < 30) {
+          document.getElementById("nav")?.scrollIntoView({
+            behavior: "smooth",
+          });
+        }
+      } else if (Math.abs(scrollTop - top1) < 30) {
+        // up
+        document.getElementById("main")?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    };
+
+    document.addEventListener("wheel", handleScroll, { passive: false });
+
+    return () => {
+      document.removeEventListener("wheel", handleScroll);
+    };
+  }, []);
+
   return (
     <CssVarsProvider defaultMode="system" theme={theme}>
       <SettingContext.Provider value={contextValue}>
@@ -60,8 +95,6 @@ function App() {
             <div className="absolute left-[50%] top-[50%] w-[80%] max-w-[600px] -translate-x-2/4 -translate-y-full">
               <TheLogo></TheLogo>
               <SearchBar></SearchBar>
-
-              <HomeListShortcuts />
             </div>
           </div>
         </PageContainer>

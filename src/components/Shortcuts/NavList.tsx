@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { styled } from "@mui/joy/styles";
 import Typography from "@mui/joy/Typography";
-import Grid from "@mui/joy/Grid";
+import Link from "@mui/joy/Link";
 import Sheet from "@mui/joy/Sheet";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import ImageIcon from "../ImageIcon/index";
 import { Shortcut } from "../../types/shortcut";
-import { DraggableItem } from "./ShortcutItem";
 import { SHORTCUTS_MARKET } from "../../constants/shortcuts";
 
 interface ListProps {
@@ -13,29 +12,36 @@ interface ListProps {
   items: Shortcut[];
 }
 
-const Item = styled(Sheet)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark" ? "rgb(71, 85, 105)" : "inherit",
-  ...theme.typography["body-sm"],
-  padding: theme.spacing(1),
-  textAlign: "center",
-  borderRadius: 4,
-  color: theme.vars.palette.text.secondary,
-}));
-
 const List: React.FC<ListProps> = ({ title, items }) => {
   const [list, setList] = useState(items);
 
   return (
-    <div className="w-[800px] mx-auto mb-[50px] ">
-      <Typography>{title}</Typography>
+    <div className=" mb-[50px] ">
+      <div className="mb-[12px]">
+        <Typography level="title-sm">{title}</Typography>
+      </div>
 
-      <div className="flex items-center p-[20px] bg-white dark:bg-slate-600">
-        {list.map((item) => {
+      <div className="flex items-center px-[20px] py-[14px] rounded-md bg-white dark:bg-slate-600">
+        {list.map((item, i) => {
           return (
-            <span>
-              <Item>{item.title}</Item>
-            </span>
+            <Link
+              key={i}
+              href={item.url}
+              target="_blank"
+              color="primary"
+              level="body-sm"
+              underline="none"
+              variant="plain"
+              sx={{
+                width: "100px",
+                marginRight: "10px",
+                padding: "6px 10px",
+                borderRadius: "4px",
+              }}
+            >
+              <ImageIcon src={item.icon} height="18px" />
+              <span>{item.title}</span>
+            </Link>
           );
         })}
       </div>
@@ -45,9 +51,9 @@ const List: React.FC<ListProps> = ({ title, items }) => {
 
 const Page = () => {
   return (
-    <div className="w-[80%] h-[80%] mx-auto p-[20px] bg-slate-100 dark:bg-slate-800">
+    <div className="w-[800px] h-[80%] mx-auto pt-[50px] ">
       {Object.keys(SHORTCUTS_MARKET).map((key) => {
-        return <List title={key} items={SHORTCUTS_MARKET[key]} />;
+        return <List key={key} title={key} items={SHORTCUTS_MARKET[key]} />;
       })}
     </div>
   );

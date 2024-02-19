@@ -1,7 +1,7 @@
 import { useDrag, useDrop, DndProvider } from "react-dnd";
 import { Shortcut } from "../../types/shortcut";
 import Button from "@mui/joy/Button";
-import ImageIcon from "./ImageIcon";
+import ImageIcon from "../ImageIcon";
 import Dropdown from "@mui/joy/Dropdown";
 import IconButton from "@mui/joy/IconButton";
 import Menu from "@mui/joy/Menu";

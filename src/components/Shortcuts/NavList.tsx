@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { styled } from "@mui/joy/styles";
 import Typography from "@mui/joy/Typography";
 import Link from "@mui/joy/Link";
-import Sheet from "@mui/joy/Sheet";
 import ImageIcon from "../ImageIcon/index";
 import { Shortcut } from "../../types/shortcut";
 import { SHORTCUTS_MARKET } from "../../constants/shortcuts";
@@ -40,7 +38,9 @@ const List: React.FC<ListProps> = ({ title, items }) => {
               }}
             >
               <ImageIcon src={item.icon} height="18px" />
-              <span>{item.title}</span>
+              <span className="truncate" title={item.title}>
+                {item.title}
+              </span>
             </Link>
           );
         })}

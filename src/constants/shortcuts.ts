@@ -35,10 +35,18 @@ export const SHORTCUTS_MARKET: Record<string, Shortcut[]> = {
     },
   ],
 
-  PT: [
+  // PT: [
+  //   {
+  //     title: "猫站",
+  //     url: "https://pterclub.com/torrents.php",
+  //     icon: DEFAULT_ICON,
+  //   },
+  // ],
+
+  工具: [
     {
-      title: "猫站",
-      url: "https://pterclub.com/torrents.php",
+      title: "在线工具箱",
+      url: "https://tools.199100.xyz",
       icon: DEFAULT_ICON,
     },
   ],

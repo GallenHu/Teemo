@@ -8,6 +8,7 @@ import TheLogo from "./TheLogo/index";
 import NavListShortcuts from "./Shortcuts/NavList";
 import { SettingContext } from "./contexts";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { smoothScroll } from "../utils/index";
 
 declare module "@mui/joy/Button" {
   interface ButtonPropsSizeOverrides {
@@ -19,7 +20,6 @@ declare module "@mui/joy/Button" {
 function App() {
   const [engine, setEngine] = useLocalStorage("engine", "baidu");
   const [bg, setBg] = useLocalStorage("background", "default");
-  const [scrollState, setScrollState] = React.useState("ready");
 
   const contextValue = React.useMemo(
     () => ({
@@ -50,6 +50,8 @@ function App() {
     },
   });
 
+  let timer: any;
+
   React.useEffect(() => {
     const top0 = document.getElementById("main")?.offsetTop || 0;
     const top1 = document.getElementById("nav")?.offsetTop || 0;
@@ -57,26 +59,26 @@ function App() {
     const handleScroll = (e: any) => {
       e.preventDefault();
 
+      if (timer) {
+        return;
+      }
+
       const scrollTop = document.documentElement.scrollTop;
-      console.log(
-        e.deltaY,
-        Math.abs(scrollTop - top0),
-        Math.abs(scrollTop - top1)
-      );
+      const duration = 400;
 
       if (e.deltaY > 0) {
         // down
         if (Math.abs(scrollTop - top0) < 30) {
-          document.getElementById("nav")?.scrollIntoView({
-            behavior: "smooth",
-          });
+          smoothScroll(top1, duration);
         }
       } else if (Math.abs(scrollTop - top1) < 30) {
-        // up
-        document.getElementById("main")?.scrollIntoView({
-          behavior: "smooth",
-        });
+        smoothScroll(top0, duration);
       }
+
+      timer = setTimeout(() => {
+        clearTimeout(timer);
+        timer = undefined;
+      }, duration);
     };
 
     document.addEventListener("wheel", handleScroll, { passive: false });

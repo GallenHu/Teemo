@@ -1,48 +1,35 @@
 import React, { useState } from "react";
 import Typography from "@mui/joy/Typography";
-import Link from "@mui/joy/Link";
-import ImageIcon from "../ImageIcon/index";
 import { Shortcut } from "../../types/shortcut";
-import { SHORTCUTS_MARKET } from "../../constants/shortcuts";
+import { EditOutlined } from "@ant-design/icons";
+import ShortcutItem from "./ShortcutItem";
+import ModalEdit from "./ModalEdit";
+import { useShortcuts } from "../../hooks/useShortcuts";
+import "./style.css";
 
 interface ListProps {
   title: string;
   items: Shortcut[];
+  onClickEdit: () => void;
 }
 
-const List: React.FC<ListProps> = ({ title, items }) => {
+const List: React.FC<ListProps> = ({ title, items, onClickEdit }) => {
   const [list, setList] = useState(items);
 
   return (
     <div className=" mb-[50px] ">
-      <div className="mb-[12px]">
+      <div className="group mb-[12px] flex items-center">
         <Typography level="title-sm">{title}</Typography>
+
+        <EditOutlined
+          className="ml-[6px] text-[12px] text-blue-400 cursor-pointer hidden group-hover:block"
+          onClick={onClickEdit}
+        />
       </div>
 
       <div className="flex items-center px-[20px] py-[14px] rounded-md bg-white dark:bg-slate-600">
         {list.map((item, i) => {
-          return (
-            <Link
-              key={i}
-              href={item.url}
-              target="_blank"
-              color="primary"
-              level="body-sm"
-              underline="none"
-              variant="plain"
-              sx={{
-                width: "100px",
-                marginRight: "10px",
-                padding: "6px 10px",
-                borderRadius: "4px",
-              }}
-            >
-              <ImageIcon src={item.icon} height="18px" />
-              <span className="truncate" title={item.title}>
-                {item.title}
-              </span>
-            </Link>
-          );
+          return <ShortcutItem key={i} {...item} />;
         })}
       </div>
     </div>
@@ -50,12 +37,36 @@ const List: React.FC<ListProps> = ({ title, items }) => {
 };
 
 const Page = () => {
+  const { shortcuts, setShortcuts } = useShortcuts();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleCloseModal = (reason: string) => {
+    // 不允许 esc 键关闭
+    if (reason !== "escapeKeyDown") {
+      setModalVisible(false);
+    }
+  };
+
   return (
-    <div className="w-[800px] h-[80%] mx-auto pt-[50px] ">
-      {Object.keys(SHORTCUTS_MARKET).map((key) => {
-        return <List key={key} title={key} items={SHORTCUTS_MARKET[key]} />;
-      })}
-    </div>
+    <>
+      <div className="w-[800px] h-[80%] mx-auto pt-[50px] ">
+        {shortcuts.map((item, i) => {
+          return (
+            <List
+              key={i}
+              title={item.category}
+              items={item.shortcuts}
+              onClickEdit={() => setModalVisible(true)}
+            />
+          );
+        })}
+      </div>
+
+      <ModalEdit
+        open={modalVisible}
+        onClose={(_, reason: string) => handleCloseModal(reason)}
+      />
+    </>
   );
 };
 

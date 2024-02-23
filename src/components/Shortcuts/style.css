@@ -1,7 +1,3 @@
-.shortcut-item .dropdown-trigger {
-  display: none;
-  position: absolute;
-}
-.shortcut-item:hover .dropdown-trigger {
-  display: inline-flex;
+.shortcuts-tab-panel {
+  padding: 3px 20px !important;
 }

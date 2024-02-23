@@ -68,10 +68,8 @@ function App() {
 
       if (e.deltaY > 0) {
         // down
-        if (Math.abs(scrollTop - top0) < 30) {
-          smoothScroll(top1, duration);
-        }
-      } else if (Math.abs(scrollTop - top1) < 30) {
+        smoothScroll(top1, duration);
+      } else {
         smoothScroll(top0, duration);
       }
 

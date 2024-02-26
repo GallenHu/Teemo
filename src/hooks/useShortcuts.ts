@@ -6,14 +6,25 @@ export function useShortcuts(): {
   shortcuts: ShortcutsMarketType;
   setShortcuts: React.Dispatch<React.SetStateAction<ShortcutsMarketType>>;
   updateTitle: (newTitle: string, i: number) => void;
+  addTitle: (newTitle: string) => void;
   moveDown: (i: number) => void;
   moveUp: (i: number) => void;
+  remove: (i: number) => void;
 } {
   const { shortcuts, setShortcuts } = React.useContext(ShortcutsContext);
 
   const updateTitle = (newTitle: string, i: number) => {
     const newShortcuts = [...shortcuts];
     newShortcuts[i].category = newTitle;
+    setShortcuts(newShortcuts);
+  };
+
+  const addTitle = (newTitle: string) => {
+    const newShortcuts = [...shortcuts];
+    newShortcuts[newShortcuts.length] = {
+      category: newTitle,
+      shortcuts: [],
+    };
     setShortcuts(newShortcuts);
   };
 
@@ -37,5 +48,19 @@ export function useShortcuts(): {
     setShortcuts(newShortcuts);
   };
 
-  return { shortcuts, setShortcuts, updateTitle, moveDown, moveUp };
+  const remove = (i: number) => {
+    const newShortcuts = [...shortcuts];
+    newShortcuts.splice(i, 1);
+    setShortcuts(newShortcuts);
+  };
+
+  return {
+    shortcuts,
+    setShortcuts,
+    updateTitle,
+    addTitle,
+    moveDown,
+    moveUp,
+    remove,
+  };
 }

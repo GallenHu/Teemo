@@ -5,6 +5,7 @@ import type { Shortcut } from "../../types/shortcut";
 type Props = Shortcut & {
   width?: string;
   plaintext?: boolean;
+  sx?: object;
 };
 
 export default function (props: Props) {
@@ -21,9 +22,15 @@ export default function (props: Props) {
         marginRight: "10px",
         padding: "6px 10px",
         borderRadius: "4px",
+        ...props.sx,
       }}
     >
-      <ImageIcon src={props.icon} height="18px" />
+      {typeof props.icon === "string" ? (
+        <ImageIcon src={props.icon} height="18px" />
+      ) : typeof props.icon === "object" ? (
+        props.icon
+      ) : null}
+
       <span className="truncate" title={props.title}>
         {props.title}
       </span>

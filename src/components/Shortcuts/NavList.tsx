@@ -53,7 +53,7 @@ const Page = () => {
         {shortcuts.map((item, i) => {
           return (
             <List
-              key={i}
+              key={item.category}
               title={item.category}
               items={item.shortcuts}
               onClickEdit={() => setModalVisible(true)}

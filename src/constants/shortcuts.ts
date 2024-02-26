@@ -52,3 +52,5 @@ export const SHORTCUTS_MARKET: { category: string; shortcuts: Shortcut[] }[] = [
     ],
   },
 ];
+
+export type ShortcutsMarketType = typeof SHORTCUTS_MARKET;

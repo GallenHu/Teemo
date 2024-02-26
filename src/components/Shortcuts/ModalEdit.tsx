@@ -8,7 +8,11 @@ import TabList from "@mui/joy/TabList";
 import Tab from "@mui/joy/Tab";
 import TabPanel from "@mui/joy/TabPanel";
 import ShortcutItem from "./ShortcutItem";
-import { EditOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+} from "@ant-design/icons";
 import { useShortcuts } from "../../hooks/useShortcuts";
 import { useState } from "react";
 
@@ -21,7 +25,7 @@ interface Props {
 }
 
 export default function (props: Props) {
-  const { shortcuts, updateTitle } = useShortcuts();
+  const { shortcuts, updateTitle, moveDown, moveUp } = useShortcuts();
   const [onEditTitles, setOnEditTitles] = useState<Record<number, boolean>>({});
 
   const titles = shortcuts.map((item) => item.category);
@@ -76,10 +80,22 @@ export default function (props: Props) {
                   <span className="w-[200px]">{title}</span>
                 )}
 
-                <EditOutlined
-                  className="ml-[6px] text-[12px] text-blue-400 cursor-pointer"
-                  onClick={() => handleEditTitle(i)}
-                />
+                {onEditTitles[i] ? null : (
+                  <>
+                    <EditOutlined
+                      className="ml-[6px] text-[12px] text-blue-400 cursor-pointer"
+                      onClick={() => handleEditTitle(i)}
+                    />
+                    <ArrowDownOutlined
+                      className="ml-[6px] text-[12px] text-blue-400 cursor-pointer"
+                      onClick={() => moveDown(i)}
+                    />
+                    <ArrowUpOutlined
+                      className="ml-[6px] text-[12px] text-blue-400 cursor-pointer"
+                      onClick={() => moveUp(i)}
+                    />
+                  </>
+                )}
               </Tab>
             ))}
           </TabList>

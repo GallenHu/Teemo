@@ -1,4 +1,6 @@
 import * as React from "react";
+import { SHORTCUTS_MARKET } from "../constants/shortcuts";
+import type { ShortcutsMarketType } from "../types/shortcut";
 
 const SettingContext = React.createContext<{
   engine: string;
@@ -12,4 +14,12 @@ const SettingContext = React.createContext<{
   setBackground: () => null,
 });
 
-export { SettingContext };
+const ShortcutsContext = React.createContext<{
+  shortcuts: ShortcutsMarketType;
+  setShortcuts: React.Dispatch<React.SetStateAction<ShortcutsMarketType>>;
+}>({
+  shortcuts: SHORTCUTS_MARKET,
+  setShortcuts: () => null,
+});
+
+export { SettingContext, ShortcutsContext };

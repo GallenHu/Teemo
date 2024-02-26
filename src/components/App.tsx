@@ -6,9 +6,10 @@ import TheHeader from "./TheHeader/index";
 import SearchBar from "./SearchBar/index";
 import TheLogo from "./TheLogo/index";
 import NavListShortcuts from "./Shortcuts/NavList";
-import { SettingContext } from "./contexts";
+import { SettingContext, ShortcutsContext } from "./contexts";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { smoothScroll } from "../utils/index";
+import { SHORTCUTS_MARKET } from "../constants/shortcuts";
 
 declare module "@mui/joy/Button" {
   interface ButtonPropsSizeOverrides {
@@ -20,8 +21,9 @@ declare module "@mui/joy/Button" {
 function App() {
   const [engine, setEngine] = useLocalStorage("engine", "baidu");
   const [bg, setBg] = useLocalStorage("background", "default");
+  const [shortcuts, setShortcuts] = React.useState(SHORTCUTS_MARKET);
 
-  const contextValue = React.useMemo(
+  const settingContextValue = React.useMemo(
     () => ({
       engine,
       background: bg,
@@ -29,6 +31,14 @@ function App() {
       setBackground: setBg,
     }),
     [engine, bg, setEngine, setBg]
+  );
+
+  const shortcutsContextValue = React.useMemo(
+    () => ({
+      shortcuts,
+      setShortcuts,
+    }),
+    [shortcuts, setShortcuts]
   );
 
   const theme = extendTheme({
@@ -88,20 +98,22 @@ function App() {
 
   return (
     <CssVarsProvider defaultMode="system" theme={theme}>
-      <SettingContext.Provider value={contextValue}>
-        <PageContainer id="main">
-          <div className="relative h-full">
-            <TheHeader />
-            <div className="absolute left-[50%] top-[50%] w-[80%] max-w-[600px] -translate-x-2/4 -translate-y-full">
-              <TheLogo></TheLogo>
-              <SearchBar></SearchBar>
+      <SettingContext.Provider value={settingContextValue}>
+        <ShortcutsContext.Provider value={shortcutsContextValue}>
+          <PageContainer id="main">
+            <div className="relative h-full">
+              <TheHeader />
+              <div className="absolute left-[50%] top-[50%] w-[80%] max-w-[600px] -translate-x-2/4 -translate-y-full">
+                <TheLogo></TheLogo>
+                <SearchBar></SearchBar>
+              </div>
             </div>
-          </div>
-        </PageContainer>
+          </PageContainer>
 
-        <PageContainer id="nav">
-          <NavListShortcuts />
-        </PageContainer>
+          <PageContainer id="nav">
+            <NavListShortcuts />
+          </PageContainer>
+        </ShortcutsContext.Provider>
       </SettingContext.Provider>
     </CssVarsProvider>
   );

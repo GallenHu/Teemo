@@ -28,6 +28,8 @@ import Chip from "@mui/joy/Chip";
 import ChipDelete from "@mui/joy/ChipDelete";
 import { DeleteOutlined } from "@ant-design/icons";
 import type { Shortcut } from "../../types/shortcut";
+import { exportToFile, readTextFromFile } from "utils";
+import dayjs from "dayjs";
 
 interface Props {
   open: boolean;
@@ -40,6 +42,7 @@ interface Props {
 export default function (props: Props) {
   const {
     shortcuts,
+    setShortcuts,
     updateTitle,
     addShortcut,
     updateShortcut,
@@ -190,6 +193,40 @@ export default function (props: Props) {
     ),
   }));
 
+  const handleExport = () => {
+    exportToFile(
+      "export-" + dayjs().format("YYYY-MM-DD_HHmmss"),
+      JSON.stringify(shortcuts)
+    );
+  };
+
+  async function handleImportFileChange() {
+    const inputElement = document.querySelector("#importFile");
+    const file = (inputElement as any).files?.[0];
+
+    if (file) {
+      try {
+        const content = await readTextFromFile(file);
+
+        setShortcuts(JSON.parse(content));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
+  const handleClickImport = () => {
+    const inputElement = document.querySelector("#importFile");
+    if (inputElement) {
+      if (inputElement.getAttribute("data-listener") !== "1") {
+        inputElement.addEventListener("change", handleImportFileChange);
+        inputElement.setAttribute("data-listener", "1");
+      }
+
+      (inputElement as any).click();
+    }
+  };
+
   React.useEffect(() => {
     setActiveCategoryIndex(0);
   }, []);
@@ -201,11 +238,18 @@ export default function (props: Props) {
           <DialogTitle className="flex justify-between">
             <div>Customize</div>
             <div className="inline-flex gap-[20px]">
-              <div className="text-[12px] text-[#777] inline-flex items-center cursor-pointer">
+              <div
+                className="text-[12px] text-[#777] inline-flex items-center cursor-pointer"
+                onClick={handleExport}
+              >
                 <VerticalAlignBottomOutlined className="mr-[4px]" /> 导出
               </div>
-              <div className="text-[12px] text-[#777] inline-flex items-center cursor-pointer">
+              <div
+                className="text-[12px] text-[#777] inline-flex items-center cursor-pointer"
+                onClick={handleClickImport}
+              >
                 <VerticalAlignTopOutlined className="mr-[4px]" /> 导入
+                <input type="file" id="importFile" className="hidden" />
               </div>
             </div>
           </DialogTitle>

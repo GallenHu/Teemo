@@ -33,3 +33,35 @@ export function smoothScroll(targetY: number, duration: number) {
   // 执行动画
   requestAnimationFrame(animation);
 }
+
+export function exportToFile(
+  filename: string,
+  content: string,
+  type: string = "text/plain;charset=utf-8"
+) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+
+  document.body.appendChild(a);
+  a.click();
+
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 0);
+}
+
+export function readTextFromFile(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(reader.result as string);
+    };
+    reader.onerror = reject;
+    reader.readAsText(file);
+  });
+}

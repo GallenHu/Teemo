@@ -24,6 +24,9 @@ import DialogActions from "@mui/joy/DialogActions";
 import Stack from "@mui/joy/Stack";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
+import Chip from "@mui/joy/Chip";
+import ChipDelete from "@mui/joy/ChipDelete";
+import { DeleteOutlined } from "@ant-design/icons";
 import type { Shortcut } from "../../types/shortcut";
 
 interface Props {
@@ -40,6 +43,7 @@ export default function (props: Props) {
     updateTitle,
     addShortcut,
     updateShortcut,
+    deleteShortcut,
     addTitle,
     moveDown,
     moveUp,
@@ -74,14 +78,18 @@ export default function (props: Props) {
     }
 
     if (e.key.toLowerCase() === "enter") {
-      updateTitle(e.target.value.trim(), i);
-      setOnEditTitles({
-        ...onEditTitles,
-        [i]: false,
-      });
-      setActiveCategoryIndex(i);
+      handleConfirmCategory(e.target.value.trim(), i);
     }
   };
+
+  function handleConfirmCategory(category: string, i: number) {
+    updateTitle(category, i);
+    setOnEditTitles({
+      ...onEditTitles,
+      [i]: false,
+    });
+    setActiveCategoryIndex(i);
+  }
 
   const toRemove = (i: number) => {
     setDelCategoryIndex(i);
@@ -111,6 +119,7 @@ export default function (props: Props) {
             size="sm"
             autoFocus
             onKeyDown={(e) => handleTitleKeydown(e, i)}
+            onBlur={(e) => handleConfirmCategory(e.target.value.trim(), i)}
           />
         ) : (
           <span className="w-[200px]">{shortcut.category}</span>
@@ -145,15 +154,27 @@ export default function (props: Props) {
       </div>
     ),
     children: (
-      <div className="px-[20px] flex flex-wrap">
+      <div className="px-[20px] flex flex-wrap gap-[10px]">
         {shortcutsOfActiveCategory.map((item, j) => (
-          <ShortcutItem
+          <Chip
             key={j}
-            {...item}
-            width="120px"
-            plaintext
+            variant="outlined"
+            color="primary"
             onClick={() => editShortcut(item, j)}
-          />
+            endDecorator={
+              <ChipDelete
+                color="primary"
+                variant="plain"
+                onClick={() =>
+                  deleteShortcut(shortcuts[activeCategoryIndex].category, j)
+                }
+              >
+                <DeleteOutlined />
+              </ChipDelete>
+            }
+          >
+            <span className="px-[10px]">{item.title}</span>
+          </Chip>
         ))}
         <ShortcutItem
           sx={{ color: "#777" }}

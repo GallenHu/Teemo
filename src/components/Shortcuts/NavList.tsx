@@ -6,6 +6,7 @@ import ShortcutItem from "./ShortcutItem";
 import ModalEdit from "./ModalEdit";
 import { useShortcuts } from "../../hooks/useShortcuts";
 import "./style.css";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 interface ListProps {
   title: string;
@@ -39,11 +40,21 @@ const List: React.FC<ListProps> = ({ title, items, onClickEdit }) => {
 const Page = () => {
   const { shortcuts, setShortcuts } = useShortcuts();
   const [modalVisible, setModalVisible] = useState(false);
+  const [storeShortcuts, setStoreShortcuts] = useLocalStorage(
+    "shortcuts",
+    "[]"
+  );
+
+  const syncToLocalStorage = () => {
+    const str = JSON.stringify(shortcuts);
+    setStoreShortcuts(str);
+  };
 
   const handleCloseModal = (reason: string) => {
     // 不允许 esc 键关闭
     if (reason !== "escapeKeyDown") {
       setModalVisible(false);
+      syncToLocalStorage();
     }
   };
 

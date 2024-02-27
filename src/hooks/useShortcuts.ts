@@ -7,6 +7,7 @@ export function useShortcuts(): {
   setShortcuts: React.Dispatch<React.SetStateAction<ShortcutsMarketType>>;
   updateTitle: (newTitle: string, i: number) => void;
   addShortcut: (category: string, shortcut: Shortcut) => void;
+  deleteShortcut: (category: string, i: number) => void;
   updateShortcut: (
     category: string,
     index: number,
@@ -30,6 +31,15 @@ export function useShortcuts(): {
     const i = newShortcuts.findIndex((item) => item.category === category);
     if (i > -1) {
       newShortcuts[i].shortcuts.push(shortcut);
+    }
+    setShortcuts(newShortcuts);
+  };
+
+  const deleteShortcut = (category: string, index: number) => {
+    const newShortcuts = [...shortcuts];
+    const ci = newShortcuts.findIndex((item) => item.category === category);
+    if (ci > -1) {
+      newShortcuts[ci].shortcuts.splice(index, 1);
     }
     setShortcuts(newShortcuts);
   };
@@ -86,6 +96,7 @@ export function useShortcuts(): {
     shortcuts,
     addShortcut,
     updateShortcut,
+    deleteShortcut,
     setShortcuts,
     updateTitle,
     addTitle,

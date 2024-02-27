@@ -6,6 +6,7 @@ type Props = Shortcut & {
   width?: string;
   plaintext?: boolean;
   sx?: object;
+  onClick?: () => void;
 };
 
 export default function (props: Props) {
@@ -20,10 +21,12 @@ export default function (props: Props) {
       sx={{
         width: props.width || "100px",
         marginRight: "10px",
+        marginBottom: "4px",
         padding: "6px 10px",
         borderRadius: "4px",
         ...props.sx,
       }}
+      onClick={props.onClick}
     >
       {typeof props.icon === "string" ? (
         <ImageIcon src={props.icon} height="18px" />

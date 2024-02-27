@@ -10,7 +10,7 @@ interface Item {
 interface Props {
   items: Item[];
   active: string;
-  onChange: (key: string) => void;
+  onChange: (key: string, index: number) => void;
 }
 
 export default function (props: Props) {
@@ -21,7 +21,7 @@ export default function (props: Props) {
   return (
     <div className="flex">
       <div className="head w-[200px] min-h-[200px]">
-        {items.map((item) => (
+        {items.map((item, i) => (
           <div
             className={[
               item.key === activeItem?.key ? "active" : "",
@@ -30,7 +30,7 @@ export default function (props: Props) {
               "px-[6px]",
             ].join(" ")}
             key={item.key}
-            onClick={() => props.onChange(item.key)}
+            onClick={() => props.onChange(item.key, i)}
           >
             {item.label}
           </div>

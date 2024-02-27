@@ -24,6 +24,7 @@ import DialogActions from "@mui/joy/DialogActions";
 import Stack from "@mui/joy/Stack";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
+import type { Shortcut } from "../../types/shortcut";
 
 interface Props {
   open: boolean;
@@ -37,16 +38,24 @@ export default function (props: Props) {
   const {
     shortcuts,
     updateTitle,
+    addShortcut,
+    updateShortcut,
     addTitle,
     moveDown,
     moveUp,
     remove,
   } = useShortcuts();
+
   const [onEditTitles, setOnEditTitles] = useState<Record<number, boolean>>({});
   const [delConfirmBoxOpen, setDelConfirmBoxOpen] = useState(false);
   const [delCategoryIndex, setDelCategoryIndex] = useState<number | null>(null);
   const [addingCategory, setAddingCategory] = useState(false);
-  const [active, setActive] = useState("");
+  const [addingShortcut, setAddingShortcut] = useState(false);
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState(-1);
+  const [onEditShortcutIndex, setOnEditShortcutIndex] = useState(-1);
+
+  const shortcutsOfActiveCategory =
+    shortcuts[activeCategoryIndex]?.shortcuts || [];
 
   const handleEditTitle = (i: number) => {
     setOnEditTitles({
@@ -70,7 +79,7 @@ export default function (props: Props) {
         ...onEditTitles,
         [i]: false,
       });
-      setActive(e.target.value.trim());
+      setActiveCategoryIndex(i);
     }
   };
 
@@ -84,6 +93,11 @@ export default function (props: Props) {
       remove(delCategoryIndex);
     }
     setDelConfirmBoxOpen(false);
+  };
+
+  const editShortcut = (item: Shortcut, index: number) => {
+    setOnEditShortcutIndex(index);
+    setAddingShortcut(true);
   };
 
   const tabItems = shortcuts.map((shortcut, i) => ({
@@ -131,9 +145,15 @@ export default function (props: Props) {
       </div>
     ),
     children: (
-      <div className="px-[20px] flex">
-        {shortcut.shortcuts.map((item, j) => (
-          <ShortcutItem key={j} {...item} width="120px" plaintext />
+      <div className="px-[20px] flex flex-wrap">
+        {shortcutsOfActiveCategory.map((item, j) => (
+          <ShortcutItem
+            key={j}
+            {...item}
+            width="120px"
+            plaintext
+            onClick={() => editShortcut(item, j)}
+          />
         ))}
         <ShortcutItem
           sx={{ color: "#777" }}
@@ -143,13 +163,14 @@ export default function (props: Props) {
           url=""
           width="120px"
           plaintext
+          onClick={() => setAddingShortcut(true)}
         />
       </div>
     ),
   }));
 
   React.useEffect(() => {
-    setActive(tabItems[0].key);
+    setActiveCategoryIndex(0);
   }, []);
 
   return (
@@ -168,7 +189,11 @@ export default function (props: Props) {
             </div>
           </DialogTitle>
 
-          <TheTabs items={tabItems} active={active} onChange={setActive} />
+          <TheTabs
+            items={tabItems}
+            active={shortcuts[activeCategoryIndex]?.category}
+            onChange={(_, i) => setActiveCategoryIndex(i)}
+          />
         </ModalDialog>
       </Modal>
 
@@ -180,7 +205,7 @@ export default function (props: Props) {
         <ModalDialog
           variant="outlined"
           role="alertdialog"
-          className="w-[500px]"
+          className="w-[600px]"
         >
           <DialogTitle>
             <ExclamationCircleOutlined />
@@ -222,7 +247,106 @@ export default function (props: Props) {
               <FormControl>
                 <Input name="name" autoFocus required placeholder="名称" />
               </FormControl>
-              <Button type="submit">确认</Button>
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant="outlined"
+                  onClick={() => setAddingCategory(false)}
+                >
+                  取消
+                </Button>
+                <Button type="submit">确认</Button>
+              </div>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </Modal>
+
+      {/* 新增编辑链接 */}
+      <Modal
+        open={addingShortcut}
+        onClose={() => {
+          setAddingShortcut(false);
+          setOnEditShortcutIndex(-1);
+        }}
+      >
+        <ModalDialog className="w-[500px]">
+          <DialogTitle>
+            {onEditShortcutIndex > -1 ? "编辑" : "新增"}链接
+          </DialogTitle>
+          <form
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              const title = (event.target as any).title.value;
+              const url = (event.target as any).url.value;
+              const icon = (event.target as any).icon.value;
+              const newShortcut = {
+                title,
+                url,
+                icon,
+              };
+              if (onEditShortcutIndex > -1) {
+                updateShortcut(
+                  shortcuts[activeCategoryIndex].category,
+                  onEditShortcutIndex,
+                  newShortcut
+                );
+              } else {
+                addShortcut(
+                  shortcuts[activeCategoryIndex].category,
+                  newShortcut
+                );
+              }
+
+              setAddingShortcut(false);
+              setOnEditShortcutIndex(-1);
+            }}
+          >
+            <Stack spacing={2}>
+              <FormControl>
+                <FormLabel>Title</FormLabel>
+                <Input
+                  name="title"
+                  autoFocus
+                  required
+                  defaultValue={
+                    shortcutsOfActiveCategory[onEditShortcutIndex]?.title
+                  }
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>URL</FormLabel>
+                <Input
+                  name="url"
+                  required
+                  defaultValue={
+                    shortcutsOfActiveCategory[onEditShortcutIndex]?.url
+                  }
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Icon</FormLabel>
+                <Input
+                  name="icon"
+                  placeholder="Icon URL"
+                  defaultValue={
+                    shortcutsOfActiveCategory[onEditShortcutIndex]
+                      ?.icon as string
+                  }
+                />
+              </FormControl>
+
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setAddingShortcut(false);
+                    setOnEditShortcutIndex(-1);
+                  }}
+                >
+                  取消
+                </Button>
+                <Button type="submit">确认</Button>
+              </div>
             </Stack>
           </form>
         </ModalDialog>

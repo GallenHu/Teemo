@@ -20,7 +20,7 @@ export default function (props: Props) {
 
   return (
     <div className="flex">
-      <div className="head w-[200px] min-h-[200px]">
+      <div className="head w-[170px] min-h-[200px]">
         {items.map((item, i) => (
           <div
             className={[

@@ -166,10 +166,11 @@ export default function (props: Props) {
             key={j}
             variant="outlined"
             color="primary"
+            size="lg"
             onClick={() => editShortcut(item, j)}
             startDecorator={
               typeof item.icon === "string" ? (
-                <ImageIcon src={item.icon} height="18px" />
+                <ImageIcon src={item.icon} height="16px" />
               ) : typeof item.icon === "object" ? (
                 item.icon
               ) : null
@@ -187,7 +188,7 @@ export default function (props: Props) {
             }
             sx={{ gap: 0 }}
           >
-            <span className="px-[10px]">{item.title}</span>
+            <span className="text-[14px] px-[10px]">{item.title}</span>
           </Chip>
         ))}
         <ShortcutItem

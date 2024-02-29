@@ -5,3 +5,7 @@
   border-right: 2px solid #222;
   background-color: #dde7ee;
 }
+
+[data-joy-color-scheme="dark"] .head .active {
+  background-color: rgb(30 41 59);
+}

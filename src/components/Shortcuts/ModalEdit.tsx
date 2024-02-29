@@ -116,7 +116,7 @@ export default function (props: Props) {
   const tabItems = shortcuts.map((shortcut, i) => ({
     key: shortcut.category,
     label: (
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center group">
         {onEditTitles[i] ? (
           <Input
             className="w-[200px]"
@@ -130,7 +130,7 @@ export default function (props: Props) {
           <span className="w-[200px]">{shortcut.category}</span>
         )}
 
-        <span className="w-[140px] inline-flex items-center">
+        <span className="w-[140px] items-center hidden group-hover:inline-flex">
           {onEditTitles[i] ? null : (
             <>
               <EditOutlined
@@ -195,6 +195,7 @@ export default function (props: Props) {
           icon={<PlusOutlined className="mr-[6px]" />}
           title="添加链接"
           url=""
+          sequence={999}
           width="120px"
           plaintext
           onClick={() => setAddingShortcut(true)}
@@ -219,6 +220,10 @@ export default function (props: Props) {
         const content = await readTextFromFile(file);
 
         setShortcuts(JSON.parse(content));
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       } catch (error) {
         console.error(error);
       }
@@ -246,7 +251,7 @@ export default function (props: Props) {
       <Modal open={props.open} onClose={props.onClose}>
         <ModalDialog className="w-[800px]">
           <DialogTitle className="flex justify-between">
-            <div>Customize</div>
+            <div>自定义</div>
             <div className="inline-flex gap-[20px]">
               <div
                 className="text-[12px] text-[#777] inline-flex items-center cursor-pointer"

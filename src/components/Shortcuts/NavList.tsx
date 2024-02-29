@@ -38,7 +38,7 @@ const List: React.FC<ListProps> = ({ title, items, onClickEdit }) => {
 };
 
 const Page = () => {
-  const { shortcuts, sortedShortcuts, setShortcuts } = useShortcuts();
+  const { sortedShortcuts } = useShortcuts();
   const [modalVisible, setModalVisible] = useState(false);
   const [memoryShortcuts, setMemoryShortcuts] = useLocalStorage(
     "shortcuts",

@@ -1,3 +1,5 @@
+import { encode, decode } from "js-base64";
+
 export function classNames(...classes: unknown[]): string {
   return classes.filter(Boolean).join(" ");
 }
@@ -39,6 +41,7 @@ export function exportToFile(
   content: string,
   type: string = "text/plain;charset=utf-8"
 ) {
+  content = encode(content);
   const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
 
@@ -59,7 +62,8 @@ export function readTextFromFile(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
-      resolve(reader.result as string);
+      const res = decode(reader.result as string);
+      resolve(res);
     };
     reader.onerror = reject;
     reader.readAsText(file);

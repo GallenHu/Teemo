@@ -15,6 +15,7 @@ import {
   PlusOutlined,
   VerticalAlignBottomOutlined,
   VerticalAlignTopOutlined,
+  ReloadOutlined,
 } from "@ant-design/icons";
 import { useShortcuts } from "../../hooks/useShortcuts";
 import { useState } from "react";
@@ -206,7 +207,7 @@ export default function (props: Props) {
 
   const handleExport = () => {
     exportToFile(
-      "export-" + dayjs().format("YYYY-MM-DD_HHmmss"),
+      "shortcuts-" + dayjs().format("YYYY-MM-DD_HHmmss"),
       JSON.stringify(shortcuts)
     );
   };
@@ -255,16 +256,30 @@ export default function (props: Props) {
             <div className="inline-flex gap-[20px]">
               <div
                 className="text-[12px] text-[#777] inline-flex items-center cursor-pointer"
+                onClick={() => window.location.reload()}
+              >
+                <ReloadOutlined size={24} className="mr-[4px]" /> 重置
+              </div>
+
+              <div
+                className="text-[12px] text-[#777] inline-flex items-center cursor-pointer"
                 onClick={handleExport}
               >
-                <VerticalAlignBottomOutlined className="mr-[4px]" /> 导出
+                <VerticalAlignBottomOutlined size={24} className="mr-[4px]" />
+                导出
               </div>
               <div
                 className="text-[12px] text-[#777] inline-flex items-center cursor-pointer"
                 onClick={handleClickImport}
               >
-                <VerticalAlignTopOutlined className="mr-[4px]" /> 导入
-                <input type="file" id="importFile" className="hidden" />
+                <VerticalAlignTopOutlined size={24} className="mr-[4px]" />
+                <input type="file" id="importFile" className="hidden" /> 导入
+              </div>
+              <div
+                className="text-[12px] text-[#777] inline-flex items-center cursor-pointer"
+                onClick={() => props.onClose({} as any, "")}
+              >
+                <CloseOutlined size={24} className="mr-[4px]" /> 关闭
               </div>
             </div>
           </DialogTitle>

@@ -38,16 +38,16 @@ const List: React.FC<ListProps> = ({ title, items, onClickEdit }) => {
 };
 
 const Page = () => {
-  const { shortcuts, setShortcuts } = useShortcuts();
+  const { shortcuts, sortedShortcuts, setShortcuts } = useShortcuts();
   const [modalVisible, setModalVisible] = useState(false);
-  const [storeShortcuts, setStoreShortcuts] = useLocalStorage(
+  const [memoryShortcuts, setMemoryShortcuts] = useLocalStorage(
     "shortcuts",
     "[]"
   );
 
   const syncToLocalStorage = () => {
-    const str = JSON.stringify(shortcuts);
-    setStoreShortcuts(str);
+    const str = JSON.stringify(sortedShortcuts);
+    setMemoryShortcuts(str);
   };
 
   const handleCloseModal = (reason: string) => {
@@ -61,7 +61,7 @@ const Page = () => {
   return (
     <>
       <div className="w-[800px] h-[80%] mx-auto pt-[50px] ">
-        {shortcuts.map((item, i) => {
+        {sortedShortcuts.map((item, i) => {
           return (
             <List
               key={item.category}

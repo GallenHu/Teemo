@@ -31,7 +31,7 @@ import type { Shortcut } from "../../types/shortcut";
 import { exportToFile, readTextFromFile } from "utils";
 import dayjs from "dayjs";
 import ImageIcon from "../ImageIcon/index";
-import {DEFAULT_ICON} from '../../constants/shortcuts'
+import { DEFAULT_ICON } from "../../constants/shortcuts";
 
 interface Props {
   open: boolean;
@@ -166,11 +166,13 @@ export default function (props: Props) {
             variant="outlined"
             color="primary"
             onClick={() => editShortcut(item, j)}
-            startDecorator={typeof item.icon === "string" ? (
-              <ImageIcon src={item.icon} height="18px" />
-            ) : typeof item.icon === "object" ? (
-              item.icon
-            ) : null}
+            startDecorator={
+              typeof item.icon === "string" ? (
+                <ImageIcon src={item.icon} height="18px" />
+              ) : typeof item.icon === "object" ? (
+                item.icon
+              ) : null
+            }
             endDecorator={
               <ChipDelete
                 color="primary"
@@ -182,7 +184,7 @@ export default function (props: Props) {
                 <DeleteOutlined />
               </ChipDelete>
             }
-            sx={{gap: 0}}
+            sx={{ gap: 0 }}
           >
             <span className="px-[10px]">{item.title}</span>
           </Chip>
@@ -352,10 +354,12 @@ export default function (props: Props) {
               const title = (event.target as any).title.value;
               const url = (event.target as any).url.value;
               const icon = (event.target as any).icon.value || DEFAULT_ICON;
+              const sequence = (event.target as any).sequence.value || 100;
               const newShortcut = {
                 title,
                 url,
                 icon,
+                sequence,
               };
               if (onEditShortcutIndex > -1) {
                 updateShortcut(
@@ -397,13 +401,24 @@ export default function (props: Props) {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>Icon</FormLabel>
+                <FormLabel>图标</FormLabel>
                 <Input
                   name="icon"
-                  placeholder="Icon URL"
+                  placeholder="ICON URL"
                   defaultValue={
                     shortcutsOfActiveCategory[onEditShortcutIndex]
                       ?.icon as string
+                  }
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>顺序</FormLabel>
+                <Input
+                  name="sequence"
+                  placeholder="顺序"
+                  defaultValue={
+                    shortcutsOfActiveCategory[onEditShortcutIndex]?.sequence ||
+                    100
                   }
                 />
               </FormControl>

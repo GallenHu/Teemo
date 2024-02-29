@@ -4,6 +4,7 @@ import type { Shortcut, ShortcutsMarketType } from "../types/shortcut";
 
 export function useShortcuts(): {
   shortcuts: ShortcutsMarketType;
+  sortedShortcuts: ShortcutsMarketType;
   setShortcuts: React.Dispatch<React.SetStateAction<ShortcutsMarketType>>;
   updateTitle: (newTitle: string, i: number) => void;
   addShortcut: (category: string, shortcut: Shortcut) => void;
@@ -19,6 +20,15 @@ export function useShortcuts(): {
   remove: (i: number) => void;
 } {
   const { shortcuts, setShortcuts } = React.useContext(ShortcutsContext);
+  const sortedShortcuts = React.useMemo(() => {
+    const newShortcuts = [...shortcuts];
+    newShortcuts.forEach((obj) => {
+      obj.shortcuts.sort(
+        (a, b) => Number(a.sequence || 100) - Number(b.sequence || 100)
+      );
+    });
+    return newShortcuts;
+  }, [shortcuts]);
 
   const updateTitle = (newTitle: string, i: number) => {
     const newShortcuts = [...shortcuts];
@@ -94,6 +104,7 @@ export function useShortcuts(): {
 
   return {
     shortcuts,
+    sortedShortcuts,
     addShortcut,
     updateShortcut,
     deleteShortcut,

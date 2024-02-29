@@ -21,11 +21,11 @@ declare module "@mui/joy/Button" {
 function App() {
   const [engine, setEngine] = useLocalStorage("engine", "baidu");
   const [bg, setBg] = useLocalStorage("background", "default");
-  const [storeShortcuts, _] = useLocalStorage(
+  const [memoryShortcuts, _] = useLocalStorage(
     "shortcuts",
     JSON.stringify(SHORTCUTS_MARKET)
   );
-  const [shortcuts, setShortcuts] = React.useState(JSON.parse(storeShortcuts));
+  const [shortcuts, setShortcuts] = React.useState(JSON.parse(memoryShortcuts));
 
   const settingContextValue = React.useMemo(
     () => ({

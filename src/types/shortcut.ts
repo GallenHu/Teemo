@@ -6,4 +6,5 @@ export interface Shortcut {
   title: string;
   url: string;
   icon: string | ReactNode;
+  sequence: number; // 0~100
 }

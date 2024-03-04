@@ -222,10 +222,6 @@ export default function (props: Props) {
         const content = await readTextFromFile(file);
 
         setShortcuts(JSON.parse(content));
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
       } catch (error) {
         console.error(error);
       }

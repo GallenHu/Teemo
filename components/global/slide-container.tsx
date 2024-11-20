@@ -14,7 +14,7 @@ export const SlideContainer: React.FC<Props> = ({ sections }) => {
           style={{ transition: "transform 0.4s" }}
         >
           {sections.map((sectionContent, i) => (
-            <section key={i} className="section">
+            <section key={i} className="section h-full">
               {sectionContent()}
             </section>
           ))}

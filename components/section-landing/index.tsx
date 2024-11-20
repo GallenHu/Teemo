@@ -1,13 +1,11 @@
-import { SignIn } from "./signin-button";
-import { ThemeSwitch } from "@/components/global/theme-switch";
+import { SiteHeader } from "./site-header";
+import { Main } from "./main";
 
 export default function Landing() {
   return (
-    <div>
-      <div>
-        <SignIn />
-        <ThemeSwitch />
-      </div>
+    <div className="h-full">
+      <SiteHeader />
+      <Main />
     </div>
   );
 }

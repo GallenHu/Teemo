@@ -34,13 +34,13 @@ const IconLogo = (props: IconProps) => (
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-border/40 bg-background/95 backdrop-blur">
+    <header>
       <div className="flex h-14 items-center justify-between px-5">
         <div>
-          <Link href="/" className="mr-4 flex items-center gap-2 lg:mr-6">
+          {/* <Link href="/" className="mr-4 flex items-center gap-2 lg:mr-6">
             <IconLogo className="h-4 w-4 rotate-180" />
             <span className="font-bold hidden lg:inline-block">Teemo</span>
-          </Link>
+          </Link> */}
         </div>
         <div className="inline-flex items-center gap-0.5">
           <UserLogin />

@@ -1,71 +1,78 @@
 "use client";
-import "@algolia/autocomplete-theme-classic";
-import React from "react";
-import { Autocomplete } from "./auto-complete";
+import React, { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { ReactSearchAutocomplete } from "react-search-autocomplete-rev";
 
-export function SearchBox() {
-  const debounced = debouncePromise(
-    (items: any[]) => Promise.resolve(items),
-    300
-  );
-
-  function getSources({ query }) {
-    return debounced([
-      {
-        sourceId: "suggestions",
-        getItems() {
-          if (!query) {
-            return [];
-          }
-
-          return fetch(
-            `/api/search/complete?query=${encodeURIComponent(query)}`
-          )
-            .then((response) => response.json())
-            .then((data) => {
-              const suggestions = data.suggestions || [];
-              console.log(suggestions);
-              return suggestions.map((s) => {
-                return {
-                  label: s.value,
-                  url: s.serpapi_link,
-                };
-              });
-            });
-        },
-        getItemUrl({ item }) {
-          return item.url;
-        },
-        templates: {
-          item({ item, components }) {
-            return (
-              <a href={item.url} className="aa-ItemLink">
-                <div className="aa-ItemContent">
-                  <div className="aa-ItemTitle">
-                    <components.Highlight hit={item} attribute="label" />
-                  </div>
-                </div>
-              </a>
-            );
-          },
-        },
-      },
-    ]);
-  }
-
-  return <Autocomplete openOnFocus={true} getSources={getSources} />;
+interface Item {
+  id: number;
+  value: string;
 }
 
-function debouncePromise(fn: any, time: number) {
-  let timer: any = undefined;
+const ENGINE_URL = {
+  baidu: "https://www.baidu.com/s?wd=$key$",
+  google: "https://www.google.com/search?newwindow=1&q=$key$",
+  bing: "https://www.bing.com/search?q=$key$",
+} as Record<string, string>;
 
-  return function debounced(...args: any[]) {
-    if (timer) {
-      clearTimeout(timer); // Clear the timeout first if it's already defined.
-    }
+export function SearchBox() {
+  const { resolvedTheme } = useTheme();
+  const [styling, setStyling] = useState<any>(undefined);
+  const [items, setItems] = useState<Item[]>([]);
 
-    return new Promise((resolve) => {
-      timer = setTimeout(() => resolve(fn(...args)), time);
-    });
+  const handleOnSearch = async (query: string, results: any[]) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+    fetch(`/api/search/complete?query=${encodeURIComponent(query)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setItems(data || []);
+      });
   };
+
+  const handleOnSelect = (item: Item) => {
+    const str = item.value;
+    const url = ENGINE_URL["google"].replace("$key$", str);
+    window.open(url, "_blank", "noopener");
+  };
+
+  const formatResult = (item: Item) => {
+    return <span>{item.value}</span>;
+  };
+
+  useEffect(() => {
+    setStyling(
+      resolvedTheme === "dark"
+        ? {
+            backgroundColor: "var(--background)",
+            color: "var(--foreground)",
+            border: "1px solid #27272a",
+            hoverBackgroundColor: "#27272a",
+            lineColor: "#27272a",
+          }
+        : undefined
+    );
+  }, [resolvedTheme]);
+
+  return (
+    <ReactSearchAutocomplete
+      className="search-auto-complete"
+      items={items}
+      onSearch={handleOnSearch}
+      onSelect={handleOnSelect}
+      autoFocus
+      showNoResults={false}
+      formatResult={formatResult}
+      fuseOptions={{
+        // At what point does the match algorithm give up.
+        // A threshold of 0.0 requires a perfect match (of both letters and location),
+        //a threshold of 1.0 would match anything.
+        threshold: 1,
+        shouldSort: false,
+        keys: ["id", "value"],
+      }}
+      // necessary, otherwise the results will be blank
+      resultStringKeyName="value"
+      styling={styling}
+    />
+  );
 }

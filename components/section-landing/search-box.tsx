@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { ReactSearchAutocomplete } from "react-search-autocomplete-rev";
+import { useSearch } from "@/hooks/use-search";
 
 interface Item {
-  id: number;
+  id: number; // the id field is mandatory.
   value: string;
 }
 
@@ -15,9 +16,11 @@ const ENGINE_URL = {
 } as Record<string, string>;
 
 export function SearchBox() {
+  const { engine } = useSearch();
   const { resolvedTheme } = useTheme();
   const [styling, setStyling] = useState<any>(undefined);
   const [items, setItems] = useState<Item[]>([]);
+  const [url, setUrl] = useState("");
 
   const handleOnSearch = async (query: string, results: any[]) => {
     // onSearch will have as the first callback parameter
@@ -29,15 +32,19 @@ export function SearchBox() {
       });
   };
 
-  const handleOnSelect = (item: Item) => {
-    const str = item.value;
-    const url = ENGINE_URL["google"].replace("$key$", str);
-    window.open(url, "_blank", "noopener");
+  const openSearchUrl = (url: string, search: string) => {
+    console.log(url);
+
+    window.open(url.replace("$key$", search), "_blank", "noopener");
   };
 
   const formatResult = (item: Item) => {
     return <span>{item.value}</span>;
   };
+
+  useEffect(() => {
+    setUrl(ENGINE_URL[engine]);
+  }, [engine]);
 
   useEffect(() => {
     setStyling(
@@ -54,25 +61,33 @@ export function SearchBox() {
   }, [resolvedTheme]);
 
   return (
-    <ReactSearchAutocomplete
-      className="search-auto-complete"
-      items={items}
-      onSearch={handleOnSearch}
-      onSelect={handleOnSelect}
-      autoFocus
-      showNoResults={false}
-      formatResult={formatResult}
-      fuseOptions={{
-        // At what point does the match algorithm give up.
-        // A threshold of 0.0 requires a perfect match (of both letters and location),
-        //a threshold of 1.0 would match anything.
-        threshold: 1,
-        shouldSort: false,
-        keys: ["id", "value"],
-      }}
-      // necessary, otherwise the results will be blank
-      resultStringKeyName="value"
-      styling={styling}
-    />
+    <>
+      <ReactSearchAutocomplete
+        className="search-auto-complete"
+        items={items}
+        onSearch={handleOnSearch}
+        onSelect={(item) => openSearchUrl(url, item.value)}
+        autoFocus
+        showNoResults={false}
+        formatResult={formatResult}
+        disableFuse={true}
+        fuseOptions={{
+          // At what point does the match algorithm give up.
+          // A threshold of 0.0 requires a perfect match (of both letters and location),
+          //a threshold of 1.0 would match anything.
+          threshold: 1,
+          shouldSort: false,
+          // `keys` represent the keys in `items` where the search will be
+          // performed.
+          // keys: ["id", "value"],
+        }}
+        // If your list of items does not
+        // have a "name" key, use `resultStringKeyName` to tell what key
+        // (string) to use to display in the results.
+        // necessary, otherwise the results will be blank
+        resultStringKeyName="value"
+        styling={styling}
+      />
+    </>
   );
 }

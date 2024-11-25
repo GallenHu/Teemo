@@ -80,3 +80,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer app {
+  :root {
+    --icon-box-width: 800px;
+  }
+}

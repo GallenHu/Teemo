@@ -22,7 +22,26 @@ export function SearchBox() {
   const [items, setItems] = useState<Item[]>([]);
   const [url, setUrl] = useState("");
 
-  const handleOnSearch = async (query: string, results: any[]) => {
+  let isOpening = false;
+
+  /**
+   * handleOnSearch
+   * 将在文字输入和键盘事件中调用
+   * @param query
+   * @param results
+   * @param keyCode
+   * @returns
+   */
+  const handleOnSearch = async (
+    query: string,
+    results: any[],
+    keyCode: number
+  ) => {
+    if (isOpening) return;
+    if (keyCode === 13) {
+      openSearchUrl(url, query);
+      return;
+    }
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
     fetch(`/api/search/complete?query=${encodeURIComponent(query)}`)
@@ -32,8 +51,17 @@ export function SearchBox() {
       });
   };
 
+  const handleOnSelect = (item: Item) => {
+    openSearchUrl(url, item.value);
+  };
+
   const openSearchUrl = (url: string, search: string) => {
-    console.log(url);
+    if (isOpening) return;
+
+    isOpening = true;
+    setTimeout(() => {
+      isOpening = false;
+    }, 300);
 
     window.open(url.replace("$key$", search), "_blank", "noopener");
   };
@@ -66,7 +94,7 @@ export function SearchBox() {
         className="search-auto-complete"
         items={items}
         onSearch={handleOnSearch}
-        onSelect={(item) => openSearchUrl(url, item.value)}
+        onSelect={handleOnSelect}
         autoFocus
         showNoResults={false}
         formatResult={formatResult}

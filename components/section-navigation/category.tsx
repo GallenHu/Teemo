@@ -4,12 +4,11 @@ import { SiteItem } from "./site-item";
 import type { ISiteItem } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { EllipsisVerticalIcon, FolderPen, Trash2 } from "lucide-react";
+  EllipsisVerticalIcon,
+  FolderPen,
+  Trash2,
+  SquarePlus,
+} from "lucide-react";
 import {
   DndContext,
   DragEndEvent,
@@ -23,11 +22,9 @@ import { useState } from "react";
 export function Category({
   name,
   items,
-  changeable = true,
 }: {
   name: string;
   items: ISiteItem[];
-  changeable?: boolean;
 }) {
   const [siteNames, setSiteNames] = useState(items.map((item) => item.name));
 
@@ -42,7 +39,6 @@ export function Category({
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
-    console.log(active, over);
 
     if (active.id !== over?.id) {
       setSiteNames((names) => {
@@ -62,28 +58,6 @@ export function Category({
     <Card className="w-full">
       <CardHeader className="relative group">
         <CardTitle>{name}</CardTitle>
-
-        <span
-          className={`absolute right-4 top-4 cursor-pointer invisible ${
-            changeable ? "group-hover:visible" : ""
-          }`}
-        >
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <EllipsisVerticalIcon size={16} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-10">
-              <DropdownMenuItem>
-                <FolderPen />
-                <span>Rename</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Trash2 />
-                <span>Delete</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </span>
       </CardHeader>
 
       <CardContent>

@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 export interface Users extends mongoose.Document {
   name: string;
   email: string;
-  passwordHash: string;
   emailVerified: string;
   image: string;
 }
@@ -21,10 +20,6 @@ const UserSchema = new mongoose.Schema<Users>({
     type: String,
     required: [true, "Please provide a email for this user."],
     maxlength: [60, "Name cannot be more than 60 characters"],
-  },
-  passwordHash: {
-    type: String,
-    required: [true, "Please provide a passwordHash for this user."],
   },
   emailVerified: {
     /* emailVerified date */

@@ -1,3 +1,4 @@
+import { CategoriesContainer } from "./categories-container";
 import { Category } from "./category";
 import type { ISiteItem } from "@/types";
 
@@ -25,5 +26,9 @@ export function SitesUnLogged() {
     },
   ];
 
-  return <Category name="推荐" items={list} changeable={false} />;
+  return (
+    <CategoriesContainer>
+      <Category name="推荐" items={list} />;
+    </CategoriesContainer>
+  );
 }

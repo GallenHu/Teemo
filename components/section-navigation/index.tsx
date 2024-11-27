@@ -9,12 +9,7 @@ export default async function Navigation() {
 
   return (
     <div className="h-full relative overflow-auto bg-muted/50">
-      <div
-        className="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 min-h-[300px] text-left"
-        style={{ width: "var(--icon-box-width)" }}
-      >
-        {userId ? <SitesLogged /> : <SitesUnLogged />}
-      </div>
+      {userId ? <SitesLogged userId={userId} /> : <SitesUnLogged />}
     </div>
   );
 }

@@ -1,27 +1,55 @@
+"use client";
+
 import { CategoriesContainer } from "./categories-container";
-import { Configure } from "./configure";
-import { getSitesWithCategory } from "@/utils/db-site";
+import { Configure } from "./configure/configure";
 import { Category } from "./category";
 import { pick } from "lodash-es";
-import type { ISiteItem } from "@/types";
+import { useSite } from "@/hooks/use-site";
+import { useFastToast } from "@/hooks/use-fast-toast";
+import type { ICategory, ISiteItem } from "@/types";
+import { useEffect, useMemo, useState } from "react";
 
-export async function SitesLogged({ userId }: { userId: string }) {
-  const sites = await getSitesWithCategory(userId);
-  const categoriesMap: Record<string, ISiteItem[]> = {};
+type SiteItemModel = ISiteItem & {
+  category: ICategory;
+};
 
-  sites.forEach((site) => {
-    const categoryName = site.category.name;
-    const _site = pick(site, ["icon", "name", "url"]);
-    if (!categoriesMap[categoryName]) {
-      categoriesMap[categoryName] = [_site];
-    } else {
-      categoriesMap[categoryName].push(_site);
-    }
-  });
+export function SitesLogged() {
+  const [sites, setSites] = useState<SiteItemModel[]>([]);
+  const { getSitesWithCategory } = useSite();
+  const { errorToast } = useFastToast();
+  // const sites = await getSitesWithCategory(userId);
+
+  useEffect(() => {
+    const load = async () => {
+      const res = await getSitesWithCategory();
+      if (res.success) {
+        setSites(res.data);
+      } else {
+        errorToast(res.message);
+      }
+    };
+
+    load();
+  }, []);
+
+  const categoriesMap: Record<string, ISiteItem[]> = useMemo(() => {
+    const map: Record<string, ISiteItem[]> = {};
+
+    sites.forEach((site) => {
+      const categoryName = site.category.name;
+      const _site = pick(site, ["icon", "name", "url"]);
+      if (!map[categoryName]) {
+        map[categoryName] = [_site];
+      } else {
+        map[categoryName].push(_site);
+      }
+    });
+    return map;
+  }, [sites]);
 
   return (
     <>
-      <Configure categoriesMap={categoriesMap} />
+      <Configure />
 
       <CategoriesContainer>
         {Object.keys(categoriesMap).map((categoryName) => {

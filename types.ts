@@ -3,3 +3,7 @@ export interface ISiteItem {
   url: string;
   icon: string;
 }
+
+export interface ICategory {
+  name: string;
+}

@@ -2,7 +2,7 @@ import React from "react";
 import { SlideContainerClientScript } from "./slide-container-client-script";
 
 interface Props {
-  sections: Array<() => React.JSX.Element>;
+  sections: Array<() => React.JSX.Element | Promise<React.JSX.Element>>;
 }
 
 export const SlideContainer: React.FC<Props> = ({ sections }) => {

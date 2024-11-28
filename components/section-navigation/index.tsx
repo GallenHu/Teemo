@@ -9,7 +9,7 @@ export default async function Navigation() {
 
   return (
     <div className="h-full relative overflow-auto bg-muted/50">
-      {userId ? <SitesLogged userId={userId} /> : <SitesUnLogged />}
+      {userId ? <SitesLogged /> : <SitesUnLogged />}
     </div>
   );
 }

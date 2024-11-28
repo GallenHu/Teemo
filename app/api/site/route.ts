@@ -2,28 +2,28 @@ import z from "zod";
 import { auth } from "@/auth";
 import { type NextRequest } from "next/server";
 import { errorResponse, successResponse } from "@/utils/api-response";
-import { getSites, createSite } from "@/utils/db-site";
+import { getSites, getSitesWithCategory, createSite } from "@/utils/db-site";
 import { getCategoryByName } from "@/utils/db-category";
 
 export async function GET(request: NextRequest) {
   const session = await auth();
-  const userId = session?.user?.id;
+  const userId = session!.user!.id!;
 
-  if (!userId) {
-    return errorResponse("Unauthorized");
+  const searchParams = request.nextUrl.searchParams;
+  const category = searchParams.get("category");
+
+  if (!category) {
+    const sites = await getSites(userId);
+    return successResponse(sites);
+  } else {
+    const sites = await getSitesWithCategory(userId);
+    return successResponse(sites);
   }
-
-  const sites = await getSites(userId);
-  return successResponse(sites);
 }
 
 export async function POST(request: NextRequest) {
   const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    return errorResponse("Unauthorized");
-  }
+  const userId = session!.user!.id!;
 
   // https://medium.com/@shivangrathore/how-to-add-typescript-types-to-request-body-in-nextjs-api-using-zod-63b74abe4b92
   const zValidator = z.object({

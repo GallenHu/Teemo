@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/global/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 import Head from "next/head";
-import Script from "next/script";
 
 import "./globals.css";
 
@@ -35,6 +35,8 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+
+        <Toaster />
       </body>
     </html>
   );

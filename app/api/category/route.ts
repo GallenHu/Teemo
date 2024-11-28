@@ -10,12 +10,7 @@ import {
 
 export async function GET(request: NextRequest) {
   const session = await auth();
-  const userId = session?.user?.id;
-  console.log(userId);
-  if (!userId) {
-    return errorResponse("Unauthorized");
-  }
-
+  const userId = session!.user!.id!;
   const categories = await getCategories(userId);
   return successResponse(categories);
 }
@@ -27,11 +22,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
-    return errorResponse("Unauthorized");
-  }
-
+  const userId = session!.user!.id!;
   // https://medium.com/@shivangrathore/how-to-add-typescript-types-to-request-body-in-nextjs-api-using-zod-63b74abe4b92
   const zValidator = z.object({
     name: z.string().max(20).min(2),

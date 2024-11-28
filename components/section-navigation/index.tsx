@@ -8,7 +8,7 @@ export default async function Navigation() {
   const userId = user?.id;
 
   return (
-    <div className="h-full relative overflow-auto bg-muted/50">
+    <div className="h-full relative overflow-auto">
       {userId ? <SitesLogged /> : <SitesUnLogged />}
     </div>
   );

@@ -28,7 +28,7 @@ export function SitesUnLogged() {
 
   return (
     <CategoriesContainer>
-      <Category name="推荐" items={list} />;
+      <Category name="推荐" items={list} />
     </CategoriesContainer>
   );
 }

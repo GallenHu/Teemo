@@ -5,17 +5,19 @@ import type { ISiteItem } from "@/types";
 export function StaticTableRow({ row }: { row: ISiteItem }) {
   return (
     <TableRow>
-      <TableCell className="w-[100px]">
-        <div className="flex items-center gap-1.5">
+      <TableCell>
+        <div className="w-[100px] flex items-center gap-1.5">
           <DragHandler />
           <span>{row.name}</span>
         </div>
       </TableCell>
-      <TableCell className="w-[150px]">{row.url}</TableCell>
-      <TableCell className="w-[150px]">
-        <div className="w-full truncate">{row.icon}</div>
+      <TableCell>
+        <div className="w-[120px] truncate">{row.url}</div>
       </TableCell>
-      <TableCell className="text-right">操作</TableCell>
+      <TableCell>
+        <div className="w-[120px] truncate">{row.icon}</div>
+      </TableCell>
+      <TableCell className="text-right">&nbsp;</TableCell>
     </TableRow>
   );
 }

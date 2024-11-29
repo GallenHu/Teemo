@@ -23,6 +23,7 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import { CreateCategoryForm } from "./create-category-form";
+import { CreateSiteForm } from "./create-site-form";
 import type { ICategory, ISiteItem } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { useCategory } from "@/hooks/use-category";
@@ -35,6 +36,7 @@ interface Props {
 
 const MainContentType = {
   create_category_form: "create_category_form",
+  create_site_form: "create_site_form",
   site_list: "site_list",
 };
 
@@ -43,7 +45,8 @@ export function Configure({ onCloseDialog }: Props) {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [sites, setSites] = useState<ISiteItem[]>([]);
   const [activeTab, setActiveTab] = useState("");
-  const [showCreateCategoryForm, setShowCreateCategoryForm] = useState(false);
+  const [showCreateCategory, setShowCreateCategory] = useState(false);
+  const [showCreateSite, setShowCreateSite] = useState(false);
   const { errorToast } = useFastToast();
 
   const reloadCategories = async () => {
@@ -66,7 +69,12 @@ export function Configure({ onCloseDialog }: Props) {
 
   const handleSuccessCreateCategory = async () => {
     reloadCategories();
-    setShowCreateCategoryForm(false);
+    setShowCreateCategory(false);
+  };
+
+  const handleSuccessCreateSite = () => {
+    setShowCreateSite(false);
+    reloadSitesByCategory(activeTab);
   };
 
   const handleSort = (oldIndex: number, newIndex: number) => {
@@ -74,9 +82,13 @@ export function Configure({ onCloseDialog }: Props) {
     setSites(newSites);
   };
 
+  const handleClickCreateSite = () => {
+    setShowCreateSite(true);
+  };
+
   const handleDialogOpenChange = (open: boolean) => {
     if (!open) {
-      setShowCreateCategoryForm(false);
+      setShowCreateCategory(false);
       onCloseDialog?.();
     }
   };
@@ -85,13 +97,15 @@ export function Configure({ onCloseDialog }: Props) {
     setActiveTab(category.name);
   };
 
-  const mainContent = useMemo(() => {
-    if (showCreateCategoryForm) {
+  const mainContentType = useMemo(() => {
+    if (showCreateSite) {
+      return MainContentType.create_site_form;
+    } else if (showCreateCategory) {
       return MainContentType.create_category_form;
     } else {
       return MainContentType.site_list;
     }
-  }, [activeTab, showCreateCategoryForm]);
+  }, [activeTab, showCreateCategory, showCreateSite]);
 
   useEffect(() => {
     activeTab && reloadSitesByCategory(activeTab);
@@ -106,6 +120,34 @@ export function Configure({ onCloseDialog }: Props) {
   useEffect(() => {
     reloadCategories();
   }, []);
+
+  function renderMainContent(mainContentType: string): JSX.Element {
+    switch (mainContentType) {
+      case MainContentType.create_site_form:
+        return (
+          <CreateSiteForm
+            category={activeTab}
+            onCancel={() => setShowCreateSite(false)}
+            onSuccess={() => handleSuccessCreateSite()}
+          />
+        );
+      case MainContentType.create_category_form:
+        return (
+          <CreateCategoryForm
+            onCancel={() => setShowCreateCategory(false)}
+            onSuccess={() => handleSuccessCreateCategory()}
+          />
+        );
+      default:
+        return (
+          <ConfigureTable
+            sites={sites}
+            onSort={handleSort}
+            onClickCreate={handleClickCreateSite}
+          />
+        );
+    }
+  }
 
   return (
     <>
@@ -154,7 +196,7 @@ export function Configure({ onCloseDialog }: Props) {
                   variant="ghost"
                   size="sm"
                   className="h-7"
-                  onClick={() => setShowCreateCategoryForm(true)}
+                  onClick={() => setShowCreateCategory(true)}
                 >
                   New Category
                 </Button>
@@ -163,14 +205,7 @@ export function Configure({ onCloseDialog }: Props) {
 
             <main className="flex h-[480px] flex-1 flex-col overflow-hidden">
               <div className="py-10 px-8">
-                {mainContent === MainContentType.create_category_form ? (
-                  <CreateCategoryForm
-                    onCancel={() => setShowCreateCategoryForm(false)}
-                    onSuccess={() => handleSuccessCreateCategory()}
-                  />
-                ) : (
-                  <ConfigureTable sites={sites} onSort={handleSort} />
-                )}
+                {renderMainContent(mainContentType)}
               </div>
             </main>
           </SidebarProvider>

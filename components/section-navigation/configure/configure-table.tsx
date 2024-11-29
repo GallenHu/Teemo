@@ -20,7 +20,6 @@ import {
 } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
-  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -33,9 +32,10 @@ import { useEffect, useMemo, useState } from "react";
 interface Props {
   sites: ISiteItem[];
   onSort?: (oldIndex: number, newIndex: number) => void;
+  onClickCreate?: () => void;
 }
 
-export function ConfigureTable({ sites, onSort }: Props) {
+export function ConfigureTable({ sites, onSort, onClickCreate }: Props) {
   const [activeId, setActiveId] = useState<string | number>();
   const [sortedSiteUrls, setSortedSiteUrls] = useState<string[]>([]);
 
@@ -55,7 +55,6 @@ export function ConfigureTable({ sites, onSort }: Props) {
   }
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
-    console.log(active, over);
     if (active.id !== over?.id) {
       const oldIndex = sites.findIndex(
         (item) => getSortableItemId(item) === (active.id as string)
@@ -93,10 +92,10 @@ export function ConfigureTable({ sites, onSort }: Props) {
         <Table className="w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Name</TableHead>
+              <TableHead className="w-[100px]">NAME</TableHead>
               <TableHead className="w-[150px]">URL</TableHead>
-              <TableHead className="w-[150px]">Icon</TableHead>
-              <TableHead className="text-center">Action</TableHead>
+              <TableHead className="w-[150px]">ICON</TableHead>
+              <TableHead className="text-center"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -130,7 +129,7 @@ export function ConfigureTable({ sites, onSort }: Props) {
       </DndContext>
 
       <div className="py-5 flex justify-end">
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={onClickCreate}>
           Add
         </Button>
       </div>

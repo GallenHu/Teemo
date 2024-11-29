@@ -1,7 +1,9 @@
 import { TableCell, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { DragHandler } from "./drag-handler";
+import { Pencil, Trash2 } from "lucide-react";
 import type { ISiteItem } from "@/types";
 
 export const getSortableItemId = (item: ISiteItem) => {
@@ -31,18 +33,37 @@ export function DraggableTableRow({ row }: { row: ISiteItem }) {
         </TableCell>
       ) : (
         <>
-          <TableCell className="w-[100px]">
-            <div className="flex items-center gap-1.5">
+          <TableCell>
+            <div className="w-[100px] flex items-center gap-1.5">
               {/* add listeners to DragHandler */}
               <DragHandler {...listeners} />
               <div>{row.name}</div>
             </div>
           </TableCell>
-          <TableCell className="w-[150px]">{row.url}</TableCell>
-          <TableCell className="w-[150px]">
-            <div className="w-full truncate">{row.icon}</div>
+          <TableCell>
+            <div className="w-[120px] truncate">{row.url}</div>
           </TableCell>
-          <TableCell className="text-right">操作</TableCell>
+          <TableCell>
+            <div className="w-[120px] truncate">{row.icon}</div>
+          </TableCell>
+          <TableCell>
+            <div className="flex">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-3 px-1.5 text-gray-500 hover:text-gray-700"
+              >
+                <Pencil size={14} />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-3 px-1.5 text-gray-500 hover:text-gray-700"
+              >
+                <Trash2 size={14} />
+              </Button>
+            </div>
+          </TableCell>
         </>
       )}
     </TableRow>

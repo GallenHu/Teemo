@@ -1,16 +1,42 @@
-import type { NextRequest } from "next/server";
-import { isAuthenticated } from "@/lib/auth";
+import authConfig from "./auth.config";
+import NextAuth from "next-auth";
+import { NextResponse, type NextRequest } from "next/server";
 import { errorResponse } from "./utils/api-response";
 
-// https://nextjs.org/docs/app/building-your-application/routing/middleware#producing-a-response
-export const config = {
-  matcher: ["/api/category(.*)", "/api/site(.*)"],
-};
+// https://authjs.dev/getting-started/migrating-to-v5#edge-compatibility
+const { auth } = NextAuth(authConfig);
 
-export function middleware(request: NextRequest) {
-  // Call our authentication function to check the request
-  if (!isAuthenticated(request)) {
-    // Respond with JSON indicating an error message
-    return errorResponse("authentication failed", 401);
+export default auth(async function middleware(req) {
+  const pathname = req.nextUrl.pathname;
+  if (
+    pathname.startsWith("/api/category") ||
+    pathname.startsWith("/api/site")
+  ) {
+    if (!req.auth?.user?.email) {
+      return errorResponse("authentication failed", 401);
+    } else {
+      const headers = addEmailInfoToHeaders(req, req.auth.user.email);
+      return overrideRequestHeaders(headers);
+    }
   }
+});
+
+function addEmailInfoToHeaders(req: NextRequest, email: string) {
+  const headers = new Headers(req.headers);
+  // Add a new request header
+  headers.set("x-user-email", email);
+  return headers;
+}
+
+function overrideRequestHeaders(headers: NextRequest["headers"]) {
+  const resp = NextResponse.next({
+    // New option `request.headers` which accepts a Headers object
+    // overrides request headers with the specified new ones.
+    request: {
+      headers,
+    },
+  });
+  // You can still set *response* headers to the client, as before.
+  // resp.headers.set("x-hello-client", "bar");
+  return resp;
 }

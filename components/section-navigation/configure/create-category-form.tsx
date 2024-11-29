@@ -15,8 +15,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useFastToast } from "@/hooks/use-fast-toast";
 import { useCategory } from "@/hooks/use-category";
+import { useState } from "react";
+import { ChevronRight } from "lucide-react";
 
 const FormSchema = z.object({
   name: z.string().min(1, {
@@ -39,6 +46,8 @@ interface Props {
 }
 
 export function CreateCategoryForm({ onCancel, onSuccess }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -50,7 +59,7 @@ export function CreateCategoryForm({ onCancel, onSuccess }: Props) {
   const { createCategory } = useCategory();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const res = await createCategory(data.name);
+    const res = await createCategory(data.name, data.order);
     if (res.success) {
       onSuccess?.(res.data);
     } else {
@@ -71,7 +80,7 @@ export function CreateCategoryForm({ onCancel, onSuccess }: Props) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category Name</FormLabel>
+                  <FormLabel className="font-semibold">Category Name</FormLabel>
                   <FormControl>
                     <Input placeholder="eg: Favorite" {...field} />
                   </FormControl>
@@ -81,26 +90,43 @@ export function CreateCategoryForm({ onCancel, onSuccess }: Props) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="order"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Order</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="0~999"
-                      {...field}
-                      type="number"
-                      min={0}
-                      max={999}
-                    />
-                  </FormControl>
+            <Collapsible
+              open={isOpen}
+              onOpenChange={setIsOpen}
+              className="w-[350px] space-y-2"
+            >
+              <div className="flex items-center gap-1">
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" size="sm" className="">
+                    <ChevronRight className={isOpen ? "rotate-90" : ""} />
+                    <span>More configure</span>
+                  </Button>
+                </CollapsibleTrigger>
+              </div>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <CollapsibleContent>
+                <FormField
+                  control={form.control}
+                  name="order"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">Order</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="0~999"
+                          {...field}
+                          type="number"
+                          min={0}
+                          max={999}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CollapsibleContent>
+            </Collapsible>
 
             <div className="flex justify-between">
               <Button variant="outline" onClick={onCancel}>

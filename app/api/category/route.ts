@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { auth } from "@/auth";
 import { type NextRequest } from "next/server";
 import { errorResponse, successResponse } from "@/utils/api-response";
 import {
@@ -7,10 +6,14 @@ import {
   getCategoryByName,
   createCategory,
 } from "@/utils/db-category";
+import { getUserIdFromRequest } from "@/lib/user";
 
 export async function GET(request: NextRequest) {
-  const session = await auth();
-  const userId = session!.user!.id!;
+  const userId = await getUserIdFromRequest(request);
+  if (!userId) {
+    return errorResponse("Unauthorized: user id not found");
+  }
+
   const categories = await getCategories(userId);
   return successResponse(categories);
 }
@@ -21,8 +24,11 @@ export async function GET(request: NextRequest) {
  * @returns
  */
 export async function POST(request: NextRequest) {
-  const session = await auth();
-  const userId = session!.user!.id!;
+  const userId = await getUserIdFromRequest(request);
+  if (!userId) {
+    return errorResponse("Unauthorized: user id not found");
+  }
+
   // https://medium.com/@shivangrathore/how-to-add-typescript-types-to-request-body-in-nextjs-api-using-zod-63b74abe4b92
   const zValidator = z.object({
     name: z.string().max(20).min(2),
@@ -37,7 +43,6 @@ export async function POST(request: NextRequest) {
 
   const { name } = parsed.data;
   const exist = await getCategoryByName(userId, name);
-  console.log(exist);
   if (exist) {
     return errorResponse("Category already exists");
   }

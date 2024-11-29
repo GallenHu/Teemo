@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 export async function UserLogin() {
   const session = await auth();
+
   const user = session?.user;
-  const userId = user?.id;
   const userImg = user?.image || "";
   const userName = user?.name || "";
   const handleClickSignOut = async () => {
@@ -21,7 +21,7 @@ export async function UserLogin() {
     await signOut();
   };
 
-  return userId ? (
+  return user ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="h-8 w-8">
         <Button variant="ghost" className=" h-8 w-8 px-0">

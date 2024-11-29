@@ -5,11 +5,10 @@ import { SitesUnLogged } from "./sites-unlogged";
 export default async function Navigation() {
   const session = await auth();
   const user = session?.user;
-  const userId = user?.id;
 
   return (
     <div className="h-full relative overflow-auto">
-      {userId ? <SitesLogged /> : <SitesUnLogged />}
+      {user ? <SitesLogged /> : <SitesUnLogged />}
     </div>
   );
 }

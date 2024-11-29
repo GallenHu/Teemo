@@ -17,7 +17,7 @@ export function useCategory() {
     });
   };
 
-  const createCategory = (name: string) => {
+  const createCategory = (name: string, order: number) => {
     const data = { name };
     return fetch("/api/category", {
       method: "POST",

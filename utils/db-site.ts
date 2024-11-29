@@ -81,7 +81,6 @@ export async function updateOrders(
 
     // 如果所有更新都成功，则提交事务
     await session.commitTransaction();
-    console.log("Orders updated successfully.");
     success = true;
   } catch (error) {
     // 如果出现错误，则回滚事务

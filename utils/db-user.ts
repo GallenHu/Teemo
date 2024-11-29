@@ -1,9 +1,10 @@
 import db from "@/utils/db";
-import User from "@/models/User";
-export async function getUserFromDb(email: string, pwHash: string) {
+import User, { type Users } from "@/models/User";
+
+export async function getUserByEmail(email: string): Promise<Users | null> {
   await db.connect();
 
-  const user = await User.findOne({ email: email, passwordHash: pwHash });
+  const user = await User.findOne({ email: email });
 
   return user;
 }

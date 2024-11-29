@@ -1,6 +1,9 @@
 export function DragHandler(props: any) {
   return (
-    <div className="h-2 w-2 inline-block align-middle mr-1" {...props}>
+    <div
+      className="h-3 w-3 [&_svg]:w-full [&_svg]:h-full inline-block align-middle"
+      {...props}
+    >
       <svg
         aria-hidden="true"
         focusable="false"

@@ -11,6 +11,7 @@ export function useFastToast() {
       variant: "destructive",
       title,
       description: message,
+      duration: 3000,
     });
   };
 

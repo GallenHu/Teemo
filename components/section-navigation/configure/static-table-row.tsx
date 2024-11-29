@@ -1,15 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { DragHandler } from "./drag-handler";
 import type { ISiteItem } from "@/types";
 
@@ -17,8 +6,10 @@ export function StaticTableRow({ row }: { row: ISiteItem }) {
   return (
     <TableRow>
       <TableCell className="w-[100px]">
-        <DragHandler />
-        <span>{row.name}</span>
+        <div className="flex items-center gap-1.5">
+          <DragHandler />
+          <span>{row.name}</span>
+        </div>
       </TableCell>
       <TableCell className="w-[150px]">{row.url}</TableCell>
       <TableCell className="w-[150px]">

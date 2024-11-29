@@ -8,6 +8,15 @@ export function useCategory() {
     });
   };
 
+  const getCategorySites = (category: string) => {
+    return fetch(`/api/category/${category}/sites`).then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    });
+  };
+
   const createCategory = (name: string) => {
     const data = { name };
     return fetch("/api/category", {
@@ -26,6 +35,7 @@ export function useCategory() {
 
   return {
     getCategories,
+    getCategorySites,
     createCategory,
   };
 }

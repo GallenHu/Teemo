@@ -1,17 +1,12 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { DragHandler } from "./drag-handler";
 import type { ISiteItem } from "@/types";
+
+export const getSortableItemId = (item: ISiteItem) => {
+  return item["url"];
+};
 
 export function DraggableTableRow({ row }: { row: ISiteItem }) {
   const {
@@ -21,7 +16,7 @@ export function DraggableTableRow({ row }: { row: ISiteItem }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: row.name });
+  } = useSortable({ id: getSortableItemId(row) });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -36,14 +31,16 @@ export function DraggableTableRow({ row }: { row: ISiteItem }) {
         </TableCell>
       ) : (
         <>
-          <TableCell className="font-medium">
-            {/* add listeners to DragHandler */}
-            <DragHandler {...listeners} />
-            <span>{row.name}</span>
+          <TableCell className="w-[100px]">
+            <div className="flex items-center gap-1.5">
+              {/* add listeners to DragHandler */}
+              <DragHandler {...listeners} />
+              <div>{row.name}</div>
+            </div>
           </TableCell>
-          <TableCell>{row.url}</TableCell>
-          <TableCell>
-            <div className="max-w-[150px] truncate">{row.icon}</div>
+          <TableCell className="w-[150px]">{row.url}</TableCell>
+          <TableCell className="w-[150px]">
+            <div className="w-full truncate">{row.icon}</div>
           </TableCell>
           <TableCell className="text-right">操作</TableCell>
         </>

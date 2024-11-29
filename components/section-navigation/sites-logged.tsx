@@ -20,17 +20,21 @@ export function SitesLogged() {
   // const sites = await getSitesWithCategory(userId);
 
   useEffect(() => {
-    const load = async () => {
-      const res = await getSitesWithCategory();
-      if (res.success) {
-        setSites(res.data);
-      } else {
-        errorToast(res.message);
-      }
-    };
-
-    load();
+    reloadSites();
   }, []);
+
+  const reloadSites = async () => {
+    const res = await getSitesWithCategory();
+    if (res.success) {
+      setSites(res.data);
+    } else {
+      errorToast(res.message);
+    }
+  };
+
+  const handleClose = () => {
+    reloadSites();
+  };
 
   const categoriesMap: Record<string, ISiteItem[]> = useMemo(() => {
     const map: Record<string, ISiteItem[]> = {};
@@ -49,7 +53,7 @@ export function SitesLogged() {
 
   return (
     <>
-      <Configure />
+      <Configure onCloseDialog={handleClose} />
 
       <CategoriesContainer>
         {Object.keys(categoriesMap).map((categoryName) => {

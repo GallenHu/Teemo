@@ -1,11 +1,7 @@
 import { createPortal } from "react-dom";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -28,23 +24,26 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { DraggableTableRow } from "./draggable-table-row";
+import { DraggableTableRow, getSortableItemId } from "./draggable-table-row";
 import { StaticTableRow } from "./static-table-row";
+import { EmptyTableRow } from "./empty-table-row";
 import type { ISiteItem } from "@/types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-export function ConfigureTable({ sites }: { sites: ISiteItem[] }) {
-  console.log(sites);
+interface Props {
+  sites: ISiteItem[];
+  onSort?: (oldIndex: number, newIndex: number) => void;
+}
 
+export function ConfigureTable({ sites, onSort }: Props) {
   const [activeId, setActiveId] = useState<string | number>();
-  const [siteNames, setSiteNames] = useState(
-    sites?.map((site) => site.name) || []
-  );
+  const [sortedSiteUrls, setSortedSiteUrls] = useState<string[]>([]);
+
   const selectedRow = useMemo(() => {
     if (!activeId) {
       return null;
     }
-    return sites.find((site) => site.name === activeId);
+    return sites.find((site) => getSortableItemId(site) === activeId);
   }, [activeId, sites]);
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
@@ -56,12 +55,17 @@ export function ConfigureTable({ sites }: { sites: ISiteItem[] }) {
   }
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
+    console.log(active, over);
     if (active.id !== over?.id) {
-      setSiteNames((siteNames) => {
-        const oldIndex = siteNames.indexOf(active.id as string);
-        const newIndex = siteNames.indexOf(over?.id as string) || 0;
-        return arrayMove(siteNames, oldIndex, newIndex);
-      });
+      const oldIndex = sites.findIndex(
+        (item) => getSortableItemId(item) === (active.id as string)
+      );
+      const newIndex =
+        sites.findIndex(
+          (item) => getSortableItemId(item) === (over?.id as string)
+        ) || 0;
+
+      onSort?.(oldIndex, newIndex);
     }
 
     setActiveId(undefined);
@@ -69,9 +73,11 @@ export function ConfigureTable({ sites }: { sites: ISiteItem[] }) {
   function handleDragCancel() {
     setActiveId(undefined);
   }
-  function getSiteItemByName(name: string) {
-    return sites.find((item) => item.name === name);
-  }
+
+  useEffect(() => {
+    const sorted = sites.sort((a, b) => a.order - b.order);
+    setSortedSiteUrls(sorted.map((item) => getSortableItemId(item)));
+  }, [sites]);
 
   // https://codesandbox.io/s/react-table-drag-and-drop-sort-rows-with-dnd-kit-btpy9
   return (
@@ -94,17 +100,18 @@ export function ConfigureTable({ sites }: { sites: ISiteItem[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <SortableContext
-              items={siteNames}
-              strategy={verticalListSortingStrategy}
-            >
-              {siteNames.map((siteName) => (
-                <DraggableTableRow
-                  key={siteName}
-                  row={getSiteItemByName(siteName)!}
-                />
-              ))}
-            </SortableContext>
+            {sites?.length ? (
+              <SortableContext
+                items={sortedSiteUrls}
+                strategy={verticalListSortingStrategy}
+              >
+                {sites.map((site) => (
+                  <DraggableTableRow key={getSortableItemId(site)} row={site} />
+                ))}
+              </SortableContext>
+            ) : (
+              <EmptyTableRow />
+            )}
           </TableBody>
         </Table>
 

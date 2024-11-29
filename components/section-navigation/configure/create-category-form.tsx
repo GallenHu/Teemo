@@ -22,6 +22,15 @@ const FormSchema = z.object({
   name: z.string().min(1, {
     message: "Category name must be at least 2 characters.",
   }),
+  order: z.coerce
+    .number()
+    .int()
+    .min(0, {
+      message: "Order must be at least 0.",
+    })
+    .max(999, {
+      message: "Order must be at most 999.",
+    }),
 });
 
 interface Props {
@@ -34,6 +43,7 @@ export function CreateCategoryForm({ onCancel, onSuccess }: Props) {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: "",
+      order: 999,
     },
   });
   const { errorToast } = useFastToast();
@@ -64,6 +74,27 @@ export function CreateCategoryForm({ onCancel, onSuccess }: Props) {
                   <FormLabel>Category Name</FormLabel>
                   <FormControl>
                     <Input placeholder="eg: Favorite" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="order"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Order</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="0~999"
+                      {...field}
+                      type="number"
+                      min={0}
+                      max={999}
+                    />
                   </FormControl>
 
                   <FormMessage />

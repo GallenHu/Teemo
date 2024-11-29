@@ -27,14 +27,19 @@ import type { ICategory, ISiteItem } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { useCategory } from "@/hooks/use-category";
 import { useFastToast } from "@/hooks/use-fast-toast";
+import { arrayMove } from "@dnd-kit/sortable";
+
+interface Props {
+  onCloseDialog?: () => void;
+}
 
 const MainContentType = {
   create_category_form: "create_category_form",
   site_list: "site_list",
 };
 
-export function Configure() {
-  const { getCategories } = useCategory();
+export function Configure({ onCloseDialog }: Props) {
+  const { getCategories, getCategorySites } = useCategory();
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [sites, setSites] = useState<ISiteItem[]>([]);
   const [activeTab, setActiveTab] = useState("");
@@ -51,17 +56,33 @@ export function Configure() {
   };
 
   const reloadSitesByCategory = async (category: string) => {
-    // TODO: reload sites by category
-    console.log(category);
+    const res = await getCategorySites(category);
+    if (res.success) {
+      setSites(res.data);
+    } else {
+      errorToast(res.message);
+    }
   };
 
-  const changeActiveTab = (tab?: string) => {
-    console.log(changeActiveTab);
+  const handleSuccessCreateCategory = async () => {
+    reloadCategories();
+    setShowCreateCategoryForm(false);
+  };
 
-    if (categories.find((item) => item.name === tab)) {
-      setActiveTab(tab!);
-      reloadSitesByCategory(tab!);
+  const handleSort = (oldIndex: number, newIndex: number) => {
+    const newSites = arrayMove(sites, oldIndex, newIndex);
+    setSites(newSites);
+  };
+
+  const handleDialogOpenChange = (open: boolean) => {
+    if (!open) {
+      setShowCreateCategoryForm(false);
+      onCloseDialog?.();
     }
+  };
+
+  const handleClickCategory = async (category: ICategory) => {
+    setActiveTab(category.name);
   };
 
   const mainContent = useMemo(() => {
@@ -73,17 +94,22 @@ export function Configure() {
   }, [activeTab, showCreateCategoryForm]);
 
   useEffect(() => {
-    (async () => {
-      await reloadCategories();
+    activeTab && reloadSitesByCategory(activeTab);
+  }, [activeTab]);
 
-      // todo
-      // changeActiveTab(categories[0]?.name);
-    })();
+  useEffect(() => {
+    if (!activeTab && categories.length) {
+      setActiveTab(categories[0].name);
+    }
+  }, [categories]);
+
+  useEffect(() => {
+    reloadCategories();
   }, []);
 
   return (
     <>
-      <Dialog>
+      <Dialog onOpenChange={handleDialogOpenChange}>
         <DialogTrigger asChild>
           <Button
             variant="ghost"
@@ -109,6 +135,7 @@ export function Configure() {
                           <SidebarMenuButton
                             asChild
                             isActive={category.name === activeTab}
+                            onClick={() => handleClickCategory(category)}
                           >
                             <a href="#">
                               {/* <item.icon /> */}
@@ -139,9 +166,10 @@ export function Configure() {
                 {mainContent === MainContentType.create_category_form ? (
                   <CreateCategoryForm
                     onCancel={() => setShowCreateCategoryForm(false)}
+                    onSuccess={() => handleSuccessCreateCategory()}
                   />
                 ) : (
-                  <ConfigureTable sites={sites} />
+                  <ConfigureTable sites={sites} onSort={handleSort} />
                 )}
               </div>
             </main>

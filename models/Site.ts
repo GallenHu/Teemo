@@ -4,6 +4,7 @@ export interface Sites extends mongoose.Document {
   name: string;
   url: string;
   icon: string;
+  order: number;
   category: ObjectId;
   user: ObjectId;
 }
@@ -20,6 +21,10 @@ const SiteSchema = new mongoose.Schema<Sites>({
   },
   icon: {
     type: String,
+  },
+  order: {
+    type: Number,
+    default: 999,
   },
   category: {
     type: mongoose.Types.ObjectId,

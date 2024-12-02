@@ -12,7 +12,7 @@ export function Category({
   items: ISiteItem[];
 }) {
   return (
-    <Card className="w-full">
+    <Card className="w-full my-5">
       <CardHeader className="relative group">
         <CardTitle>{name}</CardTitle>
       </CardHeader>

@@ -41,7 +41,7 @@ export function SitesLogged() {
 
     sites.forEach((site) => {
       const categoryName = site.category.name;
-      const _site = pick(site, ["icon", "name", "url"]);
+      const _site = pick(site, ["icon", "name", "url", "order"]);
       if (!map[categoryName]) {
         map[categoryName] = [_site];
       } else {

@@ -1,7 +1,7 @@
 "use client";
 
 import { ConfigureTable } from "./configure-table";
-import { BoltIcon } from "lucide-react";
+import { BoltIcon, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -36,18 +36,26 @@ interface Props {
 
 const MainContentType = {
   create_category_form: "create_category_form",
+  edit_category_form: "edit_category_form",
   create_site_form: "create_site_form",
   site_list: "site_list",
 };
 
 export function Configure({ onCloseDialog }: Props) {
   const { getCategories, getCategorySites } = useCategory();
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [categories, setCategories] = useState<(ICategory & { _id: string })[]>(
+    []
+  );
+  const [editingCategory, setEditingCategory] = useState<ICategory>();
   const [sites, setSites] = useState<ISiteItem[]>([]);
   const [activeTab, setActiveTab] = useState("");
   const [showCreateCategory, setShowCreateCategory] = useState(false);
   const [showCreateSite, setShowCreateSite] = useState(false);
   const { errorToast } = useFastToast();
+
+  const activeCategory = useMemo(() => {
+    return categories.find((c) => c.name === activeTab);
+  }, [categories, activeTab]);
 
   const reloadCategories = async () => {
     const res = await getCategories();
@@ -58,8 +66,8 @@ export function Configure({ onCloseDialog }: Props) {
     }
   };
 
-  const reloadSitesByCategory = async (category: string) => {
-    const res = await getCategorySites(category);
+  const reloadSitesByCategory = async (categoryId: string) => {
+    const res = await getCategorySites(categoryId);
     if (res.success) {
       setSites(res.data);
     } else {
@@ -67,14 +75,16 @@ export function Configure({ onCloseDialog }: Props) {
     }
   };
 
-  const handleSuccessCreateCategory = async () => {
+  const handleSuccessCreateCategory = async (
+    category: ICategory & { _id: string }
+  ) => {
     reloadCategories();
     setShowCreateCategory(false);
   };
 
-  const handleSuccessCreateSite = () => {
+  const handleSuccessCreateSite = (site: ISiteItem) => {
     setShowCreateSite(false);
-    reloadSitesByCategory(activeTab);
+    reloadSitesByCategory(site.category!);
   };
 
   const handleSort = (oldIndex: number, newIndex: number) => {
@@ -97,6 +107,16 @@ export function Configure({ onCloseDialog }: Props) {
     setActiveTab(category.name);
   };
 
+  const handleClickEditCategory = (category: ICategory) => {
+    setEditingCategory(category);
+    setShowCreateCategory(true);
+  };
+
+  const handleClickNewCategory = () => {
+    setEditingCategory(undefined);
+    setShowCreateCategory(true);
+  };
+
   const mainContentType = useMemo(() => {
     if (showCreateSite) {
       return MainContentType.create_site_form;
@@ -108,8 +128,8 @@ export function Configure({ onCloseDialog }: Props) {
   }, [activeTab, showCreateCategory, showCreateSite]);
 
   useEffect(() => {
-    activeTab && reloadSitesByCategory(activeTab);
-  }, [activeTab]);
+    activeCategory && reloadSitesByCategory(activeCategory._id);
+  }, [activeCategory]);
 
   useEffect(() => {
     if (!activeTab && categories.length) {
@@ -124,18 +144,21 @@ export function Configure({ onCloseDialog }: Props) {
   function renderMainContent(mainContentType: string): JSX.Element {
     switch (mainContentType) {
       case MainContentType.create_site_form:
+      case MainContentType.create_site_form:
         return (
           <CreateSiteForm
             category={activeTab}
             onCancel={() => setShowCreateSite(false)}
-            onSuccess={() => handleSuccessCreateSite()}
+            onSuccess={(site) => handleSuccessCreateSite(site)}
           />
         );
       case MainContentType.create_category_form:
+      case MainContentType.edit_category_form:
         return (
           <CreateCategoryForm
+            category={editingCategory}
             onCancel={() => setShowCreateCategory(false)}
-            onSuccess={() => handleSuccessCreateCategory()}
+            onSuccess={(category) => handleSuccessCreateCategory(category)}
           />
         );
       default:
@@ -173,7 +196,10 @@ export function Configure({ onCloseDialog }: Props) {
                   <SidebarGroupContent>
                     <SidebarMenu>
                       {categories.map((category) => (
-                        <SidebarMenuItem key={category.name}>
+                        <SidebarMenuItem
+                          key={category.name}
+                          className="flex justify-between items-center group"
+                        >
                           <SidebarMenuButton
                             asChild
                             isActive={category.name === activeTab}
@@ -184,6 +210,15 @@ export function Configure({ onCloseDialog }: Props) {
                               <span>{category.name}</span>
                             </a>
                           </SidebarMenuButton>
+
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-3 px-1.5 text-gray-500 hover:text-gray-700 invisible group-hover:visible"
+                            onClick={() => handleClickEditCategory(category)}
+                          >
+                            <Pencil size={14} />
+                          </Button>
                         </SidebarMenuItem>
                       ))}
                     </SidebarMenu>
@@ -196,7 +231,7 @@ export function Configure({ onCloseDialog }: Props) {
                   variant="ghost"
                   size="sm"
                   className="h-7"
-                  onClick={() => setShowCreateCategory(true)}
+                  onClick={handleClickNewCategory}
                 >
                   New Category
                 </Button>

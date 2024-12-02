@@ -24,6 +24,8 @@ import { useFastToast } from "@/hooks/use-fast-toast";
 import { useCategory } from "@/hooks/use-category";
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { ICategory } from "@/types";
+import { pick } from "lodash-es";
 
 const FormSchema = z.object({
   name: z.string().min(1, {
@@ -41,25 +43,33 @@ const FormSchema = z.object({
 });
 
 interface Props {
+  category?: ICategory & { _id: string };
   onCancel?: () => void;
   onSuccess?: (data: any) => void;
 }
 
-export function CreateCategoryForm({ onCancel, onSuccess }: Props) {
+export function CreateCategoryForm({ category, onCancel, onSuccess }: Props) {
+  const isEditMode = !!category?.name;
   const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: "",
-      order: 999,
-    },
+    defaultValues: isEditMode
+      ? pick(category, ["name", "order"])
+      : {
+          name: "",
+          order: 999,
+        },
   });
   const { errorToast } = useFastToast();
-  const { createCategory } = useCategory();
+  const { createCategory, updateCategory } = useCategory();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const res = await createCategory(data.name, data.order);
+    const request = () =>
+      isEditMode
+        ? updateCategory(category!._id, { ...data })
+        : createCategory({ ...data });
+    const res = await request();
     if (res.success) {
       onSuccess?.(res.data);
     } else {

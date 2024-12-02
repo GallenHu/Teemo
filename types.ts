@@ -3,8 +3,10 @@ export interface ISiteItem {
   url: string;
   icon: string;
   order: number;
+  category?: string;
 }
 
 export interface ICategory {
   name: string;
+  order: number;
 }

@@ -33,7 +33,6 @@ export async function POST(request: NextRequest) {
   const zValidator = z.object({
     name: z.string().max(20).min(2),
   });
-
   const json = await request.json();
   const parsed = zValidator.safeParse(json);
   if (!parsed.success) {

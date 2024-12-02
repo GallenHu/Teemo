@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -26,6 +24,7 @@ import { CreateCategoryForm } from "./create-category-form";
 import { CreateSiteForm } from "./create-site-form";
 import type { ICategory, ISiteItem } from "@/types";
 import { useEffect, useMemo, useState } from "react";
+import { useSite } from "@/hooks/use-site";
 import { useCategory } from "@/hooks/use-category";
 import { useFastToast } from "@/hooks/use-fast-toast";
 import { arrayMove } from "@dnd-kit/sortable";
@@ -43,10 +42,13 @@ const MainContentType = {
 
 export function Configure({ onCloseDialog }: Props) {
   const { getCategories, getCategorySites } = useCategory();
+  const { reorder } = useSite();
   const [categories, setCategories] = useState<(ICategory & { _id: string })[]>(
     []
   );
-  const [editingCategory, setEditingCategory] = useState<ICategory>();
+  const [editingCategory, setEditingCategory] = useState<
+    ICategory & { _id: string }
+  >();
   const [sites, setSites] = useState<ISiteItem[]>([]);
   const [activeTab, setActiveTab] = useState("");
   const [showCreateCategory, setShowCreateCategory] = useState(false);
@@ -87,9 +89,19 @@ export function Configure({ onCloseDialog }: Props) {
     reloadSitesByCategory(site.category!);
   };
 
-  const handleSort = (oldIndex: number, newIndex: number) => {
+  const handleSort = async (oldIndex: number, newIndex: number) => {
     const newSites = arrayMove(sites, oldIndex, newIndex);
+
+    newSites.forEach((site, index) => {
+      site.order = index;
+    });
+
     setSites(newSites);
+
+    const res = await reorder(activeCategory!._id, newSites);
+    if (!res.success) {
+      errorToast(res.message);
+    }
   };
 
   const handleClickCreateSite = () => {
@@ -107,7 +119,7 @@ export function Configure({ onCloseDialog }: Props) {
     setActiveTab(category.name);
   };
 
-  const handleClickEditCategory = (category: ICategory) => {
+  const handleClickEditCategory = (category: ICategory & { _id: string }) => {
     setEditingCategory(category);
     setShowCreateCategory(true);
   };
@@ -156,7 +168,7 @@ export function Configure({ onCloseDialog }: Props) {
       case MainContentType.edit_category_form:
         return (
           <CreateCategoryForm
-            category={editingCategory}
+            category={editingCategory!}
             onCancel={() => setShowCreateCategory(false)}
             onSuccess={(category) => handleSuccessCreateCategory(category)}
           />

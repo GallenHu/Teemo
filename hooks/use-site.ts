@@ -34,9 +34,25 @@ export function useSite() {
     });
   };
 
+  const reorder = (categoryId: string, sites: ISiteItem[]) => {
+    return fetch("/api/site/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ category: categoryId, sites }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    });
+  };
+
   return {
     getSites,
     getSitesWithCategory,
     createSite,
+    reorder,
   };
 }

@@ -62,34 +62,23 @@ export async function updateSite(id: string, site: ISiteItem) {
 
 export async function updateOrders(
   categoryId: string,
-  newOrderList: ISiteItem[]
+  newOrderList: (ISiteItem & { _id: string })[]
 ) {
   let success = false;
-  // 使用事务来保证所有操作要么全部成功，要么全部失败
-  const session = await mongoose.startSession();
-  session.startTransaction();
+
+  const bulkOps = newOrderList.map(({ _id, order }) => ({
+    updateOne: {
+      filter: { _id, category: categoryId },
+      update: { $set: { order } },
+    },
+  }));
 
   try {
-    for (const item of newOrderList) {
-      // 更新每项的order
-      await Site.updateOne(
-        { category: categoryId, url: item.url }, // 匹配条件
-        { $set: { order: item.order } }, // 要设置的新值
-        { session } // 在事务中执行
-      );
-    }
-
-    // 如果所有更新都成功，则提交事务
-    await session.commitTransaction();
-    success = true;
+    const result = await Site.bulkWrite(bulkOps);
+    success = !!result;
   } catch (error) {
-    // 如果出现错误，则回滚事务
-    await session.abortTransaction();
-    console.error("Error updating orders:", error);
-    success = false;
+    console.error("更新失败:", error);
   } finally {
-    // 关闭会话
-    session.endSession();
     return success;
   }
 }

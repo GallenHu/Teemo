@@ -13,6 +13,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -46,9 +57,15 @@ interface Props {
   category?: ICategory & { _id: string };
   onCancel?: () => void;
   onSuccess?: (data: any) => void;
+  onDelete?: () => void;
 }
 
-export function CreateCategoryForm({ category, onCancel, onSuccess }: Props) {
+export function CreateCategoryForm({
+  category,
+  onCancel,
+  onDelete,
+  onSuccess,
+}: Props) {
   const isEditMode = !!category?.name;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -62,7 +79,7 @@ export function CreateCategoryForm({ category, onCancel, onSuccess }: Props) {
         },
   });
   const { errorToast } = useFastToast();
-  const { createCategory, updateCategory } = useCategory();
+  const { createCategory, updateCategory, deleteCategory } = useCategory();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const request = () =>
@@ -76,6 +93,15 @@ export function CreateCategoryForm({ category, onCancel, onSuccess }: Props) {
       errorToast(res.message);
     }
   }
+
+  const handleDelete = async () => {
+    const res = await deleteCategory(category!._id);
+    if (res.success) {
+      onDelete?.();
+    } else {
+      errorToast(res.message);
+    }
+  };
 
   return (
     <Card className="w-full">
@@ -142,7 +168,34 @@ export function CreateCategoryForm({ category, onCancel, onSuccess }: Props) {
               <Button variant="outline" onClick={onCancel}>
                 Cancel
               </Button>
-              <Button type="submit">Submit</Button>
+
+              <span className="inline-flex gap-2">
+                {isEditMode && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive">Delete</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your data.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete}>
+                          Confirm
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+                <Button type="submit">Submit</Button>
+              </span>
             </div>
           </form>
         </Form>

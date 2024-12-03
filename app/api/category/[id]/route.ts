@@ -1,6 +1,6 @@
 import z from "zod";
 import { errorResponse, successResponse } from "@/utils/api-response";
-import { findOneAndUpdate } from "@/utils/db-category";
+import { findOneAndUpdate, findOneAndDelete } from "@/utils/db-category";
 import { getUserIdFromRequest } from "@/lib/user";
 import { NextRequest } from "next/server";
 
@@ -33,6 +33,27 @@ export async function PUT(
   const update = { name, order };
 
   const oldDoc = await findOneAndUpdate(filter, update);
+
+  if (oldDoc) {
+    return successResponse(oldDoc);
+  } else {
+    return errorResponse("Category not found");
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const userId = await getUserIdFromRequest(request);
+  if (!userId) {
+    return errorResponse("Unauthorized: user id not found");
+  }
+
+  const id = (await params).id;
+  const filter = { _id: id, user: userId };
+
+  const oldDoc = await findOneAndDelete(filter);
 
   if (oldDoc) {
     return successResponse(oldDoc);

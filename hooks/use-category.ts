@@ -50,10 +50,22 @@ export function useCategory() {
     });
   };
 
+  const deleteCategory = (id: string) => {
+    return fetch("/api/category/" + id, {
+      method: "DELETE",
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    });
+  };
+
   return {
     getCategories,
     getCategorySites,
     createCategory,
     updateCategory,
+    deleteCategory,
   };
 }

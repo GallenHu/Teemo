@@ -14,6 +14,12 @@ export async function findOneAndUpdate(filter: any, update: any) {
   return await Category.findOneAndUpdate(filter, update);
 }
 
+export async function findOneAndDelete(filter: any) {
+  await db.connect();
+
+  return await Category.findOneAndDelete(filter);
+}
+
 export async function getCategoryById(userId: string, id: string) {
   await db.connect();
 

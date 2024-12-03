@@ -84,6 +84,12 @@ export function Configure({ onCloseDialog }: Props) {
     setShowCreateCategory(false);
   };
 
+  const handleCategoryDeleted = async () => {
+    setShowCreateCategory(false);
+    await reloadCategories();
+    setActiveTab(categories[0]?.name || "");
+  };
+
   const handleSuccessCreateSite = (site: ISiteItem) => {
     setShowCreateSite(false);
     reloadSitesByCategory(site.category!);
@@ -171,6 +177,7 @@ export function Configure({ onCloseDialog }: Props) {
             category={editingCategory!}
             onCancel={() => setShowCreateCategory(false)}
             onSuccess={(category) => handleSuccessCreateCategory(category)}
+            onDelete={handleCategoryDeleted}
           />
         );
       default:

@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import db from "@/utils/db";
 import Category from "@/models/Category";
 import Site from "@/models/Site";
@@ -48,16 +47,16 @@ export async function createSite(
   return newSite;
 }
 
-export async function deleteSite(id: string) {
+export async function findOneAndUpdate(filter: any, update: any) {
   await db.connect();
 
-  return await Site.findByIdAndDelete(id);
+  return await Site.findOneAndUpdate(filter, update);
 }
 
-export async function updateSite(id: string, site: ISiteItem) {
+export async function findOneAndDelete(filter: any) {
   await db.connect();
 
-  return await Site.findByIdAndUpdate(id, site, { new: true });
+  return await Site.findOneAndDelete(filter);
 }
 
 export async function updateOrders(

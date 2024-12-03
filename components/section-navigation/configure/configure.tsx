@@ -46,6 +46,7 @@ export function Configure({ onCloseDialog }: Props) {
   const [categories, setCategories] = useState<(ICategory & { _id: string })[]>(
     []
   );
+  const [editingSite, setEditingSite] = useState<ISiteItem & { _id: string }>();
   const [editingCategory, setEditingCategory] = useState<
     ICategory & { _id: string }
   >();
@@ -90,6 +91,11 @@ export function Configure({ onCloseDialog }: Props) {
     setActiveTab(categories[0]?.name || "");
   };
 
+  const handleSiteDeleted = async () => {
+    setShowCreateSite(false);
+    await reloadSitesByCategory(activeCategory!._id);
+  };
+
   const handleSuccessCreateSite = (site: ISiteItem) => {
     setShowCreateSite(false);
     reloadSitesByCategory(site.category!);
@@ -111,6 +117,11 @@ export function Configure({ onCloseDialog }: Props) {
   };
 
   const handleClickCreateSite = () => {
+    setShowCreateSite(true);
+  };
+
+  const handleClickEditSite = (site: any) => {
+    setEditingSite(site);
     setShowCreateSite(true);
   };
 
@@ -166,15 +177,17 @@ export function Configure({ onCloseDialog }: Props) {
         return (
           <CreateSiteForm
             category={activeTab}
+            site={editingSite}
             onCancel={() => setShowCreateSite(false)}
             onSuccess={(site) => handleSuccessCreateSite(site)}
+            onDelete={handleSiteDeleted}
           />
         );
       case MainContentType.create_category_form:
       case MainContentType.edit_category_form:
         return (
           <CreateCategoryForm
-            category={editingCategory!}
+            category={editingCategory}
             onCancel={() => setShowCreateCategory(false)}
             onSuccess={(category) => handleSuccessCreateCategory(category)}
             onDelete={handleCategoryDeleted}
@@ -186,6 +199,7 @@ export function Configure({ onCloseDialog }: Props) {
             sites={sites}
             onSort={handleSort}
             onClickCreate={handleClickCreateSite}
+            onClickEdit={handleClickEditSite}
           />
         );
     }

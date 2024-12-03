@@ -6,11 +6,16 @@ import { DragHandler } from "./drag-handler";
 import { Pencil, Trash2 } from "lucide-react";
 import type { ISiteItem } from "@/types";
 
+interface Props {
+  row: ISiteItem;
+  onEdit?: () => void;
+}
+
 export const getSortableItemId = (item: ISiteItem) => {
   return item["url"];
 };
 
-export function DraggableTableRow({ row }: { row: ISiteItem }) {
+export function DraggableTableRow({ row, onEdit, onDelete }: Props) {
   const {
     attributes,
     listeners,
@@ -52,15 +57,9 @@ export function DraggableTableRow({ row }: { row: ISiteItem }) {
                 variant="ghost"
                 size="sm"
                 className="h-3 px-1.5 text-gray-500 hover:text-gray-700"
+                onClick={onEdit}
               >
                 <Pencil size={14} />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-3 px-1.5 text-gray-500 hover:text-gray-700"
-              >
-                <Trash2 size={14} />
               </Button>
             </div>
           </TableCell>

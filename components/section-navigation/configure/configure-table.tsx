@@ -33,9 +33,16 @@ interface Props {
   sites: ISiteItem[];
   onSort?: (oldIndex: number, newIndex: number) => void;
   onClickCreate?: () => void;
+  onClickEdit?: (site: ISiteItem) => void;
+  onClickDelete?: (site: ISiteItem) => void;
 }
 
-export function ConfigureTable({ sites, onSort, onClickCreate }: Props) {
+export function ConfigureTable({
+  sites,
+  onSort,
+  onClickCreate,
+  onClickEdit,
+}: Props) {
   const [activeId, setActiveId] = useState<string | number>();
   const [sortedSiteUrls, setSortedSiteUrls] = useState<string[]>([]);
 
@@ -105,7 +112,11 @@ export function ConfigureTable({ sites, onSort, onClickCreate }: Props) {
                 strategy={verticalListSortingStrategy}
               >
                 {sites.map((site) => (
-                  <DraggableTableRow key={getSortableItemId(site)} row={site} />
+                  <DraggableTableRow
+                    key={getSortableItemId(site)}
+                    row={site}
+                    onEdit={() => onClickEdit?.(site)}
+                  />
                 ))}
               </SortableContext>
             ) : (

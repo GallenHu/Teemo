@@ -10,7 +10,8 @@ export default auth(async function middleware(req) {
   const pathname = req.nextUrl.pathname;
   if (
     pathname.startsWith("/api/category") ||
-    pathname.startsWith("/api/site")
+    pathname.startsWith("/api/site") ||
+    pathname.startsWith("/api/data")
   ) {
     if (!req.auth?.user?.email) {
       return errorResponse("authentication failed", 401);

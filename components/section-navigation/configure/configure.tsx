@@ -1,7 +1,7 @@
 "use client";
 
 import { ConfigureTable } from "./configure-table";
-import { BoltIcon, Pencil } from "lucide-react";
+import { BoltIcon, Pencil, DownloadIcon, FolderUpIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,12 +20,19 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from "@/components/ui/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { CreateCategoryForm } from "./create-category-form";
 import { CreateSiteForm } from "./create-site-form";
 import type { ICategory, ISiteItem } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { useSite } from "@/hooks/use-site";
 import { useCategory } from "@/hooks/use-category";
+import { useExport } from "@/hooks/use-export";
 import { useFastToast } from "@/hooks/use-fast-toast";
 import { arrayMove } from "@dnd-kit/sortable";
 
@@ -42,6 +49,7 @@ const MainContentType = {
 
 export function Configure({ onCloseDialog }: Props) {
   const { getCategories, getCategorySites } = useCategory();
+  const { exportData } = useExport();
   const { reorder } = useSite();
   const [categories, setCategories] = useState<(ICategory & { _id: string })[]>(
     []
@@ -144,6 +152,10 @@ export function Configure({ onCloseDialog }: Props) {
   const handleClickNewCategory = () => {
     setEditingCategory(undefined);
     setShowCreateCategory(true);
+  };
+
+  const handleClickExportData = () => {
+    exportData();
   };
 
   const mainContentType = useMemo(() => {
@@ -259,7 +271,7 @@ export function Configure({ onCloseDialog }: Props) {
                 </SidebarGroup>
               </SidebarContent>
 
-              <div className="flex items-center px-4 py-2">
+              <div className="flex items-center justify-between px-4 py-2">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -268,6 +280,39 @@ export function Configure({ onCloseDialog }: Props) {
                 >
                   New Category
                 </Button>
+
+                <div>
+                  <TooltipProvider delayDuration={300}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          className="group/toggle h-8 w-8 px-0 text-gray-400"
+                          onClick={handleClickExportData}
+                        >
+                          <DownloadIcon />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Export Data</p>
+                      </TooltipContent>
+                    </Tooltip>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          className="group/toggle h-8 w-8 px-0 text-gray-400"
+                        >
+                          <FolderUpIcon />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Import Data</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
             </Sidebar>
 

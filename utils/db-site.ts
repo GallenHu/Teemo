@@ -6,8 +6,7 @@ import { ISiteItem } from "@/types";
 export async function getSites(userId: string) {
   await db.connect();
 
-  const s = await Site.find({ user: userId });
-  return s;
+  return await Site.find({ user: userId });
 }
 
 /**

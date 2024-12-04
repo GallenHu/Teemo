@@ -23,5 +23,18 @@ export function useExport() {
     });
   };
 
-  return { exportData };
+  const importData = (formData: FormData) => {
+    return fetch("/api/data/import", {
+      method: "POST",
+      body: formData,
+    }).then(async (response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return response.json();
+    });
+  };
+
+  return { exportData, importData };
 }

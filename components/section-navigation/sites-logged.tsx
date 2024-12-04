@@ -40,7 +40,7 @@ export function SitesLogged() {
     const map: Record<string, ISiteItem[]> = {};
 
     sites.forEach((site) => {
-      const categoryName = site.category.name;
+      const categoryName = site.category?.name || "";
       const _site = pick(site, ["icon", "name", "url", "order"]);
       if (!map[categoryName]) {
         map[categoryName] = [_site];

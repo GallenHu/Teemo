@@ -9,7 +9,6 @@ export interface Categories extends mongoose.Document {
 const CategorySchema = new mongoose.Schema<Categories>({
   name: {
     type: String,
-    unique: true,
     required: [true, "Please provide a name."],
     maxlength: [20, "Name cannot be more than 20 characters"],
   },
@@ -22,6 +21,8 @@ const CategorySchema = new mongoose.Schema<Categories>({
     ref: "User",
   },
 });
+
+CategorySchema.index({ name: 1, user: 1 }, { unique: true });
 
 export default mongoose.models.Category ||
   mongoose.model<Categories>("Category", CategorySchema);

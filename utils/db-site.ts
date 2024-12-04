@@ -80,3 +80,9 @@ export async function updateOrders(
     return success;
   }
 }
+
+export async function clear(userId: string) {
+  await db.connect();
+
+  return await Site.deleteMany({ user: userId });
+}

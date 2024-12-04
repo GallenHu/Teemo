@@ -1,8 +1,9 @@
 import { errorResponse, successResponse } from "@/utils/api-response";
 import { getCategories } from "@/utils/db-category";
-import { getSites } from "@/utils/db-site";
+import { getSitesWithCategory } from "@/utils/db-site";
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/user";
+import { pick } from "lodash-es";
 
 export async function POST(request: NextRequest) {
   const userId = await getUserIdFromRequest(request);
@@ -11,9 +12,14 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const categories = await getCategories(userId);
-    const sites = await getSites(userId);
-
+    const sites = await getSitesWithCategory(userId);
+    const parsedSites = sites.map((site) => {
+      const category = pick(site.category, ["name", "order"]);
+      return {
+        ...pick(site, ["name", "order", "url", "icon"]),
+        category,
+      };
+    });
     const headers = {
       "Content-Disposition": `attachment; filename=export.json`,
       // "Content-Type": "application/json",
@@ -21,8 +27,8 @@ export async function POST(request: NextRequest) {
     };
     const str = JSON.stringify(
       {
-        categories,
-        sites,
+        timestamp: new Date().toISOString(),
+        items: parsedSites,
       },
       null,
       2

@@ -39,3 +39,10 @@ export async function createCategory(userId: string, name: string) {
   await category.save();
   return category;
 }
+
+export async function clearAndInsertMany(userId: string, categories: object) {
+  await db.connect();
+
+  await Category.deleteMany({ user: userId });
+  return await Category.insertMany(categories, { ordered: false });
+}

@@ -1,7 +1,13 @@
 "use client";
 
 import { ConfigureTable } from "./configure-table";
-import { BoltIcon, Pencil, DownloadIcon, FolderUpIcon } from "lucide-react";
+import {
+  BoltIcon,
+  Pencil,
+  DownloadIcon,
+  FolderUpIcon,
+  LoaderCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,10 +32,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { CreateCategoryForm } from "./create-category-form";
 import { CreateSiteForm } from "./create-site-form";
 import type { ICategory, ISiteItem } from "@/types";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSite } from "@/hooks/use-site";
 import { useCategory } from "@/hooks/use-category";
 import { useExport } from "@/hooks/use-export";
@@ -49,7 +66,7 @@ const MainContentType = {
 
 export function Configure({ onCloseDialog }: Props) {
   const { getCategories, getCategorySites } = useCategory();
-  const { exportData } = useExport();
+  const { exportData, importData } = useExport();
   const { reorder } = useSite();
   const [categories, setCategories] = useState<(ICategory & { _id: string })[]>(
     []
@@ -60,9 +77,12 @@ export function Configure({ onCloseDialog }: Props) {
   >();
   const [sites, setSites] = useState<ISiteItem[]>([]);
   const [activeTab, setActiveTab] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showCreateCategory, setShowCreateCategory] = useState(false);
   const [showCreateSite, setShowCreateSite] = useState(false);
+  const [isImportOpen, setIsImportOpen] = useState(false);
   const { errorToast } = useFastToast();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const activeCategory = useMemo(() => {
     return categories.find((c) => c.name === activeTab);
@@ -158,6 +178,29 @@ export function Configure({ onCloseDialog }: Props) {
     exportData();
   };
 
+  const handleImportData = (e: any) => {
+    setIsImportOpen(false);
+    (fileInputRef.current as HTMLInputElement).click();
+  };
+
+  const handleFileChange = async (e: any) => {
+    const files = e.target.files;
+    if (files?.length) {
+      const file = files[0];
+
+      const formData = new FormData();
+      formData.append("file", file);
+      setLoading(true);
+      const res = await importData(formData);
+      setLoading(false);
+      if (res.success) {
+        reloadCategories();
+      } else {
+        errorToast(res.message);
+      }
+    }
+  };
+
   const mainContentType = useMemo(() => {
     if (showCreateSite) {
       return MainContentType.create_site_form;
@@ -234,98 +277,137 @@ export function Configure({ onCloseDialog }: Props) {
         <DialogContent className="p-0 overflow-hidden max-h-[500px] max-w-[800px] ">
           <DialogTitle className="sr-only">Configure</DialogTitle>
 
-          <SidebarProvider className="items-start h-full min-h-0">
-            <Sidebar collapsible="none" className="hidden md:flex">
-              <SidebarContent>
-                <SidebarGroup>
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      {categories.map((category) => (
-                        <SidebarMenuItem
-                          key={category.name}
-                          className="flex justify-between items-center group"
-                        >
-                          <SidebarMenuButton
-                            asChild
-                            isActive={category.name === activeTab}
-                            onClick={() => handleClickCategory(category)}
-                          >
-                            <a href="#">
-                              {/* <item.icon /> */}
-                              <span>{category.name}</span>
-                            </a>
-                          </SidebarMenuButton>
+          {loading ? (
+            <div className="h-[400px] flex items-center justify-center">
+              <LoaderCircle className="animate-spin text-gray-600" size={60} />
+            </div>
+          ) : (
+            <>
+              <SidebarProvider className="items-start h-full min-h-0">
+                <Sidebar collapsible="none" className="hidden md:flex">
+                  <SidebarContent>
+                    <SidebarGroup>
+                      <SidebarGroupContent>
+                        <SidebarMenu>
+                          {categories.map((category) => (
+                            <SidebarMenuItem
+                              key={category.name}
+                              className="flex justify-between items-center group"
+                            >
+                              <SidebarMenuButton
+                                asChild
+                                isActive={category.name === activeTab}
+                                onClick={() => handleClickCategory(category)}
+                              >
+                                <a href="#">
+                                  {/* <item.icon /> */}
+                                  <span>{category.name}</span>
+                                </a>
+                              </SidebarMenuButton>
 
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-3 px-1.5 text-gray-500 hover:text-gray-700 invisible group-hover:visible"
-                            onClick={() => handleClickEditCategory(category)}
-                          >
-                            <Pencil size={14} />
-                          </Button>
-                        </SidebarMenuItem>
-                      ))}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </SidebarGroup>
-              </SidebarContent>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-3 px-1.5 text-gray-500 hover:text-gray-700 invisible group-hover:visible"
+                                onClick={() =>
+                                  handleClickEditCategory(category)
+                                }
+                              >
+                                <Pencil size={14} />
+                              </Button>
+                            </SidebarMenuItem>
+                          ))}
+                        </SidebarMenu>
+                      </SidebarGroupContent>
+                    </SidebarGroup>
+                  </SidebarContent>
 
-              <div className="flex items-center justify-between px-4 py-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-7"
-                  onClick={handleClickNewCategory}
-                >
-                  New Category
-                </Button>
+                  <div className="flex items-center justify-between px-4 py-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7"
+                      onClick={handleClickNewCategory}
+                    >
+                      New Category
+                    </Button>
 
-                <div>
-                  <TooltipProvider delayDuration={300}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className="group/toggle h-8 w-8 px-0 text-gray-400"
-                          onClick={handleClickExportData}
-                        >
-                          <DownloadIcon />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Export Data</p>
-                      </TooltipContent>
-                    </Tooltip>
+                    <div>
+                      <TooltipProvider delayDuration={300}>
+                        <input
+                          className="hidden"
+                          type="file"
+                          name="file"
+                          ref={fileInputRef}
+                          onChange={handleFileChange}
+                        />
 
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className="group/toggle h-8 w-8 px-0 text-gray-400"
-                        >
-                          <FolderUpIcon />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Import Data</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </div>
-            </Sidebar>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="group/toggle h-8 w-8 px-0 text-gray-400"
+                              onClick={handleClickExportData}
+                            >
+                              <DownloadIcon />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Export Data</p>
+                          </TooltipContent>
+                        </Tooltip>
 
-            <main className="flex h-[480px] flex-1 flex-col overflow-hidden">
-              <div className="py-10 px-8">
-                {renderMainContent(mainContentType)}
-              </div>
-            </main>
-          </SidebarProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="group/toggle h-8 w-8 px-0 text-gray-400"
+                              onClick={() => setIsImportOpen(true)}
+                            >
+                              <FolderUpIcon />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Import Data</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </div>
+                </Sidebar>
 
-          <DialogFooter>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
+                <main className="flex h-[480px] flex-1 flex-col overflow-hidden">
+                  <div className="py-10 px-8">
+                    {renderMainContent(mainContentType)}
+                  </div>
+                </main>
+              </SidebarProvider>
+
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </>
+          )}
+
+          <AlertDialog open={isImportOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Overwrite remote data?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action will overwrite the remote data with the imported
+                  data.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setIsImportOpen(false)}>
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={handleImportData}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </DialogContent>
       </Dialog>
     </>

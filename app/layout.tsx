@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/global/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
-import Head from "next/head";
 
 import "./globals.css";
 
@@ -19,10 +18,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head>
-        <title>{title}</title>
-      </Head>
-
       <body>
         <link
           rel="stylesheet"

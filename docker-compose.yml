@@ -13,3 +13,20 @@ services:
       - .env
     environment:
       TZ: Asia/Shanghai
+    depends_on:
+      - mongo-server
+
+  mongo-server:
+    image: mongo:5.0
+    container_name: mongo5-teemo
+    command: --wiredTigerCacheSizeGB 0.5
+    restart: always
+    env_file:
+      # relative to the location of your compose.yml file.
+      - .env
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      # relative to the location of your compose.yml file.
+      - ./database/data:/data/db
+      - ./database/entrypoint/:/docker-entrypoint-initdb.d/

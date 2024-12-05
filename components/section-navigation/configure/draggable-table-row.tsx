@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { DragHandler } from "./drag-handler";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil } from "lucide-react";
 import type { ISiteItem } from "@/types";
 
 interface Props {
@@ -15,7 +15,7 @@ export const getSortableItemId = (item: ISiteItem) => {
   return item["url"];
 };
 
-export function DraggableTableRow({ row, onEdit, onDelete }: Props) {
+export function DraggableTableRow({ row, onEdit }: Props) {
   const {
     attributes,
     listeners,

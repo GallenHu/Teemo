@@ -39,8 +39,10 @@ export function SitesLogged() {
   const categoriesMap: Record<string, ISiteItem[]> = useMemo(() => {
     const map: Record<string, ISiteItem[]> = {};
 
-    sites.forEach((site) => {
-      const categoryName = site.category?.name || "";
+    const sortedSites = sites.sort((a, b) => a.order - b.order);
+
+    sortedSites.forEach((site) => {
+      const categoryName = site.category?.name || "Unknown";
       const _site = pick(site, ["icon", "name", "url", "order"]);
       if (!map[categoryName]) {
         map[categoryName] = [_site];

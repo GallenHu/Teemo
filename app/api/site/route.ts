@@ -60,13 +60,3 @@ export async function POST(request: NextRequest) {
   });
   return successResponse(site);
 }
-
-export async function PUT(request: NextRequest) {
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) {
-    return errorResponse("Unauthorized");
-  }
-
-  // todo
-}

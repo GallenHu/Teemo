@@ -36,7 +36,7 @@ const FormSchema = z.object({
     message: "Name must be at least 2 characters.",
   }),
   url: z.string().url("Invalid URL"),
-  icon: z.string(),
+  icon: z.union([z.literal(""), z.string().trim().url()]),
 });
 
 interface Props {
@@ -135,7 +135,10 @@ export function CreateSiteForm({
                 <FormItem>
                   <FormLabel className="font-semibold">Site ICON</FormLabel>
                   <FormControl>
-                    <Input placeholder="eg: https://img.url" {...field} />
+                    <Input
+                      placeholder="(Optional) eg: https://img.url"
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />

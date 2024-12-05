@@ -1,5 +1,6 @@
 import type { ISiteItem } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DEFAULT_ICON } from "@/lib/constants";
 
 export function SiteItem({ name, url, icon }: ISiteItem) {
   return (
@@ -10,7 +11,7 @@ export function SiteItem({ name, url, icon }: ISiteItem) {
     >
       <div className="relative inline-flex items-center gap-2 w-[7rem] h-[2rem] px-[1rem] bg-slate-100 hover:bg-gray-200 rounded-md">
         <Avatar className="w-4 h-4">
-          <AvatarImage src={icon} alt={name} />
+          <AvatarImage src={icon || DEFAULT_ICON} alt={name} />
           <AvatarFallback className="bg-neutral-400" delayMs={600}>
             {name.slice(0, 1)}
           </AvatarFallback>

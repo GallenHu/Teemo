@@ -15,6 +15,8 @@ services:
       TZ: Asia/Shanghai
     depends_on:
       - mongo-server
+    networks:
+      - webapp-network
 
   mongo-server:
     image: mongo:5.0
@@ -30,3 +32,9 @@ services:
       # relative to the location of your compose.yml file.
       - ./database/data:/data/db
       - ./database/entrypoint/:/docker-entrypoint-initdb.d/
+    networks:
+      - webapp-network  
+
+networks:
+  webapp-network:
+    driver: bridge

@@ -10,7 +10,7 @@ services:
     restart: always
     ports:
       # use env file in the same location of your compose.yml file.
-      - "${MONGO_PORT}:27017"
+      - "27017:27017"
     env_file:
       # relative to the location of your compose.yml file.
       - .env

@@ -1,5 +1,4 @@
 import db from "@/utils/db";
-import { auth } from "@/auth";
 import Category from "@/models/Category";
 
 export async function getCategories(userId: string) {

@@ -1,0 +1,15 @@
+version: "3.5"
+
+name: teemo
+
+services:
+  teemo:
+    image: teemo-next:latest
+    container_name: teemo-next
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      TZ: Asia/Shanghai

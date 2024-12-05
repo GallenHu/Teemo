@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { ReactSearchAutocomplete } from "react-search-autocomplete-rev";
 import { useSearch } from "@/hooks/use-search";
+import StyledComponentsRegistry from "@/lib/registry";
 
 interface Item {
   id: number; // the id field is mandatory.
@@ -89,7 +90,7 @@ export function SearchBox() {
   }, [resolvedTheme]);
 
   return (
-    <>
+    <StyledComponentsRegistry>
       <ReactSearchAutocomplete
         className="search-auto-complete"
         items={items}
@@ -116,6 +117,6 @@ export function SearchBox() {
         resultStringKeyName="value"
         styling={styling}
       />
-    </>
+    </StyledComponentsRegistry>
   );
 }

@@ -1,14 +1,6 @@
 // https://github.com/AhmedAlqurafi/next-auth-credentials/blob/main/utils/db.ts
 import mongoose from "mongoose";
 
-if (!process.env.MONGODB_URI) {
-  throw new Error(
-    'Invalid/Missing environment variable in utils: "MONGODB_URI"'
-  );
-}
-
-const MONGODB_URI = process.env.MONGODB_URI!;
-
 //@ts-ignore
 let cached = global.mongoose;
 
@@ -23,6 +15,14 @@ async function connect() {
   }
 
   if (!cached.promise) {
+    if (!process.env.MONGODB_URI) {
+      throw new Error(
+        'Utils: Invalid/Missing environment variable: "MONGODB_URI"'
+      );
+    }
+
+    const MONGODB_URI = process.env.MONGODB_URI!;
+
     const opts = {
       bufferCommands: false,
     };

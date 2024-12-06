@@ -8,6 +8,7 @@ import { useSite } from "@/hooks/use-site";
 import { useFastToast } from "@/hooks/use-fast-toast";
 import type { ICategory, ISiteItem } from "@/types";
 import { useEffect, useMemo, useState } from "react";
+import { FolderOpen } from "lucide-react";
 
 type SiteItemModel = ISiteItem & {
   category: ICategory;
@@ -58,15 +59,27 @@ export function SitesLogged() {
       <Configure onCloseDialog={handleClose} />
 
       <CategoriesContainer>
-        {Object.keys(categoriesMap).map((categoryName) => {
-          return (
-            <Category
-              key={categoryName}
-              name={categoryName}
-              items={categoriesMap[categoryName]}
-            />
-          );
-        })}
+        {Object.keys(categoriesMap).length ? (
+          Object.keys(categoriesMap).map((categoryName) => {
+            return (
+              <Category
+                key={categoryName}
+                name={categoryName}
+                items={categoriesMap[categoryName]}
+              />
+            );
+          })
+        ) : (
+          <div className="text-gray-500">
+            <div className="mb-4">
+              <FolderOpen size={30} />
+            </div>
+            <div>No items found.</div>
+            <div className="text-sm mt-1">
+              Create the item with the Settings button.
+            </div>
+          </div>
+        )}
       </CategoriesContainer>
     </>
   );

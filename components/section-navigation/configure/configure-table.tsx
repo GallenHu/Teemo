@@ -31,6 +31,7 @@ import { useEffect, useMemo, useState } from "react";
 
 interface Props {
   sites: ISiteItem[];
+  enableCreate?: boolean;
   onSort?: (oldIndex: number, newIndex: number) => void;
   onClickCreate?: () => void;
   onClickEdit?: (site: ISiteItem) => void;
@@ -39,6 +40,7 @@ interface Props {
 
 export function ConfigureTable({
   sites,
+  enableCreate,
   onSort,
   onClickCreate,
   onClickEdit,
@@ -139,11 +141,13 @@ export function ConfigureTable({
         )}
       </DndContext>
 
-      <div className="py-5 flex justify-end">
-        <Button variant="outline" size="sm" onClick={onClickCreate}>
-          Add
-        </Button>
-      </div>
+      {enableCreate && (
+        <div className="py-5 flex justify-end">
+          <Button variant="outline" size="sm" onClick={onClickCreate}>
+            Add
+          </Button>
+        </div>
+      )}
     </>
   );
 }

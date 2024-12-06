@@ -252,6 +252,7 @@ export function Configure({ onCloseDialog }: Props) {
         return (
           <ConfigureTable
             sites={sites}
+            enableCreate={!!categories?.length}
             onSort={handleSort}
             onClickCreate={handleClickCreateSite}
             onClickEdit={handleClickEditSite}

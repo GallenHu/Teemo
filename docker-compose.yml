@@ -23,11 +23,13 @@ services:
     container_name: mongo5-teemo
     command: --wiredTigerCacheSizeGB 0.5
     restart: always
-    env_file:
-      # relative to the location of your compose.yml file.
-      - .env
     environment:
       TZ: Asia/Shanghai
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_DB_NAME: teemo_db
+      MONGO_USER_NAME: teemo
+      MONGO_USER_PASSWORD: teemo
     volumes:
       # relative to the location of your compose.yml file.
       - ./database/data:/data/db

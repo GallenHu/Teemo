@@ -18,13 +18,7 @@ const nextConfig: NextConfig = {
     AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
     AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
 
-    // mongodb
-    MONGO_INITDB_ROOT_USERNAME: process.env.MONGO_INITDB_ROOT_USERNAME,
-    MONGO_INITDB_ROOT_PASSWORD: process.env.MONGO_INITDB_ROOT_PASSWORD,
-    MONGO_DB_NAME: process.env.MONGO_DB_NAME,
-    MONGO_USER_NAME: process.env.MONGO_USER_NAME,
-    MONGO_USER_PASSWORD: process.env.MONGO_USER_PASSWORD,
-
+    // app config
     MONGODB_URI: process.env.MONGODB_URI,
   },
 };

@@ -106,11 +106,16 @@ export function Configure({ onCloseDialog }: Props) {
     }
   };
 
+  const handleCancelCreateCategory = () => {
+    setShowCreateCategory(false);
+    setEditingCategory(undefined);
+  };
+
   const handleSuccessCreateCategory = async (
     category: ICategory & { _id: string }
   ) => {
+    handleCancelCreateCategory();
     reloadCategories();
-    setShowCreateCategory(false);
   };
 
   const handleCategoryDeleted = async () => {
@@ -124,8 +129,13 @@ export function Configure({ onCloseDialog }: Props) {
     await reloadSitesByCategory(activeCategory!._id);
   };
 
-  const handleSuccessCreateSite = (site: ISiteItem) => {
+  const handleCancelCreateSite = () => {
     setShowCreateSite(false);
+    setEditingSite(undefined);
+  };
+
+  const handleSuccessCreateSite = (site: ISiteItem) => {
+    handleCancelCreateSite();
     reloadSitesByCategory(site.category!);
   };
 
@@ -233,7 +243,7 @@ export function Configure({ onCloseDialog }: Props) {
           <CreateSiteForm
             category={activeTab}
             site={editingSite}
-            onCancel={() => setShowCreateSite(false)}
+            onCancel={handleCancelCreateSite}
             onSuccess={(site) => handleSuccessCreateSite(site)}
             onDelete={handleSiteDeleted}
           />
@@ -243,7 +253,7 @@ export function Configure({ onCloseDialog }: Props) {
         return (
           <CreateCategoryForm
             category={editingCategory}
-            onCancel={() => setShowCreateCategory(false)}
+            onCancel={handleCancelCreateCategory}
             onSuccess={(category) => handleSuccessCreateCategory(category)}
             onDelete={handleCategoryDeleted}
           />

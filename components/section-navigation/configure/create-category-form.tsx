@@ -106,7 +106,7 @@ export function CreateCategoryForm({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Create category</CardTitle>
+        <CardTitle>{isEditMode ? "Edit" : "Create"} category</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>

@@ -93,7 +93,7 @@ export function CreateSiteForm({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Create site</CardTitle>
+        <CardTitle>{isEditMode ? "Edit" : "Create"} site</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>

@@ -68,6 +68,7 @@ export function CreateCategoryForm({
 }: Props) {
   const isEditMode = !!category?.name;
   const [isOpen, setIsOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -86,7 +87,9 @@ export function CreateCategoryForm({
       isEditMode
         ? updateCategory(category!._id, { ...data })
         : createCategory({ ...data });
+    setSubmitting(true);
     const res = await request();
+    setSubmitting(false);
     if (res.success) {
       onSuccess?.(res.data);
     } else {
@@ -194,7 +197,9 @@ export function CreateCategoryForm({
                     </AlertDialogContent>
                   </AlertDialog>
                 )}
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={submitting}>
+                  Submit
+                </Button>
               </span>
             </div>
           </form>

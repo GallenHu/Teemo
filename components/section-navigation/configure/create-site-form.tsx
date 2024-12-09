@@ -30,6 +30,7 @@ import { useFastToast } from "@/hooks/use-fast-toast";
 import { useSite } from "@/hooks/use-site";
 import { ISiteItem } from "@/types";
 import { pick } from "lodash-es";
+import { useState } from "react";
 
 const FormSchema = z.object({
   name: z.string().min(1, {
@@ -55,6 +56,7 @@ export function CreateSiteForm({
   onDelete,
 }: Props) {
   const isEditMode = !!site?._id;
+  const [submitting, setSubmitting] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: isEditMode
@@ -73,7 +75,9 @@ export function CreateSiteForm({
       isEditMode
         ? updateSite(site!._id, { ...site, ...data })
         : createSite({ ...data, category, order: 999 });
+    setSubmitting(true);
     const res = await request();
+    setSubmitting(false);
     if (res.success) {
       onSuccess?.(res.data);
     } else {
@@ -176,7 +180,9 @@ export function CreateSiteForm({
                     </AlertDialogContent>
                   </AlertDialog>
                 )}
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={submitting}>
+                  Submit
+                </Button>
               </span>
             </div>
           </form>

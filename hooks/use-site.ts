@@ -12,7 +12,8 @@ export function useSite() {
   };
 
   const getSitesWithCategory = () => {
-    return fetch("/api/site?category=1").then((response) => {
+    // return fetch("/api/test-connection/slow").then((response) => {
+    return fetch("/api/site?category=enable").then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

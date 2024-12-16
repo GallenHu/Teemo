@@ -13,13 +13,13 @@ export async function GET(request: NextRequest) {
   }
 
   const searchParams = request.nextUrl.searchParams;
-  const category = searchParams.get("category");
+  const categoryDetail = searchParams.get("category");
 
-  if (!category) {
-    const sites = await getSites(userId);
+  if (categoryDetail === "enable") {
+    const sites = await getSitesWithCategory(userId);
     return successResponse(sites);
   } else {
-    const sites = await getSitesWithCategory(userId);
+    const sites = await getSites(userId);
     return successResponse(sites);
   }
 }

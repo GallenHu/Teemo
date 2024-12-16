@@ -6,7 +6,7 @@ export function useSearch() {
 
   useEffect(() => {
     setEngine(localStorage.getItem(LOCAL_STORAGE_KEY) || "baidu");
-  });
+  }, []);
 
   const toggleEngine = () => {
     if (engine === "baidu" || engine === "") {

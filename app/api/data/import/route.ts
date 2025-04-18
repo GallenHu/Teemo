@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     return errorResponse("No file uploaded");
   }
 
-  const tempFile = path.join(process.cwd(), `import_${userId}.json`);
+  const tempFile = path.join("/tmp", `import_${userId}.json`);
 
   try {
     const str = await readTextFile(file, tempFile);
